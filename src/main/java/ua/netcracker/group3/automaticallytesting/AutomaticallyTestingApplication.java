@@ -11,9 +11,6 @@ public class AutomaticallyTestingApplication {
     public static void main(String[] args) {
         ApplicationContext run = SpringApplication.run(AutomaticallyTestingApplication.class, args);
 
-        MyDao dao = run.getBean(MyDao.class);
-
-        System.out.println(dao.method());
     }
 
 }
