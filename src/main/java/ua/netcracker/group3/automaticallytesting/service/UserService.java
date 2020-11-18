@@ -9,4 +9,12 @@ public interface UserService {
 
     public String getUserEmail(User user);
 
+    User buildUser(User user);
+
+    void saveUser(User user);
+
+    void addNewUser(User user);
+
+
+
 }
