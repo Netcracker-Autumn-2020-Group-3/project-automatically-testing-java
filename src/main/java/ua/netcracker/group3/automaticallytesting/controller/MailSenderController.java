@@ -4,35 +4,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ua.netcracker.group3.automaticallytesting.model.AuthRequest;
-import ua.netcracker.group3.automaticallytesting.util.JwtUtil;
+import ua.netcracker.group3.automaticallytesting.controller.Constant.MailConstant;
+import ua.netcracker.group3.automaticallytesting.dao.AuthResponseDao;
+import ua.netcracker.group3.automaticallytesting.model.User;
+import ua.netcracker.group3.automaticallytesting.service.UserService;
 
 @RestController
-public class AuthController {
+public class MailSenderController { //TODO add mail sending to registration controller and refactor the method
     @Autowired
     public JavaMailSender emailSender;
     @Autowired
-    private JwtUtil jwtUtil;
-    @Autowired
     private AuthenticationManager authenticationManager;
-
-    @PostMapping("/login")
-    public String generateToken(@RequestBody AuthRequest authRequest) throws Exception {
-        try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(authRequest.getUserName(), authRequest.getPassword())
-            );
-        } catch (Exception ex) {
-            throw new Exception("inavalid username/password");
-        }
-        return jwtUtil.generateToken(authRequest.getUserName());
-    }
-
+    @Autowired
+    private UserService userService;
 
 
     @RequestMapping("/mail")

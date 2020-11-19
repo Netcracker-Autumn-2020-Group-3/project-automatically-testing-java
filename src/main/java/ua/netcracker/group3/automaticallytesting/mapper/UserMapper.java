@@ -1,12 +1,15 @@
 package ua.netcracker.group3.automaticallytesting.mapper;
 
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
+import ua.netcracker.group3.automaticallytesting.model.Role;
 import ua.netcracker.group3.automaticallytesting.model.User;
 
 import javax.swing.tree.TreePath;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@Component
 public class UserMapper implements RowMapper<User> {
     public static final String BASE_SQL
             = "SELECT user_id, email, password, " +

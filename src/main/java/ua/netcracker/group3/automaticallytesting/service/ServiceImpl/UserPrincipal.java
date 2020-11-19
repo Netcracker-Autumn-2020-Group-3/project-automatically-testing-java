@@ -1,9 +1,9 @@
-package ua.netcracker.group3.automaticallytesting.service;
+package ua.netcracker.group3.automaticallytesting.service.ServiceImpl;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import ua.netcracker.group3.automaticallytesting.entity.User;
+import ua.netcracker.group3.automaticallytesting.model.User;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -18,8 +18,7 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority(user.getRole().toString()));
-
+        return Collections.singletonList(new SimpleGrantedAuthority(user.getRole()));
     }
 
     @Override
@@ -29,7 +28,7 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return user.getEmail();
     }
 
     @Override
@@ -49,6 +48,6 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return user.isEnabled();
     }
 }

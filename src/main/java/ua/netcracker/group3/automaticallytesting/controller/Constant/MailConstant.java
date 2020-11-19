@@ -1,4 +1,4 @@
-package ua.netcracker.group3.automaticallytesting.controller;
+package ua.netcracker.group3.automaticallytesting.controller.Constant;
 
 public interface MailConstant {
     String EMAIL = "nggroup03@gmail.com";

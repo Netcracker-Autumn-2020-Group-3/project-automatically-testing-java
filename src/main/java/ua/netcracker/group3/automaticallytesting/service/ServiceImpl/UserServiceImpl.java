@@ -3,6 +3,7 @@ package ua.netcracker.group3.automaticallytesting.service.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.netcracker.group3.automaticallytesting.dao.UserDAO;
+import ua.netcracker.group3.automaticallytesting.model.Role;
 import ua.netcracker.group3.automaticallytesting.model.User;
 import ua.netcracker.group3.automaticallytesting.service.UserService;
 
@@ -26,6 +27,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUserByEmail(String email) {
+        return userDAO.findUserByEmail(email);
+    }
+
+    @Override
     public User buildUser(User user) {
             return User.builder()
                     .email(user.getEmail())
@@ -33,7 +39,7 @@ public class UserServiceImpl implements UserService {
                     .name(user.getName())
                     .surname(user.getSurname())
                     .isEnabled(true)
-                    .role("ROLE_USER") //refactor to enum
+                    .role(user.getRole())
                     .build();
 
     }

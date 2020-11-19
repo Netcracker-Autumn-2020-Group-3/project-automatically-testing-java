@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import ua.netcracker.group3.automaticallytesting.controller.MailConstant;
+import ua.netcracker.group3.automaticallytesting.controller.Constant.MailConstant;
 
 import java.util.Properties;
 
