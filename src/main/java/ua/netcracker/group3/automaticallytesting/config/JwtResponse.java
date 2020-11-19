@@ -14,9 +14,7 @@ import java.util.Collection;
 public class JwtResponse {
 
     private String token;
-    private String type = "Bearer";
-
-    public JwtResponse(String token) {
-        this.token = token;
-    }
+    private String username;
+    private Collection<? extends GrantedAuthority> authorities;
+    //private String type = "Bearer";
 }

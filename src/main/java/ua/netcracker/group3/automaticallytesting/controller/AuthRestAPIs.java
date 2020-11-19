@@ -36,27 +36,18 @@ public class AuthRestAPIs {
     JwtProvider jwtProvider;
 
     @PostMapping("/login")
-    public ResponseEntity<JwtResponse> authenticateUser(@RequestBody AuthResponseDao authRequest) throws Exception {
+    public ResponseEntity<?> authenticateUser(@RequestBody AuthResponseDao authRequest) throws Exception {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtProvider.generateJwtToken(authentication);
         UserDetails userDetails =  (UserDetails) authentication.getPrincipal();
-        /*authenticate(authRequest.getUsername(), authRequest.getPassword());
 
-        final UserDetails userDetails = userDetailsService
-                .loadUserByUsername(authRequest.getUsername());
-
-        final String token = jwtProvider.generateToken(userDetails);
-
-        return ResponseEntity.ok(new JwtResponse(token));*/
-
-        return ResponseEntity.ok(new JwtResponse(jwt));
+        return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), userDetails.getAuthorities()));
     }
-
-
-
 }
+
+
 
 
