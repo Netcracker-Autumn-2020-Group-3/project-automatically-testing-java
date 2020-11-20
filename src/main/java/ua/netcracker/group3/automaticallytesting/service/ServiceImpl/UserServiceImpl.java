@@ -1,18 +1,15 @@
 package ua.netcracker.group3.automaticallytesting.service.ServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import ua.netcracker.group3.automaticallytesting.dao.UserDAO;
-import ua.netcracker.group3.automaticallytesting.exception.UserNotFound;
+import ua.netcracker.group3.automaticallytesting.exception.UserNotFoundException;
 import ua.netcracker.group3.automaticallytesting.model.User;
 import ua.netcracker.group3.automaticallytesting.service.UserService;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
 import ua.netcracker.group3.automaticallytesting.util.Pagination;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -61,8 +58,8 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public User getUserById(long id) throws UserNotFound {
-        return userDAO.findUserById(id).orElseThrow(() -> new UserNotFound(id));
+    public User getUserById(long id) throws UserNotFoundException {
+        return userDAO.findUserById(id).orElseThrow(() -> new UserNotFoundException(id));
     }
 
     @Override

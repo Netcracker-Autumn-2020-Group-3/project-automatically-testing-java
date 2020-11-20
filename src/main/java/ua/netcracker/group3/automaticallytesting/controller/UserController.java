@@ -2,10 +2,9 @@ package ua.netcracker.group3.automaticallytesting.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ua.netcracker.group3.automaticallytesting.exception.UserNotFound;
+import ua.netcracker.group3.automaticallytesting.exception.UserNotFoundException;
 import ua.netcracker.group3.automaticallytesting.model.User;
 import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.UserServiceImpl;
-import ua.netcracker.group3.automaticallytesting.service.UserService;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
 
 import java.util.List;
@@ -29,7 +28,7 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    public User getUserById(@PathVariable("id") long id) throws UserNotFound {
+    public User getUserById(@PathVariable("id") long id) throws UserNotFoundException {
         return userService.getUserById(id);
     }
 }

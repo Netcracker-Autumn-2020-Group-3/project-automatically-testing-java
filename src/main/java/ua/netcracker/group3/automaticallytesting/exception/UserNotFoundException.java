@@ -1,8 +1,8 @@
 package ua.netcracker.group3.automaticallytesting.exception;
 
-public class UserNotFound extends Exception{
+public class UserNotFoundException extends Exception {
 
-    public UserNotFound(long id){
+    public UserNotFoundException(long id) {
         super("user with id " + id + " not found");
     }
 }
