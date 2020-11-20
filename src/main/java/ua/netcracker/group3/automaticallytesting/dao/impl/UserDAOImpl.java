@@ -72,14 +72,14 @@ public class UserDAOImpl implements UserDAO {
 
 
     @Override
-    public List<User> getUsersAsc(String sortField, int pageSize, int offset) {
-        return jdbcTemplate.queryForStream(GET_USERS_PAGE_ASC, mapperWithoutPassword,
+    public List<User> getUsersAsc(String sortField, int pageSize, int offset, String name, String surname,String email, String role) {
+        return jdbcTemplate.queryForStream(GET_USERS_PAGE_ASC, mapperWithoutPassword, name, surname, email, role,
                 sortField, pageSize, offset)
                 .collect(Collectors.toList());
     }
     @Override
-    public List<User> getUsersDesc(String sortField, int pageSize, int offset) {
-        return jdbcTemplate.queryForStream(GET_USERS_PAGE_DESC, mapperWithoutPassword,
+    public List<User> getUsersDesc(String sortField, int pageSize, int offset, String name, String surname,String email, String role) {
+        return jdbcTemplate.queryForStream(GET_USERS_PAGE_DESC, mapperWithoutPassword, name, surname, email, role,
                 sortField, pageSize, offset)
                 .collect(Collectors.toList());
     }

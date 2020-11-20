@@ -17,22 +17,19 @@ public class UserController {
     private final UserServiceImpl userService;
 
     @Autowired
-    public UserController(UserServiceImpl userService){
+    public UserController(UserServiceImpl userService) {
         this.userService = userService;
     }
 
-    //TODO add user search params: name, surname, email, role
     @GetMapping("/users/list")
-    public List<User> getPageUsers(Integer pageSize, Integer offset, String sortOrder, String sortField){
-        return  userService.getUsers(Pageable.builder()
-                .offset(offset)
-                .pageSize(pageSize)
-                .sortField(sortField)
-                .sortOrder(sortOrder).build());
+    public List<User> getPageUsers(Integer pageSize, Integer offset, String sortOrder, String sortField,
+                                   String name, String surname, String email, String role) {
+        Pageable pageable = Pageable.builder().offset(offset).pageSize(pageSize).sortField(sortField).sortOrder(sortOrder).build();
+        return userService.getUsers(pageable, name, surname, email, role);
     }
 
-    @GetMapping( "/users/{id}")
+    @GetMapping("/users/{id}")
     public User getUserById(@PathVariable("id") long id) throws UserNotFound {
-        return  userService.getUserById(id);
+        return userService.getUserById(id);
     }
 }

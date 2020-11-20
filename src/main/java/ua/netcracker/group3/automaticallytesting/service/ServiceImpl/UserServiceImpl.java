@@ -48,12 +48,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getUsers(Pageable pageable) {
+    public List<User> getUsers(Pageable pageable, String name, String surname, String email, String role) {
         pageable = pagination.replaceNullsUserPage(pageable);
+        name = name == null ? "%" : name;
+        surname = surname == null ? "%" : surname;
+        email = email == null ? "%" : email;
+        role = role == null ? "%" : role;
         if (pageable.getSortOrder().equals("ASC")) {
-            return userDAO.getUsersAsc(pageable.getSortField(), pageable.getPageSize(), pageable.getOffset());
+            return userDAO.getUsersAsc(pageable.getSortField(), pageable.getPageSize(), pageable.getOffset(), name, surname, email, role);
         } else {
-            return userDAO.getUsersDesc(pageable.getSortField(), pageable.getPageSize(), pageable.getOffset());
+            return userDAO.getUsersDesc(pageable.getSortField(), pageable.getPageSize(), pageable.getOffset(), name, surname, email, role);
         }
     }
 

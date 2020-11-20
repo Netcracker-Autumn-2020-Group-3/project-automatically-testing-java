@@ -18,7 +18,7 @@ public interface UserDAO {
 
     Optional<User> findUserById(long id);
 
-    List<User> getUsersAsc(String sortField, int pageSize, int offset);
+    List<User> getUsersAsc(String sortField, int pageSize, int offset,String name, String surname,String email, String role);
 
-    List<User> getUsersDesc(String sortField, int pageSize, int offset);
+    List<User> getUsersDesc(String sortField, int pageSize, int offset,String name, String surname,String email, String role);
 }
