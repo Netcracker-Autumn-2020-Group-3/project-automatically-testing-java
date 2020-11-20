@@ -1,6 +1,7 @@
 package ua.netcracker.group3.automaticallytesting.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.exception.UserNotFoundException;
 import ua.netcracker.group3.automaticallytesting.model.User;
@@ -21,6 +22,7 @@ public class UserController {
     }
 
     @GetMapping("/users/list")
+    @PreAuthorize("hasRole('ADMIN')")
     public List<User> getPageUsers(Integer pageSize, Integer offset, String sortOrder, String sortField,
                                    String name, String surname, String email, String role) {
         Pageable pageable = Pageable.builder().offset(offset).pageSize(pageSize).sortField(sortField).sortOrder(sortOrder).build();
@@ -28,6 +30,7 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public User getUserById(@PathVariable("id") long id) throws UserNotFoundException {
         return userService.getUserById(id);
     }
