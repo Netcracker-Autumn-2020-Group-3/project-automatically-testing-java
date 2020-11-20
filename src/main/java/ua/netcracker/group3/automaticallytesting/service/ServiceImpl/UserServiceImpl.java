@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import ua.netcracker.group3.automaticallytesting.dao.UserDAO;
+import ua.netcracker.group3.automaticallytesting.exception.UserNotFound;
 import ua.netcracker.group3.automaticallytesting.model.User;
 import ua.netcracker.group3.automaticallytesting.service.UserService;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
@@ -56,9 +57,8 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public User getUserById(long id) {
-        //TODO throw exception when user not found
-        return userDAO.findUserById(id).get();
+    public User getUserById(long id) throws UserNotFound {
+        return userDAO.findUserById(id).orElseThrow(() -> new UserNotFound(id));
     }
 
     @Override
