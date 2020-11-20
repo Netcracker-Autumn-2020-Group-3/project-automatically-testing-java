@@ -1,11 +1,13 @@
-package ua.netcracker.group3.automaticallytesting.service.ServiceImpl;
+package ua.netcracker.group3.automaticallytesting.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.netcracker.group3.automaticallytesting.dao.UserDAO;
-import ua.netcracker.group3.automaticallytesting.model.Role;
 import ua.netcracker.group3.automaticallytesting.model.User;
 import ua.netcracker.group3.automaticallytesting.service.UserService;
+import ua.netcracker.group3.automaticallytesting.util.Pageable;
+
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -29,6 +31,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByEmail(String email) {
         return userDAO.findUserByEmail(email);
+    }
+
+    @Override
+    public List<User>  getUsersPage(Pageable pageable){
+        return userDAO.getUsersPage(pageable);
     }
 
     @Override

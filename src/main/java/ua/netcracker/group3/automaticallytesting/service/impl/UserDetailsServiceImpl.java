@@ -1,4 +1,4 @@
-package ua.netcracker.group3.automaticallytesting.service.ServiceImpl;
+package ua.netcracker.group3.automaticallytesting.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
