@@ -35,16 +35,14 @@ public class UserController {
         return userService.getUserById(id);
     }
 
-    @GetMapping("/users/{email}/{name}/{surname}/{role}/{is_enabled}/{id}")
+    @PostMapping("/users/updateUser")
     @PreAuthorize("hasRole('ADMIN')")
-    public void updateUserById(@PathVariable("email") String email, @PathVariable("name") String name,
-                                 @PathVariable("surname") String surname, @PathVariable("role") String role,
-                                 @PathVariable("is_enabled") boolean is_enabled, @PathVariable("id") long id) {
+    public void updateUserById(@RequestBody User user) {
         try {
-            userService.getUserById(id);
+            userService.getUserById(user.getUserId());
         }  catch (UserNotFoundException e) {
             e.printStackTrace();
         }
-        userService.updateUserById(email, name, surname, role, is_enabled, id);
+        userService.updateUserById(user.getEmail(), user.getName(), user.getSurname(), user.getRole(), user.isEnabled(), user.getUserId());
     }
 }
