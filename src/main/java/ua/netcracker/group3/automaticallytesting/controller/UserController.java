@@ -34,4 +34,17 @@ public class UserController {
     public User getUserById(@PathVariable("id") long id) throws UserNotFoundException {
         return userService.getUserById(id);
     }
+
+    @GetMapping("/users/{email}/{name}/{surname}/{role}/{is_enabled}/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public void updateUserById(@PathVariable("email") String email, @PathVariable("name") String name,
+                                 @PathVariable("surname") String surname, @PathVariable("role") String role,
+                                 @PathVariable("is_enabled") boolean is_enabled, @PathVariable("id") long id) {
+        try {
+            userService.getUserById(id);
+        }  catch (UserNotFoundException e) {
+            e.printStackTrace();
+        }
+        userService.updateUserById(email, name, surname, role, is_enabled, id);
+    }
 }
