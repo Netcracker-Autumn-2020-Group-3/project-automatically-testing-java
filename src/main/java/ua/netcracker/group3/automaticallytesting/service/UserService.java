@@ -20,6 +20,6 @@ public interface UserService {
 
     User getUserByEmail(String email);
 
-    List<User> getUsersPage(Pageable pageable);
+    List<User> getUsers(Pageable pageable);
 
 }

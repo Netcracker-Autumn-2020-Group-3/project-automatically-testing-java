@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import ua.netcracker.group3.automaticallytesting.controller.Constant.SqlConstant;
 import ua.netcracker.group3.automaticallytesting.dao.UserDAO;
 import ua.netcracker.group3.automaticallytesting.mapper.UserMapper;
+import ua.netcracker.group3.automaticallytesting.mapper.UserMapperWithoutPassword;
 import ua.netcracker.group3.automaticallytesting.model.User;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
 
@@ -22,29 +23,29 @@ import java.util.stream.Collectors;
 @Repository
 public class UserDAOImpl implements UserDAO {
 
-    JdbcTemplate jdbcTemplate;
-    UserMapper mapper;
+    private JdbcTemplate jdbcTemplate;
+    private UserMapper mapper;
+    private UserMapperWithoutPassword mapperWithoutPassword;
 
     @Autowired
-    public UserDAOImpl(JdbcTemplate jdbcTemplate, UserMapper mapper){
+    public UserDAOImpl(JdbcTemplate jdbcTemplate, UserMapper mapper, UserMapperWithoutPassword mapperWithoutPassword) {
         this.jdbcTemplate = jdbcTemplate;
         this.mapper = mapper;
+        this.mapperWithoutPassword = mapperWithoutPassword;
     }
 
-    @Value("find.user.by.email")
+    @Value("${find.user.by.email}")
     private String FIND_USER_BY_EMAIL;
-    @Value("find.user.by.id")
+    @Value("${find.user.by.email.with.password}")
+    private String FIND_USER_BY_EMAIL_WITH_PASSWORD;
+    @Value("${find.user.by.id}")
     private String FIND_USER_BY_ID;
-    @Value("get.users.page")
+    @Value("${get.users.page}")
     private String GET_USERS_PAGE;
 
     @Override
     public User findUserByEmail(String email) {
-        return jdbcTemplate.queryForObject(FIND_USER_BY_EMAIL, mapper, "dd");
-        /*return jdbcTemplate
-                .query(SqlConstant.GET_USER_BY_EMAIL, (PreparedStatementSetter) preparedStatement ->
-                                preparedStatement.setString(1, email), mapper)
-                .get(0);*/
+        return jdbcTemplate.queryForObject(FIND_USER_BY_EMAIL_WITH_PASSWORD, mapper, email);
     }
 
     @Override
@@ -57,7 +58,6 @@ public class UserDAOImpl implements UserDAO {
 
     }
 
-
     @Override
     public List<Map<String, Object>> getAll() {
         return jdbcTemplate.queryForList(SqlConstant.GET_ALL_USER);
@@ -65,14 +65,14 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public Optional<User> findUserById(long id) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_USER_BY_ID, mapper, id));
+        return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_USER_BY_ID, mapperWithoutPassword, id));
     }
 
+    //TODO work on sortOrder: make 2 diffetent queries for  ASC and DESC and choose betweent them
     @Override
-    public List<User> getUsersPage(Pageable pageable) {
-        System.out.println(GET_USERS_PAGE);
-        return jdbcTemplate.queryForStream(GET_USERS_PAGE, mapper,
-                pageable.getSortField(), pageable.getSortOrder().name(), pageable.getPageSize(), pageable.getOffset())
+    public List<User> getUsers(Pageable pageable) {
+        return jdbcTemplate.queryForStream(GET_USERS_PAGE, mapperWithoutPassword,
+                pageable.getSortField(), pageable.getPageSize(), pageable.getOffset())
                 .collect(Collectors.toList());
     }
 }

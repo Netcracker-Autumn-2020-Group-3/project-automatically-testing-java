@@ -10,11 +10,12 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class Pageable {
-    public enum SortOrder{
-        ASC, DESC
-    }
-    private int pageSize;
-    private int offset;
+    private Integer pageSize;
+    private Integer offset;
     private String sortField;
-    private SortOrder sortOrder;
+    /**
+     * ASC or DESC
+     */
+    private String sortOrder;
+
 }

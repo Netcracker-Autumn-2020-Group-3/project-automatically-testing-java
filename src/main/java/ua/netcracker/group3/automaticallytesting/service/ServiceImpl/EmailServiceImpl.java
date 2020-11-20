@@ -1,4 +1,4 @@
-package ua.netcracker.group3.automaticallytesting.service.impl;
+package ua.netcracker.group3.automaticallytesting.service.ServiceImpl;
 
 import org.springframework.stereotype.Service;
 

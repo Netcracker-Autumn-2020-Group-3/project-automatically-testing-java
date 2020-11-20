@@ -17,5 +17,5 @@ public interface UserDAO {
 
 
     Optional<User> findUserById(long id);
-    List<User> getUsersPage(Pageable pageable);
+    List<User> getUsers(Pageable pageable);
 }
