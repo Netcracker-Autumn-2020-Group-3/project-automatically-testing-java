@@ -22,4 +22,5 @@ public interface UserService {
 
     List<User> getUsers(Pageable pageable, String name, String surname, String email, String role);
 
+    void updateUserById(String email, String name, String surname, String role, boolean is_enabled, long id);
 }

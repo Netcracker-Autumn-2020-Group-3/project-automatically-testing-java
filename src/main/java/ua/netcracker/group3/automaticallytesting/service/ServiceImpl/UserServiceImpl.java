@@ -63,6 +63,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void updateUserById(String email, String name, String surname, String role, boolean is_enabled, long id) {
+         userDAO.updateUserById(email, name, surname, role, is_enabled, id);
+    }
+
+    @Override
     public User buildUser(User user) {
         return User.builder()
                 .email(user.getEmail())

@@ -21,4 +21,6 @@ public interface UserDAO {
     List<User> getUsersAsc(String sortField, int pageSize, int offset,String name, String surname,String email, String role);
 
     List<User> getUsersDesc(String sortField, int pageSize, int offset,String name, String surname,String email, String role);
+
+    void updateUserById(String email, String name,String surname,String role,boolean is_enabled, long id);
 }

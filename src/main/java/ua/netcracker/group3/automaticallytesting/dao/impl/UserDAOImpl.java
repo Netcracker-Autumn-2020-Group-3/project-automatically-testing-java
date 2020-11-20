@@ -44,6 +44,8 @@ public class UserDAOImpl implements UserDAO {
     private String GET_USERS_PAGE_ASC;
     @Value("${get.users.page.desc}")
     private String GET_USERS_PAGE_DESC;
+    @Value("${update.user.by.id}")
+    private String UPDATE_USER_BY_ID;
 
     @Override
     public User findUserByEmail(String email) {
@@ -82,5 +84,10 @@ public class UserDAOImpl implements UserDAO {
         return jdbcTemplate.queryForStream(GET_USERS_PAGE_DESC, mapperWithoutPassword, name, surname, email, role,
                 sortField, pageSize, offset)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void updateUserById(String email, String name, String surname, String role, boolean is_enabled, long id) {
+        jdbcTemplate.update(UPDATE_USER_BY_ID, email, name, surname, role, is_enabled, id);
     }
 }
