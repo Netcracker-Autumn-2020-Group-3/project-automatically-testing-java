@@ -4,10 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.netcracker.group3.automaticallytesting.dao.UserDAO;
 import ua.netcracker.group3.automaticallytesting.model.User;
+import ua.netcracker.group3.automaticallytesting.util.Pageable;
+
+import java.util.List;
 
 public interface UserService {
 
-    public String getUserEmail(User user);
+    String getUserEmail(User user);
 
     User buildUser(User user);
 
@@ -15,8 +18,8 @@ public interface UserService {
 
     void addNewUser(User user);
 
-    public User getUserByEmail(String email);
+    User getUserByEmail(String email);
 
-
+    List<User> getUsers(Pageable pageable, String name, String surname, String email, String role);
 
 }
