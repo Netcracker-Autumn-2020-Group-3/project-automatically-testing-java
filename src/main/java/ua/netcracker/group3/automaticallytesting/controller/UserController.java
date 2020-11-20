@@ -37,12 +37,8 @@ public class UserController {
 
     @PostMapping("/users/updateUser")
     @PreAuthorize("hasRole('ADMIN')")
-    public void updateUserById(@RequestBody User user) {
-        try {
-            userService.getUserById(user.getUserId());
-        }  catch (UserNotFoundException e) {
-            e.printStackTrace();
-        }
+    public void updateUserById(@RequestBody User user) throws UserNotFoundException{
+        userService.getUserById(user.getUserId());
         userService.updateUserById(user.getEmail(), user.getName(), user.getSurname(), user.getRole(), user.isEnabled(), user.getUserId());
     }
 }
