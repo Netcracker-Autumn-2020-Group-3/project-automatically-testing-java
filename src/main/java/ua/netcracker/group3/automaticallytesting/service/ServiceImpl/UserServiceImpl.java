@@ -48,7 +48,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getUsers(Pageable pageable) {
-        return userDAO.getUsers(pagination.replaceNullsUserPage(pageable));
+        pageable = pagination.replaceNullsUserPage(pageable);
+        if (pageable.getSortOrder().equals("ASC")) {
+            return userDAO.getUsersAsc(pageable.getSortField(), pageable.getPageSize(), pageable.getOffset());
+        } else {
+            return userDAO.getUsersDesc(pageable.getSortField(), pageable.getPageSize(), pageable.getOffset());
+        }
     }
 
     public User getUserById(long id) {

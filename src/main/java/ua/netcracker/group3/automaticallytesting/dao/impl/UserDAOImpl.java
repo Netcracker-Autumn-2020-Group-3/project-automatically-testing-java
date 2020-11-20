@@ -40,8 +40,10 @@ public class UserDAOImpl implements UserDAO {
     private String FIND_USER_BY_EMAIL_WITH_PASSWORD;
     @Value("${find.user.by.id}")
     private String FIND_USER_BY_ID;
-    @Value("${get.users.page}")
-    private String GET_USERS_PAGE;
+    @Value("${get.users.page.asc}")
+    private String GET_USERS_PAGE_ASC;
+    @Value("${get.users.page.desc}")
+    private String GET_USERS_PAGE_DESC;
 
     @Override
     public User findUserByEmail(String email) {
@@ -68,11 +70,17 @@ public class UserDAOImpl implements UserDAO {
         return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_USER_BY_ID, mapperWithoutPassword, id));
     }
 
-    //TODO work on sortOrder: make 2 diffetent queries for  ASC and DESC and choose betweent them
+
     @Override
-    public List<User> getUsers(Pageable pageable) {
-        return jdbcTemplate.queryForStream(GET_USERS_PAGE, mapperWithoutPassword,
-                pageable.getSortField(), pageable.getPageSize(), pageable.getOffset())
+    public List<User> getUsersAsc(String sortField, int pageSize, int offset) {
+        return jdbcTemplate.queryForStream(GET_USERS_PAGE_ASC, mapperWithoutPassword,
+                sortField, pageSize, offset)
+                .collect(Collectors.toList());
+    }
+    @Override
+    public List<User> getUsersDesc(String sortField, int pageSize, int offset) {
+        return jdbcTemplate.queryForStream(GET_USERS_PAGE_DESC, mapperWithoutPassword,
+                sortField, pageSize, offset)
                 .collect(Collectors.toList());
     }
 }
