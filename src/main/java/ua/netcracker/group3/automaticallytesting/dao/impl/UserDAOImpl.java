@@ -48,6 +48,8 @@ public class UserDAOImpl implements UserDAO {
     private String GET_USERS_PAGE_DESC;
     @Value("${update.user.by.id}")
     private String UPDATE_USER_BY_ID;
+    @Value("${insert.user}")
+    private String INSERT_USER;
 
     @Override
     public User findUserByEmail(String email) {
@@ -61,6 +63,13 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public void saveUser(User user) {
+        String email = user.getEmail();
+        String password = user.getPassword();
+        String name = user.getName();
+        String surname = user.getSurname();
+        String role = user.getRole();
+        boolean enabled = user.isEnabled();
+        jdbcTemplate.update(INSERT_USER, email, password, name, surname, role, enabled);
 
     }
 

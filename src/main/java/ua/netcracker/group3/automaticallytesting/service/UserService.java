@@ -12,11 +12,9 @@ public interface UserService {
 
     String getUserEmail(User user);
 
-    User buildUser(User user);
 
     void saveUser(User user);
 
-    void addNewUser(User user);
 
     User getUserByEmail(String email);
 

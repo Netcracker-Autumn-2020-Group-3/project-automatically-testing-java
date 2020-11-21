@@ -12,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.config.JwtProvider;
 import ua.netcracker.group3.automaticallytesting.config.JwtResponse;
-import ua.netcracker.group3.automaticallytesting.dao.AuthResponseDao;
+import ua.netcracker.group3.automaticallytesting.dto.AuthResponseDto;
 import ua.netcracker.group3.automaticallytesting.dao.UserDAO;
 import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.UserDetailsServiceImpl;
 
@@ -36,7 +36,7 @@ public class AuthRestAPIs {
     JwtProvider jwtProvider;
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@RequestBody AuthResponseDao authRequest) throws Exception {
+    public ResponseEntity<?> authenticateUser(@RequestBody AuthResponseDto authRequest) throws Exception {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
 

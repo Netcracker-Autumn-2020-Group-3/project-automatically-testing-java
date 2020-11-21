@@ -10,7 +10,9 @@ import java.util.Optional;
 
 public interface UserDAO {
     User findUserByEmail(String email);
+
     public String getEmail(Long userId);
+
     public void saveUser(User user);
 
     public List<Map<String, Object>> getAll();

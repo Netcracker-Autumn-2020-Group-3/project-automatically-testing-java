@@ -2,6 +2,7 @@ package ua.netcracker.group3.automaticallytesting.service.ServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.netcracker.group3.automaticallytesting.dao.UserDAO;
 import ua.netcracker.group3.automaticallytesting.exception.UserNotFoundException;
 import ua.netcracker.group3.automaticallytesting.model.User;
@@ -31,13 +32,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveUser(User user) {
-
+    @Transactional
+    public void saveUser(User userRequest) {
+        User user = buildUser(userRequest);
+        userDAO.saveUser(user);
     }
 
-    @Override
-    public void addNewUser(User user) {
-    }
 
     @Override
     public User getUserByEmail(String email) {
@@ -70,8 +70,7 @@ public class UserServiceImpl implements UserService {
         userDAO.updateUserById(email, name, surname, role, is_enabled, id);
     }
 
-    @Override
-    public User buildUser(User user) {
+    private User buildUser(User user) {
         return User.builder()
                 .email(user.getEmail())
                 .password(user.getPassword())
