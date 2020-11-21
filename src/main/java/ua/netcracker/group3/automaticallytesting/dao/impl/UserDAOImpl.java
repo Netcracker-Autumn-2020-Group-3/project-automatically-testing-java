@@ -48,6 +48,12 @@ public class UserDAOImpl implements UserDAO {
     private String GET_USERS_PAGE_DESC;
     @Value("${update.user.by.id}")
     private String UPDATE_USER_BY_ID;
+    @Value("${count.users}")
+    private String COUNT_USERS;
+
+    @Value("${get.users}")
+    private String GET_USERS;
+
 
     @Override
     public User findUserByEmail(String email) {
@@ -80,21 +86,19 @@ public class UserDAOImpl implements UserDAO {
 
 
     @Override
-    public List<User> getUsersAsc(String sortField, int pageSize, int offset, String name, String surname, String email, String role) {
-        return jdbcTemplate.queryForStream(GET_USERS_PAGE_ASC, mapperWithoutPassword, name, surname, email, role,
-                sortField, pageSize, offset)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<User> getUsersDesc(String sortField, int pageSize, int offset, String name, String surname, String email, String role) {
-        return jdbcTemplate.queryForStream(GET_USERS_PAGE_DESC, mapperWithoutPassword, name, surname, email, role,
-                sortField, pageSize, offset)
+    public List<User> getUsersPageSorted(String orderByLimitOffsetWithValues, String name, String surname, String email, String role) {
+        return jdbcTemplate.queryForStream(GET_USERS + orderByLimitOffsetWithValues,
+                mapperWithoutPassword, name, surname, email, role)
                 .collect(Collectors.toList());
     }
 
     @Override
     public void updateUserById(String email, String name, String surname, String role, boolean is_enabled, long id) {
         jdbcTemplate.update(UPDATE_USER_BY_ID, email, name, surname, role, is_enabled, id);
+    }
+
+    @Override
+    public Integer countUsers(){
+        return jdbcTemplate.queryForObject(COUNT_USERS, Integer.class);
     }
 }

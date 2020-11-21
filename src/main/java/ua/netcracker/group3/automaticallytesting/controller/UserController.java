@@ -23,9 +23,9 @@ public class UserController {
 
     @GetMapping("/users/list")
     @PreAuthorize("hasRole('ADMIN')")
-    public List<User> getPageUsers(Integer pageSize, Integer offset, String sortOrder, String sortField,
+    public List<User> getPageUsers(Integer pageSize, Integer page, String sortOrder, String sortField,
                                    String name, String surname, String email, String role) {
-        Pageable pageable = Pageable.builder().offset(offset).pageSize(pageSize).sortField(sortField).sortOrder(sortOrder).build();
+        Pageable pageable = Pageable.builder().page(page).pageSize(pageSize).sortField(sortField).sortOrder(sortOrder).build();
         return userService.getUsers(pageable, name, surname, email, role);
     }
 
@@ -40,5 +40,11 @@ public class UserController {
     public void updateUserById(@RequestBody User user) throws UserNotFoundException{
         userService.getUserById(user.getUserId());
         userService.updateUserById(user.getEmail(), user.getName(), user.getSurname(), user.getRole(), user.isEnabled(), user.getUserId());
+    }
+
+    @GetMapping("/users/pages/count")
+    @PreAuthorize("hasRole('ADMIN')")
+    public Integer countUserPages(Integer pageSize){
+        return userService.countPages(pageSize);
     }
 }
