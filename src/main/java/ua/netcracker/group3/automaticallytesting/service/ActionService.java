@@ -7,5 +7,5 @@ import java.util.List;
 public interface ActionService {
 
     public List<Action> getAllActions();
-
+    public List<Action> findActionsByName(String name);
 }
