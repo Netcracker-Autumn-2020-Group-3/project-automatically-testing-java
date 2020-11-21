@@ -1,10 +1,10 @@
-package ua.netcracker.group3.automaticallytesting.dao;
+package ua.netcracker.group3.automaticallytesting.dto;
 
-public class AuthResponseDao {
+public class AuthResponseDto {
     private String username;
     private String password;
 
-    public AuthResponseDao(String username, String password) {
+    public AuthResponseDto(String username, String password) {
         this.username = username;
         this.password = password;
     }
