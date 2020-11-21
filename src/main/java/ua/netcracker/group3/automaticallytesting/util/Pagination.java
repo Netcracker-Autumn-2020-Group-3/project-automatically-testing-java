@@ -43,7 +43,7 @@ public class Pagination {
         }
     }
 
-    public String formSqlPostgresPaginationPiece(Pageable pageable){
+    public String formSqlPostgresPaginationPiece(Pageable pageable) {
         return " order by " + pageable.getSortField() + " " + pageable.getSortOrder() +
                 " limit " + pageable.getPageSize() + " offset " + countOffset(pageable);
     }

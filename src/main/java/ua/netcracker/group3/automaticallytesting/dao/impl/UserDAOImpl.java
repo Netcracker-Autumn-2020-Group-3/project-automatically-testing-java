@@ -98,7 +98,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public Integer countUsers(){
+    public Integer countUsers() {
         return jdbcTemplate.queryForObject(COUNT_USERS, Integer.class);
     }
 }

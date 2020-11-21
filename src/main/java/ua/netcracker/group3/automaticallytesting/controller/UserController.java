@@ -37,14 +37,14 @@ public class UserController {
 
     @PostMapping("/users/updateUser")
     @PreAuthorize("hasRole('ADMIN')")
-    public void updateUserById(@RequestBody User user) throws UserNotFoundException{
+    public void updateUserById(@RequestBody User user) throws UserNotFoundException {
         userService.getUserById(user.getUserId());
         userService.updateUserById(user.getEmail(), user.getName(), user.getSurname(), user.getRole(), user.isEnabled(), user.getUserId());
     }
 
     @GetMapping("/users/pages/count")
     @PreAuthorize("hasRole('ADMIN')")
-    public Integer countUserPages(Integer pageSize){
+    public Integer countUserPages(Integer pageSize) {
         return userService.countPages(pageSize);
     }
 }
