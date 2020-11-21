@@ -42,15 +42,10 @@ public class UserDAOImpl implements UserDAO {
     private String FIND_USER_BY_EMAIL_WITH_PASSWORD;
     @Value("${find.user.by.id}")
     private String FIND_USER_BY_ID;
-    @Value("${get.users.page.asc}")
-    private String GET_USERS_PAGE_ASC;
-    @Value("${get.users.page.desc}")
-    private String GET_USERS_PAGE_DESC;
     @Value("${update.user.by.id}")
     private String UPDATE_USER_BY_ID;
     @Value("${count.users}")
     private String COUNT_USERS;
-
     @Value("${get.users}")
     private String GET_USERS;
 
