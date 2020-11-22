@@ -10,6 +10,7 @@ import ua.netcracker.group3.automaticallytesting.service.UserService;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
 import ua.netcracker.group3.automaticallytesting.util.Pagination;
 
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -48,21 +49,23 @@ public class UserServiceImpl implements UserService {
         return val == null ? "%" : val;
     }
 
+    private List<String> USER_TABLE_FIELDS = Arrays.asList("user_id", "name", "surname", "role", "email", "is_enabled");
+
     @Override
     public List<User> getUsers(Pageable pageable, String name, String surname, String email, String role) {
         pageable = pagination.replaceNullsUserPage(pageable);
-
-        if (pageable.getSortOrder().equalsIgnoreCase("ASC")) {
-            return userDAO.getUsersAsc(pageable.getSortField(), pageable.getPageSize(), pageable.getOffset(),
-                    replaceNullsForSearch(name), replaceNullsForSearch(surname), replaceNullsForSearch(email), replaceNullsForSearch(role));
-        } else {
-            return userDAO.getUsersDesc(pageable.getSortField(), pageable.getPageSize(), pageable.getOffset(),
-                    replaceNullsForSearch(name), replaceNullsForSearch(surname), replaceNullsForSearch(email), replaceNullsForSearch(role));
-        }
+        pagination.validate(pageable, USER_TABLE_FIELDS);
+        return userDAO.getUsersPageSorted(pagination.formSqlPostgresPaginationPiece(pageable),
+                replaceNullsForSearch(name), replaceNullsForSearch(surname), replaceNullsForSearch(email), replaceNullsForSearch(role));
     }
+
 
     public User getUserById(long id) throws UserNotFoundException {
         return userDAO.findUserById(id).orElseThrow(() -> new UserNotFoundException(id));
+    }
+
+    public Integer countPages(Integer pageSize) {
+        return pagination.countPages(userDAO.countUsers(), pageSize);
     }
 
     @Override
