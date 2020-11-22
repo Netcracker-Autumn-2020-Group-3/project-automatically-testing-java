@@ -21,12 +21,17 @@ public class ActionsController {
         this.actionService = actionService;
     }
 
-   // @RequestMapping(value = "/library/actions",method = RequestMethod.GET)
 
-    @GetMapping(value = "/library/actions" )
-    @PreAuthorize("hasRole('ADMIN')")
+    @RequestMapping(value = "/library/actions",method = RequestMethod.GET)
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','ENGINEER')")
     public List<Action> getPageActions(){
-        return new ArrayList<>(actionService.getAllActions());
+        return actionService.getAllActions();
+    }
+
+    @RequestMapping(value = "/library/actions/{actionName}",method = RequestMethod.GET)
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','ENGINEER')")
+    public List<Action> findActionsByName(@PathVariable String actionName){
+        return actionService.findActionsByName(actionName);
     }
 
 

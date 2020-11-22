@@ -39,7 +39,6 @@ public class ActionDAOImpl implements ActionDAO {
 
     @Override
     public List<Action> findActionsByName(String name) {
-
         return jdbcTemplate.queryForStream(FIND_ACTIONS_BY_NAME,actionMapper,name).collect(Collectors.toList());
     }
 
