@@ -49,12 +49,12 @@ public class UserServiceImpl implements UserService {
         return val == null ? "%" : val;
     }
 
-    private List<String> usersFields = Arrays.asList("userId", "name", "surname", "role", "email", "isEnabled");
+    private List<String> USER_TABLE_FIELDS = Arrays.asList("user_id", "name", "surname", "role", "email", "is_enabled");
 
     @Override
     public List<User> getUsers(Pageable pageable, String name, String surname, String email, String role) {
         pageable = pagination.replaceNullsUserPage(pageable);
-        pagination.validate(pageable, usersFields);
+        pagination.validate(pageable, USER_TABLE_FIELDS);
         return userDAO.getUsersPageSorted(pagination.formSqlPostgresPaginationPiece(pageable),
                 replaceNullsForSearch(name), replaceNullsForSearch(surname), replaceNullsForSearch(email), replaceNullsForSearch(role));
     }
