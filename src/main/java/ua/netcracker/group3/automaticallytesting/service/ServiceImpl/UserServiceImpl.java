@@ -19,13 +19,17 @@ public class UserServiceImpl implements UserService {
 
     UserDAO userDAO;
     Pagination pagination;
+    private final List<String> USER_TABLE_FIELDS = Arrays.asList("user_id", "name", "surname", "role", "email", "is_enabled");
+
+    private String replaceNullsForSearch(String val) {
+        return val == null ? "%" : val;
+    }
 
     @Autowired
     public UserServiceImpl(Pagination pagination, UserDAO userDAO) {
         this.pagination = pagination;
         this.userDAO = userDAO;
     }
-
 
     @Override
     public String getUserEmail(User user) {
@@ -39,17 +43,10 @@ public class UserServiceImpl implements UserService {
         userDAO.saveUser(user);
     }
 
-
     @Override
     public User getUserByEmail(String email) {
         return userDAO.findUserByEmail(email);
     }
-
-    private String replaceNullsForSearch(String val) {
-        return val == null ? "%" : val;
-    }
-
-    private List<String> USER_TABLE_FIELDS = Arrays.asList("user_id", "name", "surname", "role", "email", "is_enabled");
 
     @Override
     public List<User> getUsers(Pageable pageable, String name, String surname, String email, String role) {
@@ -59,11 +56,12 @@ public class UserServiceImpl implements UserService {
                 replaceNullsForSearch(name), replaceNullsForSearch(surname), replaceNullsForSearch(email), replaceNullsForSearch(role));
     }
 
-
+    @Override
     public User getUserById(long id) throws UserNotFoundException {
         return userDAO.findUserById(id).orElseThrow(() -> new UserNotFoundException(id));
     }
 
+    @Override
     public Integer countPages(Integer pageSize) {
         return pagination.countPages(userDAO.countUsers(), pageSize);
     }

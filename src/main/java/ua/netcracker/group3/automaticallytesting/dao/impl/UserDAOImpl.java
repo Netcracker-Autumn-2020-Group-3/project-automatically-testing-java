@@ -2,22 +2,16 @@ package ua.netcracker.group3.automaticallytesting.dao.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.stereotype.Repository;
-import ua.netcracker.group3.automaticallytesting.controller.Constant.SqlConstant;
 import ua.netcracker.group3.automaticallytesting.dao.UserDAO;
-import ua.netcracker.group3.automaticallytesting.exception.UserNotFoundException;
 import ua.netcracker.group3.automaticallytesting.mapper.UserMapper;
 import ua.netcracker.group3.automaticallytesting.mapper.UserMapperWithoutPassword;
 import ua.netcracker.group3.automaticallytesting.model.User;
-import ua.netcracker.group3.automaticallytesting.util.Pageable;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -50,6 +44,8 @@ public class UserDAOImpl implements UserDAO {
     private String GET_USERS;
     @Value("${insert.user}")
     private String INSERT_USER;
+    @Value("${get.user.email.by.id}")
+    private String GET_USER_EMAIL_BY_ID;
 
     @Override
     public User findUserByEmail(String email) {
@@ -58,7 +54,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public String getEmail(Long userId) {
-        return jdbcTemplate.queryForObject(SqlConstant.GET_EMAIL_BY_ID + userId, String.class);
+        return jdbcTemplate.queryForObject(GET_USER_EMAIL_BY_ID, String.class, userId);
     }
 
     @Override
@@ -71,11 +67,6 @@ public class UserDAOImpl implements UserDAO {
         boolean enabled = user.isEnabled();
         jdbcTemplate.update(INSERT_USER, email, password, name, surname, role, enabled);
 
-    }
-
-    @Override
-    public List<Map<String, Object>> getAll() {
-        return jdbcTemplate.queryForList(SqlConstant.GET_ALL_USER);
     }
 
     @Override

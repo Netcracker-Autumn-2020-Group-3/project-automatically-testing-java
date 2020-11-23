@@ -3,6 +3,7 @@ package ua.netcracker.group3.automaticallytesting.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.netcracker.group3.automaticallytesting.dao.UserDAO;
+import ua.netcracker.group3.automaticallytesting.exception.UserNotFoundException;
 import ua.netcracker.group3.automaticallytesting.model.User;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
 
@@ -21,4 +22,8 @@ public interface UserService {
     List<User> getUsers(Pageable pageable, String name, String surname, String email, String role);
 
     void updateUserById(String email, String name, String surname, String role, boolean is_enabled, long id);
+
+    Integer countPages(Integer pageSize);
+
+    User getUserById(long id) throws UserNotFoundException;
 }
