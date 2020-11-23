@@ -11,11 +11,8 @@ import lombok.*;
 @ToString
 public class Pageable {
     private Integer pageSize;
-    private Integer offset;
+    private Integer page;
     private String sortField;
-    /**
-     * ASC or DESC
-     */
     private String sortOrder;
 
 }

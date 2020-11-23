@@ -33,8 +33,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
 
     /*@Autowired
     private JwtAuthTokenFilter jwtAuthTokenFilter;
-*/@Autowired
+*/  @Autowired
     private AuthenticationSuccessHandler authenticationSuccessHandler;
+
     @Autowired
     private UserDetailsService userDetailsService;
 
