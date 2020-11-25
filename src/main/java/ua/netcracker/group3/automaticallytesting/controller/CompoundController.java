@@ -1,10 +1,7 @@
 package ua.netcracker.group3.automaticallytesting.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.service.CompoundService;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
 
@@ -14,6 +11,7 @@ import ua.netcracker.group3.automaticallytesting.util.Pageable;
 
 @RestController
 @CrossOrigin("*")
+@RequestMapping("/compounds")
 public class CompoundController {
 
     private CompoundService compoundService;
@@ -22,17 +20,10 @@ public class CompoundController {
         this.compoundService = compoundService;
     }
 
-    @GetMapping("/compounds")
-    public ResponseEntity<?> compounds(@RequestParam(value = "limit") Integer limit,
-                                       @RequestParam(value = "offset") Integer offset,
-                                       @RequestParam(value = "sortOrder") String sortOrder,
-                                       @RequestParam(value = "sortField") String sortField) {
-        Pageable pageable = Pageable.builder()
-                .sortField(sortField)
-                .sortOrder(sortOrder)
-                .pageSize(limit)
-                .page(((offset > 0 ? offset - 1 : 0) * limit)) /* Будет исправлено */
-                .build();
+    @GetMapping
+    public ResponseEntity<?> compounds(@RequestBody Pageable pageable) {
+        pageable.setPage(
+                (pageable.getPage() > 0 ? pageable.getPage() - 1 : 0) * pageable.getPageSize()); // Будет исправлено
         return ResponseEntity.ok(compoundService.getAllCompounds(pageable));
     }
 
