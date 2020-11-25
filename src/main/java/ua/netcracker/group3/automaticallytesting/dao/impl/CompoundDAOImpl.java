@@ -7,8 +7,12 @@ import org.springframework.stereotype.Repository;
 import ua.netcracker.group3.automaticallytesting.dao.CompoundDAO;
 import ua.netcracker.group3.automaticallytesting.mapper.CompoundMapper;
 import ua.netcracker.group3.automaticallytesting.model.Compound;
-
+import ua.netcracker.group3.automaticallytesting.util.Pageable;
 import java.util.List;
+
+/**
+ * @author Danya Polishchuk
+ */
 
 @Repository
 @PropertySource("classpath:queries/postgres.properties")
@@ -26,7 +30,13 @@ public class CompoundDAOImpl implements CompoundDAO {
     }
 
     @Override
-    public List<Compound> findAll() {
-        return jdbcTemplate.query(FIND_ALL, mapper);
+    public List<Compound> findAll(Pageable pageable) {
+        String sql = String.format(FIND_ALL,
+                pageable.getSortField(),
+                pageable.getSortOrder(),
+                pageable.getPageSize(),
+                pageable.getPage()
+        );
+        return jdbcTemplate.query(sql, mapper);
     }
 }
