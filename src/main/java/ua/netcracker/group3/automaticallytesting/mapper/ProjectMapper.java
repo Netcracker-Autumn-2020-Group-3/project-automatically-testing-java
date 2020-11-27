@@ -24,7 +24,7 @@ public class ProjectMapper implements RowMapper<Project> {
                 rs.getLong(1),
                 rs.getString(2),
                 rs.getString(3),
-                rs.getString(4),
+                rs.getBoolean(4),
                 rs.getLong(5)
         );
     }
