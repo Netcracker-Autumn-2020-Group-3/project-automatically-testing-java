@@ -12,13 +12,13 @@ import java.sql.SQLException;
 @Component
 public class UserMapper implements RowMapper<User> {
     public static final String BASE_SQL
-            = "SELECT user_id, email, password, " +
+            = "SELECT id, email, password, " +
             "name, surname, role, is_enabled FROM \"user\"";
     @Override
     public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 
 
-        Long userId = rs.getLong("user_id");
+        Long userId = rs.getLong("id");
         String email = rs.getString("email");
         String password = rs.getString("password");
         String name = rs.getString("name");
