@@ -5,10 +5,6 @@ import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.service.ProjectService;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
 
-/**
- * @author Danya Polishchuk
- */
-
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/projects")
@@ -21,7 +17,12 @@ public class ProjectController {
     }
 
     @GetMapping
-    public ResponseEntity<?> projects(@RequestBody Pageable pageable) {
+    public ResponseEntity<?> projects(@RequestParam Integer pageSize,
+                                      @RequestParam Integer page,
+                                      @RequestParam String sortOrder,
+                                      @RequestParam String sortField) {
+
+        Pageable pageable = new Pageable(pageSize, page, sortField, sortOrder);
         pageable.setPage(
                 (pageable.getPage() > 0 ? pageable.getPage() - 1 : 0) * pageable.getPageSize()); // Будет исправлено
         return ResponseEntity.ok(projectService.getAllProjects(pageable));

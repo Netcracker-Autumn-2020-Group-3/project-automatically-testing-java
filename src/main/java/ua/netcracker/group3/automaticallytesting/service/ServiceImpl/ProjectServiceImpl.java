@@ -7,10 +7,6 @@ import ua.netcracker.group3.automaticallytesting.service.ProjectService;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
 import java.util.List;
 
-/**
- * @author Danya Polishchuk
- */
-
 @Service
 public class ProjectServiceImpl implements ProjectService {
 

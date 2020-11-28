@@ -10,10 +10,6 @@ import ua.netcracker.group3.automaticallytesting.model.Project;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
 import java.util.List;
 
-/**
- * @author Danya Polishchuk
- */
-
 @Repository
 @PropertySource("classpath:queries/postgres.properties")
 public class ProjectDAOImpl implements ProjectDAO {
