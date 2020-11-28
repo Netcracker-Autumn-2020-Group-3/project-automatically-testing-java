@@ -1,0 +1,29 @@
+package ua.netcracker.group3.automaticallytesting.dao.impl;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
+import ua.netcracker.group3.automaticallytesting.dao.DataSetDAO;
+import ua.netcracker.group3.automaticallytesting.mapper.DataSetMapper;
+import ua.netcracker.group3.automaticallytesting.model.DataSet;
+
+@Repository
+public class DataSetDAOImpl implements DataSetDAO {
+
+    private final JdbcTemplate jdbcTemplate;
+    private DataSetMapper dataSetMapper;
+
+    @Value("${get.data.set.by.id}")
+    private String GET_DATA_SET_BY_NAME;
+
+    public DataSetDAOImpl(JdbcTemplate jdbcTemplate,DataSetMapper dataSetMapper){
+        this.jdbcTemplate = jdbcTemplate;
+        this.dataSetMapper = dataSetMapper;
+    }
+
+    @Override
+    public DataSet getDataSetById(Integer dataSetId) {
+        return jdbcTemplate.queryForObject(GET_DATA_SET_BY_NAME,dataSetMapper,dataSetId);
+    }
+}

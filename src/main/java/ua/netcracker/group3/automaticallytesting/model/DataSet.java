@@ -4,17 +4,14 @@ import lombok.*;
 
 import java.util.List;
 
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Builder
-public class Action {
-
-    private Long actionId;
-    private String actionName;
-    private String actionDescription;
-    private Boolean isVoid;
-
+public class DataSet {
+    private Long id;
+    private String name;
 }

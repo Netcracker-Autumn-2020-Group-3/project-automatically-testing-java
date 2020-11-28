@@ -1,11 +1,13 @@
 package ua.netcracker.group3.automaticallytesting.service;
 
 import ua.netcracker.group3.automaticallytesting.model.Action;
+import ua.netcracker.group3.automaticallytesting.util.Pageable;
 
 import java.util.List;
 
 public interface ActionService {
 
-    public List<Action> getAllActions();
-    public List<Action> findActionsByName(String name);
+    List<Action> getAllActions(Pageable pageable);
+    List<Action> findActionsByName(String name,Pageable pageable);
+    Integer getNumberOfActions();
 }
