@@ -12,7 +12,7 @@ import java.sql.SQLException;
   2-ый параметр - name
   3-ый параметр - link
   4-ый параметр - status
-  5-ый параметр - userId
+  5-ый параметр - id
 */
 
 @Component
