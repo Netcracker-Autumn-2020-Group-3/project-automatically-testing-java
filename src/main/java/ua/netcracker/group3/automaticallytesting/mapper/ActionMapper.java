@@ -14,7 +14,7 @@ public class ActionMapper implements RowMapper<Action> {
     @Override
     public Action mapRow(ResultSet resultSet, int i) throws SQLException {
         return Action.builder().
-                actionId(resultSet.getLong("action_id"))
+                actionId(resultSet.getLong("id"))
                 .actionName(resultSet.getString("name"))
                 .actionDescription(resultSet.getString("description"))
                 .build();

@@ -8,6 +8,8 @@ import ua.netcracker.group3.automaticallytesting.model.DataSet;
 import ua.netcracker.group3.automaticallytesting.service.DataEntryService;
 import ua.netcracker.group3.automaticallytesting.service.DataSetService;
 
+import java.util.List;
+
 @CrossOrigin(origins = "*")
 @RestController
 public class DataSetController {
@@ -31,5 +33,15 @@ public class DataSetController {
     public void createDataEntry(@PathVariable("name") String name,
                                 @RequestBody DataEntry dataEntry) {
         dataEntryService.createDataEntry(name, dataEntry.getValue());
+    }
+
+    @GetMapping("/data-set/list")
+    public List<DataSet> getAllDatasets(){
+        return dataSetService.getAll();
+    }
+
+    @GetMapping("/data-set/{id}/entries")
+    public List<DataEntry> getDatasetEntries(@PathVariable("id") Long id){
+        return dataEntryService.getAllByDataSetId(id);
     }
 }

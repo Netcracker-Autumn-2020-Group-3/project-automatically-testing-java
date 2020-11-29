@@ -2,14 +2,12 @@ package ua.netcracker.group3.automaticallytesting.model;
 
 import lombok.*;
 
+@Getter
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Getter
-@Setter
-public class DataEntry {
+public class Variable {
     private Long id;
-    private Long data_set_id;
-    private String value;
+    private String name;
 }
