@@ -33,6 +33,11 @@ public class DataSetServiceImpl implements DataSetService {
     }
 
     @Override
+    public List<DataSet> gettAllDataSet() {
+        return dataSetDAO.getAllDataSet();
+    }
+
+    @Override
     public List<DataSet> getAll(){
         return dataSetDAO.getAll();
     }
