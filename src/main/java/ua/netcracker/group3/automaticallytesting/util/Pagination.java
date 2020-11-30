@@ -13,6 +13,8 @@ public class Pagination {
 
     @Value("${page.size}")
     private int defaultPageSize;
+    @Value("${page.size.actions}")
+    private int defaultPageSizeAction;
     @Value("${page.page}")
     private int defaultPage;
     @Value("${page.user.sort.field}")
@@ -47,4 +49,21 @@ public class Pagination {
         return " order by " + pageable.getSortField() + " " + pageable.getSortOrder() +
                 " limit " + pageable.getPageSize() + " offset " + countOffset(pageable);
     }
+
+    public String formSqlPostgresPaginationAction(Pageable pageable) {
+        return " order by " + pageable.getSortField() +
+                " limit " + pageable.getPageSize() + " offset " + countOffset(pageable);
+    }
+
+    public Pageable setDefaultOrderValue(Pageable pageable){
+
+        return Pageable.builder()
+                .page(pageable.getPage())
+                .pageSize(pageable.getPageSize())
+                .sortField(pageable.getSortField().equals("") ? "id" : pageable.getSortField())
+                .build();
+    }
+
+
+
 }

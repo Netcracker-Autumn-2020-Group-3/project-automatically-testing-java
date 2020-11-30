@@ -4,11 +4,14 @@ import lombok.*;
 
 @Getter
 @Data
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class DataSet {
-    private Long id;
+@ToString
+public class TestCase {
     private String name;
+    private Long userId;
+    private Long projectId;
+    private Long testScenarioId;
+    private Long datasetId;
 }

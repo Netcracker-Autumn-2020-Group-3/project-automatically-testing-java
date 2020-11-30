@@ -11,13 +11,22 @@ import java.util.List;
 @Service
 public class DataSetServiceImpl implements DataSetService {
 
-    DataSetDAO dataSetDAO;
+    private DataSetDAO dataSetDAO;
 
     @Autowired
-    public DataSetServiceImpl(DataSetDAO dataSetDAO) {
+    public DataSetServiceImpl(DataSetDAO dataSetDAO){
         this.dataSetDAO = dataSetDAO;
     }
 
+    @Override
+    public DataSet getDataSetById(Integer dataSetId) {
+        return dataSetDAO.getDataSetById(dataSetId);
+    }
+
+    @Override
+    public void updateDataSet(DataSet editedDataSet) {
+        dataSetDAO.updateDataSet(editedDataSet);
+    }
     @Override
     public void createDataSet(String name) {
         dataSetDAO.createDataSet(name);
@@ -26,5 +35,10 @@ public class DataSetServiceImpl implements DataSetService {
     @Override
     public List<DataSet> gettAllDataSet() {
         return dataSetDAO.getAllDataSet();
+    }
+
+    @Override
+    public List<DataSet> getAll(){
+        return dataSetDAO.getAll();
     }
 }

@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import ua.netcracker.group3.automaticallytesting.dao.ActionDAO;
 import ua.netcracker.group3.automaticallytesting.model.Action;
 import ua.netcracker.group3.automaticallytesting.service.ActionService;
+import ua.netcracker.group3.automaticallytesting.util.Pageable;
+import ua.netcracker.group3.automaticallytesting.util.Pagination;
 
 import java.util.List;
 
@@ -12,21 +14,29 @@ import java.util.List;
 public class ActionServiceImpl implements ActionService {
 
     private ActionDAO actionDAO;
-
+    Pagination pagination;
 
     @Autowired
-    public ActionServiceImpl(ActionDAO actionDAO) {
+    public ActionServiceImpl(Pagination pagination,ActionDAO actionDAO) {
         this.actionDAO = actionDAO;
+        this.pagination = pagination;
     }
 
 
     @Override
-    public List<Action> getAllActions() {
-        return actionDAO.getPageActions();
+    public List<Action> getAllActions(Pageable pageable) {
+        pageable = pagination.setDefaultOrderValue(pageable);
+        return actionDAO.getPageActions(pagination.formSqlPostgresPaginationAction(pageable));
     }
 
     @Override
-    public List<Action> findActionsByName(String name) {
-        return actionDAO.findActionsByName(name);
+    public List<Action> findActionsByName(String name,Pageable pageable) {
+        pageable = pagination.setDefaultOrderValue(pageable);
+        return actionDAO.findActionsByName(pagination.formSqlPostgresPaginationAction(pageable),name);
+    }
+
+    @Override
+    public Integer getNumberOfActions() {
+        return actionDAO.getNumberOfActions();
     }
 }
