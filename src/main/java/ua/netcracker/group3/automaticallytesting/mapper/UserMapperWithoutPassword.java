@@ -17,7 +17,7 @@ public class UserMapperWithoutPassword  implements RowMapper<User> {
                 .email(resultSet.getString("email"))
                 .role(resultSet.getString("role"))
                 .isEnabled(resultSet.getBoolean("is_enabled"))
-                .userId(resultSet.getLong("user_id"))
+                .userId(resultSet.getLong("id"))
                 .build();
     }
 }

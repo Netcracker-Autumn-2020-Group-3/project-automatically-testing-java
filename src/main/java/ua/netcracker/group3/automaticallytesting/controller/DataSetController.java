@@ -35,4 +35,22 @@ public class DataSetController {
         return dataEntryService.getDataEntryByDataSetName(dataSetId);
     }
 
+    @RequestMapping(value = "/dataset/edit/{id}/{name}/update",method = RequestMethod.PUT)
+    public String updateDataEntryById(@PathVariable Long id,@PathVariable String name,@RequestBody List<DataEntry> dataEntryList){
+        DataSet editedDataSet = DataSet.builder().id(id).name(name).build();
+        dataSetService.updateDataSet(editedDataSet);
+        dataEntryService.updateDataEntry(dataEntryList);
+        return "ok";
+    }
+
+    @RequestMapping(value = "/dataset/edit/{id}/{dataEntryId}/delete",method = RequestMethod.DELETE)
+    public String deleteDataEntryById(@PathVariable Long id,@PathVariable Integer dataEntryId){
+        dataEntryService.deleteDataEntryValueById(dataEntryId);
+        return "ok";
+    }
+
+
+
+
+
 }

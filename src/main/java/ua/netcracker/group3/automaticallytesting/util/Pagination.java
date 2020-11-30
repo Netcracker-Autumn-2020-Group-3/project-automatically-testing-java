@@ -51,7 +51,17 @@ public class Pagination {
     }
 
     public String formSqlPostgresPaginationAction(Pageable pageable) {
-        return " limit " + pageable.getPageSize() + " offset " + countOffset(pageable);
+        return " order by " + pageable.getSortField() +
+                " limit " + pageable.getPageSize() + " offset " + countOffset(pageable);
+    }
+
+    public Pageable setDefaultOrderValue(Pageable pageable){
+
+        return Pageable.builder()
+                .page(pageable.getPage())
+                .pageSize(pageable.getPageSize())
+                .sortField(pageable.getSortField().equals("") ? "id" : pageable.getSortField())
+                .build();
     }
 
 

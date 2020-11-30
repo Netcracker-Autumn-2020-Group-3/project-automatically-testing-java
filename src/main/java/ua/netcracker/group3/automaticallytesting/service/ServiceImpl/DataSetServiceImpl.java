@@ -20,4 +20,9 @@ public class DataSetServiceImpl implements DataSetService {
     public DataSet getDataSetById(Integer dataSetId) {
         return dataSetDAO.getDataSetById(dataSetId);
     }
+
+    @Override
+    public void updateDataSet(DataSet editedDataSet) {
+        dataSetDAO.updateDataSet(editedDataSet);
+    }
 }

@@ -6,4 +6,8 @@ import java.util.List;
 
 public interface DataEntryDAO {
     List<DataEntry> getDataEntryByDataSetName(Integer dataSetId);
+
+    void updateDataEntry(List<DataEntry> dataEntryList);
+
+    void deleteDataEntryValueById(Integer dataEntryId);
 }

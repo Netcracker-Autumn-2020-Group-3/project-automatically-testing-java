@@ -17,6 +17,9 @@ public class DataSetDAOImpl implements DataSetDAO {
     @Value("${get.data.set.by.id}")
     private String GET_DATA_SET_BY_NAME;
 
+    @Value("${update.data.set.by.name}")
+    private String UPDATE_DATA_SET;
+
     public DataSetDAOImpl(JdbcTemplate jdbcTemplate,DataSetMapper dataSetMapper){
         this.jdbcTemplate = jdbcTemplate;
         this.dataSetMapper = dataSetMapper;
@@ -25,5 +28,11 @@ public class DataSetDAOImpl implements DataSetDAO {
     @Override
     public DataSet getDataSetById(Integer dataSetId) {
         return jdbcTemplate.queryForObject(GET_DATA_SET_BY_NAME,dataSetMapper,dataSetId);
+    }
+
+    @Override
+    public void updateDataSet(DataSet editedDataSet) {
+        jdbcTemplate.update(UPDATE_DATA_SET,editedDataSet.getName(),editedDataSet.getId());
+
     }
 }
