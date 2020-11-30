@@ -2,14 +2,11 @@ package ua.netcracker.group3.automaticallytesting.model;
 
 import lombok.*;
 
-import java.util.List;
-
-
+@Getter
 @Data
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
 @Builder
 public class DataSet {
     private Long id;

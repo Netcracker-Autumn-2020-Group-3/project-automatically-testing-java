@@ -65,4 +65,14 @@ public class DataSetController {
                                 @RequestBody DataEntry dataEntry) {
         dataEntryService.createDataEntry(name, dataEntry.getValue());
     }
+
+    @GetMapping("/data-set/list")
+    public List<DataSet> getAllDatasets(){
+        return dataSetService.getAll();
+    }
+
+    @GetMapping("/data-set/{id}/entries")
+    public List<DataEntry> getDatasetEntries(@PathVariable("id") Long id){
+        return dataEntryService.getAllByDataSetId(id);
+    }
 }

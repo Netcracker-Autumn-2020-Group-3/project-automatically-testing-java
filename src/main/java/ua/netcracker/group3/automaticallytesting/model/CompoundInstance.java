@@ -3,13 +3,15 @@ package ua.netcracker.group3.automaticallytesting.model;
 import lombok.*;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @Getter
 @Setter
-public class DataEntry {
+public class CompoundInstance {
+
     private Long id;
-    private Long data_set_id;
-    private String value;
+    private Integer priority;
+    private Compound compound;
+
 }

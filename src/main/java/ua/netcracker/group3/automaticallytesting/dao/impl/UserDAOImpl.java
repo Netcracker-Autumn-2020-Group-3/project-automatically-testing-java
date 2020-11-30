@@ -53,8 +53,8 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public String getEmail(Long userId) {
-        return jdbcTemplate.queryForObject(GET_USER_EMAIL_BY_ID, String.class, userId);
+    public String getEmail(Long id) {
+        return jdbcTemplate.queryForObject(GET_USER_EMAIL_BY_ID, String.class, id);
     }
 
     @Override

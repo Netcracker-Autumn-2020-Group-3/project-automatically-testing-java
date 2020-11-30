@@ -1,6 +1,7 @@
 package ua.netcracker.group3.automaticallytesting.mapper;
 
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 import ua.netcracker.group3.automaticallytesting.model.TestScenario;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,6 +12,7 @@ import java.sql.SQLException;
   2-ый параметр - name
 */
 
+@Component
 public class TestScenarioMapper implements RowMapper<TestScenario> {
 
     @Override

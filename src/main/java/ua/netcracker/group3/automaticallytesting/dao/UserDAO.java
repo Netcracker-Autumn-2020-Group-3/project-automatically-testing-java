@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface UserDAO {
     User findUserByEmail(String email);
 
-    String getEmail(Long userId);
+    String getEmail(Long id);
 
     void saveUser(User user);
 

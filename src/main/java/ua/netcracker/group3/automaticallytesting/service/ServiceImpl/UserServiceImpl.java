@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String getUserEmail(User user) {
-        return userDAO.getEmail(user.getUserId());
+        return userDAO.getEmail(user.getId());
     }
 
     @Override

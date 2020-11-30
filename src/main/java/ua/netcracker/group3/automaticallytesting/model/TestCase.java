@@ -8,11 +8,10 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @ToString
-public class Variable {
-    private Long id;
+public class TestCase {
     private String name;
-
-    // TODO fix
-   // private Long variableId;
-   // private String variableName;
+    private Long userId;
+    private Long projectId;
+    private Long testScenarioId;
+    private Long datasetId;
 }

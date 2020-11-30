@@ -18,7 +18,7 @@ public class UserMapper implements RowMapper<User> {
     public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 
 
-        Long userId = rs.getLong("id");
+        Long id = rs.getLong("id");
         String email = rs.getString("email");
         String password = rs.getString("password");
         String name = rs.getString("name");
@@ -26,7 +26,7 @@ public class UserMapper implements RowMapper<User> {
         String role = rs.getString("role");
         boolean isEnabled = rs.getBoolean("is_enabled");
 
-        return new User(userId,email,password,name,surname,role,isEnabled);
+        return new User(id,email,password,name,surname,role,isEnabled);
     }
 
 }
