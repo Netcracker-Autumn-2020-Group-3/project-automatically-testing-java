@@ -58,13 +58,9 @@ public class DataEntryDAOImpl implements DataEntryDAO {
 
     @Override
     public void deleteDataEntryValueById(Integer dataEntryId) {
-        jdbcTemplate.update(DELETE_DATA_ENTRY_BY_ID,dataEntryId);
-    JdbcTemplate jdbcTemplate;
-
-    @Autowired
-    public DataEntryDAOImpl(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+        jdbcTemplate.update(DELETE_DATA_ENTRY_BY_ID, dataEntryId);
     }
+
 
     @Override
     public void createDataEntry(String dataSetName, String value) {

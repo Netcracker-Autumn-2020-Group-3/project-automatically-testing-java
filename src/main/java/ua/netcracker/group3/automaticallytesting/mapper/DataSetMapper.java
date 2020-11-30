@@ -13,10 +13,8 @@ import java.util.List;
 @Component
 public class DataSetMapper implements RowMapper<DataSet> {
 
-
     @Override
     public DataSet mapRow(ResultSet resultSet, int i) throws SQLException {
-
         return DataSet.builder()
                 .id(resultSet.getLong("id"))
                 .name(resultSet.getString("name"))

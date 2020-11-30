@@ -24,6 +24,8 @@ public class DataSetServiceImpl implements DataSetService {
     @Override
     public void updateDataSet(DataSet editedDataSet) {
         dataSetDAO.updateDataSet(editedDataSet);
+    }
+    @Override
     public void createDataSet(String name) {
         dataSetDAO.createDataSet(name);
     }

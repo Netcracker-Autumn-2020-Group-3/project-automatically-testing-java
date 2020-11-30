@@ -36,6 +36,7 @@ public class DataSetController {
     }
 
     @RequestMapping(value = "/dataset/edit/{id}/{name}/update",method = RequestMethod.PUT)
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','ENGINEER')")
     public String updateDataEntryById(@PathVariable Long id,@PathVariable String name,@RequestBody List<DataEntry> dataEntryList){
         DataSet editedDataSet = DataSet.builder().id(id).name(name).build();
         dataSetService.updateDataSet(editedDataSet);
@@ -44,22 +45,22 @@ public class DataSetController {
     }
 
     @RequestMapping(value = "/dataset/edit/{id}/{dataEntryId}/delete",method = RequestMethod.DELETE)
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','ENGINEER')")
     public String deleteDataEntryById(@PathVariable Long id,@PathVariable Integer dataEntryId){
         dataEntryService.deleteDataEntryValueById(dataEntryId);
         return "ok";
     }
 
 
-
-
-
     @PutMapping("/createDataSet")
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','ENGINEER')")
     public void createDataSet(@RequestBody DataSet dataSet) {
         dataSetService.createDataSet(dataSet.getName());
 
     }
 
     @PutMapping("/createDataEntry/{name}")
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','ENGINEER')")
     public void createDataEntry(@PathVariable("name") String name,
                                 @RequestBody DataEntry dataEntry) {
         dataEntryService.createDataEntry(name, dataEntry.getValue());

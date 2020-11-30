@@ -15,16 +15,6 @@ import ua.netcracker.group3.automaticallytesting.model.DataSet;
 @Repository
 public class DataSetDAOImpl implements DataSetDAO {
 
-    private JdbcTemplate jdbcTemplate;
-
-    @Autowired
-    public DataSetDAOImpl(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
-
-    @Override
-    public void createDataSet(String name) {
-        jdbcTemplate.update("insert into data_set (name) values (?)", name);
     private final JdbcTemplate jdbcTemplate;
     private DataSetMapper dataSetMapper;
 
@@ -34,9 +24,15 @@ public class DataSetDAOImpl implements DataSetDAO {
     @Value("${update.data.set.by.name}")
     private String UPDATE_DATA_SET;
 
+    @Autowired
     public DataSetDAOImpl(JdbcTemplate jdbcTemplate,DataSetMapper dataSetMapper){
         this.jdbcTemplate = jdbcTemplate;
         this.dataSetMapper = dataSetMapper;
+    }
+
+    @Override
+    public void createDataSet(String name) {
+        jdbcTemplate.update("insert into data_set (name) values (?)", name);
     }
 
     @Override
@@ -47,6 +43,5 @@ public class DataSetDAOImpl implements DataSetDAO {
     @Override
     public void updateDataSet(DataSet editedDataSet) {
         jdbcTemplate.update(UPDATE_DATA_SET,editedDataSet.getName(),editedDataSet.getId());
-
     }
 }
