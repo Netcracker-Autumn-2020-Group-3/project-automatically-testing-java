@@ -17,6 +17,7 @@ public class ActionMapper implements RowMapper<Action> {
                 actionId(resultSet.getLong("id"))
                 .actionName(resultSet.getString("name"))
                 .actionDescription(resultSet.getString("description"))
+                .isVoid(resultSet.getBoolean("is_void"))
                 .build();
     }
 }

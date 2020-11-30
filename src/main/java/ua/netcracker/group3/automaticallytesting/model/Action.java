@@ -2,6 +2,8 @@ package ua.netcracker.group3.automaticallytesting.model;
 
 import lombok.*;
 
+import java.util.List;
+
 import java.util.Objects;
 
 @Data
@@ -16,6 +18,7 @@ public class Action {
     private Long actionId;
     private String actionName;
     private String actionDescription;
+    private Boolean isVoid;
 
     @Override
     public boolean equals(Object o) {

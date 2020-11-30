@@ -11,4 +11,8 @@ import lombok.*;
 public class Variable {
     private Long id;
     private String name;
+
+    // TODO fix
+   // private Long variableId;
+   // private String variableName;
 }
