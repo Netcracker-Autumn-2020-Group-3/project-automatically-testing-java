@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
 
     UserDAO userDAO;
     Pagination pagination;
-    private final List<String> USER_TABLE_FIELDS = Arrays.asList("user_id", "name", "surname", "role", "email", "is_enabled");
+    private final List<String> USER_TABLE_FIELDS = Arrays.asList("id", "name", "surname", "role", "email", "is_enabled");
 
     private String replaceNullsForSearch(String val) {
         return val == null ? "%" : val;

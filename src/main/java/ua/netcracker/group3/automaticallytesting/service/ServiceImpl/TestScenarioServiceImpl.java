@@ -5,6 +5,8 @@ import ua.netcracker.group3.automaticallytesting.dao.TestScenarioDAO;
 import ua.netcracker.group3.automaticallytesting.model.TestScenario;
 import ua.netcracker.group3.automaticallytesting.service.TestScenarioService;
 
+import java.util.List;
+
 @Service
 public class TestScenarioServiceImpl implements TestScenarioService {
 
@@ -23,4 +25,9 @@ public class TestScenarioServiceImpl implements TestScenarioService {
     public void saveTestScenario(TestScenario testScenario) {
         testScenarioDAO.saveTestScenario(testScenario);
     }
+
+    public List<TestScenario> getAllTestScenarios() {
+       return testScenarioDAO.getAllTestScenarios();
+    }
+
 }
