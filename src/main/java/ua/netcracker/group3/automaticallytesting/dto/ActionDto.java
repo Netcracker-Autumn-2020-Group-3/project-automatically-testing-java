@@ -12,6 +12,7 @@ import java.util.Objects;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class ActionDto {
     private Long id;
     private String name;

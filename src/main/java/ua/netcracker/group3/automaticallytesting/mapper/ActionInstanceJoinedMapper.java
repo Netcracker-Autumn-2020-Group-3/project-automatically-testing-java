@@ -26,10 +26,11 @@ public class ActionInstanceJoinedMapper implements RowMapper<ActionInstanceJoine
                 .variable(Variable.builder()
                         .id(resultSet.getLong("variable_id"))
                         .name(resultSet.getString("variable_name")).build())
+                //.compoundInstance(null)
 
                 .build();
         // needs refactoring and checking if exception can be thrown
-        try {
+        if (resultSet.getLong("compound_instance_id") != 0) {
             ai.setCompoundInstance(CompoundInstance.builder()
                     .id(resultSet.getLong("compound_instance_id"))
                     .compound(Compound.builder().id(resultSet.getLong("compound_id"))
@@ -37,8 +38,6 @@ public class ActionInstanceJoinedMapper implements RowMapper<ActionInstanceJoine
                             .description(resultSet.getString("compound_description")).build())
                     .priority(resultSet.getInt("compound_priority")).build());
 
-        } catch (Exception e) {
-            e.printStackTrace();
         }
         return ai;
     }

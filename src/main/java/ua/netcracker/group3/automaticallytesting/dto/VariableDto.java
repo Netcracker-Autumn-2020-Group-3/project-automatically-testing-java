@@ -8,6 +8,7 @@ import java.util.Objects;
 @Setter
 @Builder
 @NoArgsConstructor
+@ToString
 @AllArgsConstructor
 public class VariableDto {
     private Long id;

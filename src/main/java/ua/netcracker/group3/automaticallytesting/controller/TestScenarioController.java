@@ -40,22 +40,17 @@ public class TestScenarioController {
     }
 
     @GetMapping("/list")
-    public List<TestScenario> getAllTestScenarios(){
+    public List<TestScenario> getAllTestScenarios() {
         return testScenarioService.getAll();
     }
 
     /**
-     *
      * @return actions instances of test scenario
      */
     @GetMapping("/{id}/steps")
-    public /*List<ScenarioStepDto>*/  String getTestScenarioActions(@PathVariable("id") Long testCaseId){
+    public List<ScenarioStepDto> getTestScenarioActions(@PathVariable("id") Long testCaseId) {
 
-        /*return actionInstanceService.getTestScenarioStep(testCaseId);*/
-
-        // !!! Заглушка пока в бд нет сценариев
-        // !!! уберу когда будет реализовано создание сценария
-        return "[{\"priority\":1,\"compound\":{\"id\":1,\"name\":\"login compound\"},\"actions\":[{\"id\":1,\"name\":\"Enter login\",\"variables\":[{\"id\":45,\"name\":\"input element\"},{\"id\":46,\"name\":\"login\"}]},{\"id\":2,\"name\":\"Enter password\",\"variables\":[{\"id\":47,\"name\":\"input element\"},{\"id\":48,\"name\":\"passsword\"}]},{\"id\":3,\"name\":\"Submit\",\"variables\":[{\"id\":49,\"name\":\"submit button\"}]}]},{\"priority\":2,\"actions\":[{\"id\":4,\"name\":\"Logout\",\"variables\":[{\"id\":50,\"name\":\"logout button\"}]}]}]";
+        return actionInstanceService.getTestScenarioStep(testCaseId);
     }
 }
 
