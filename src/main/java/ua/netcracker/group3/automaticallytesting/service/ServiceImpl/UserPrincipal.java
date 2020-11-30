@@ -1,5 +1,6 @@
 package ua.netcracker.group3.automaticallytesting.service.ServiceImpl;
 
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,6 +9,7 @@ import ua.netcracker.group3.automaticallytesting.model.User;
 import java.util.Collection;
 import java.util.Collections;
 
+@Getter
 public class UserPrincipal implements UserDetails {
 
     private User user;
