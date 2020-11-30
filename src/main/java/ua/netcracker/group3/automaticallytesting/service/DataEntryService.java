@@ -10,4 +10,6 @@ public interface DataEntryService {
     void updateDataEntry(List<DataEntry> dataEntryList);
 
     void deleteDataEntryValueById(Integer dataEntryId);
+
+    void createDataEntry(String dataSetName, String value);
 }

@@ -3,6 +3,8 @@ package ua.netcracker.group3.automaticallytesting.service.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.netcracker.group3.automaticallytesting.dao.DataEntryDAO;
+import ua.netcracker.group3.automaticallytesting.service.DataEntryService;
+import java.util.List;
 import ua.netcracker.group3.automaticallytesting.model.DataEntry;
 import ua.netcracker.group3.automaticallytesting.service.DataEntryService;
 
@@ -19,6 +21,9 @@ public class DataEntryServiceImpl implements DataEntryService {
     }
 
     @Override
+    public void createDataEntry(String dataSetName, String value) {
+        dataEntryDAO.createDataEntry(dataSetName, value);
+        }
     public List<DataEntry> getDataEntryByDataSetName(Integer dataSetId) {
         return dataEntryDAO.getDataEntryByDataSetName(dataSetId);
     }

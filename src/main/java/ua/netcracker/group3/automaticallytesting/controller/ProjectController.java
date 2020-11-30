@@ -1,17 +1,13 @@
 package ua.netcracker.group3.automaticallytesting.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.service.ProjectService;
-
-/* НЕ РЕАЛИЗОВАНА ПАГИНАЦИЯ! */
-/* НЕ РЕАЛИЗОВАНА ПАГИНАЦИЯ! */
-/* НЕ РЕАЛИЗОВАНА ПАГИНАЦИЯ! */
+import ua.netcracker.group3.automaticallytesting.util.Pageable;
 
 @RestController
 @CrossOrigin("*")
+@RequestMapping("/projects")
 public class ProjectController {
 
     private ProjectService projectService;
@@ -20,9 +16,16 @@ public class ProjectController {
         this.projectService = projectService;
     }
 
-    @GetMapping("/projects")
-    public ResponseEntity<?> projects() {
-        return ResponseEntity.ok(projectService.getAllProjects());
+    @GetMapping
+    public ResponseEntity<?> projects(@RequestParam Integer pageSize,
+                                      @RequestParam Integer page,
+                                      @RequestParam String sortOrder,
+                                      @RequestParam String sortField) {
+
+        Pageable pageable = new Pageable(pageSize, page, sortField, sortOrder);
+        pageable.setPage(
+                (pageable.getPage() > 0 ? pageable.getPage() - 1 : 0) * pageable.getPageSize()); // Будет исправлено
+        return ResponseEntity.ok(projectService.getAllProjects(pageable));
     }
 
 }

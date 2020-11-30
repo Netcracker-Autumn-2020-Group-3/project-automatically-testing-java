@@ -6,4 +6,5 @@ public interface DataSetDAO {
     DataSet getDataSetById(Integer dataSetId);
 
     void updateDataSet(DataSet editedDataSet);
+    void createDataSet(String name);
 }

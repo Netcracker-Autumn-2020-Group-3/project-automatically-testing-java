@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import ua.netcracker.group3.automaticallytesting.dao.CompoundDAO;
 import ua.netcracker.group3.automaticallytesting.model.Compound;
 import ua.netcracker.group3.automaticallytesting.service.CompoundService;
-
+import ua.netcracker.group3.automaticallytesting.util.Pageable;
 import java.util.List;
 
 @Service
@@ -17,7 +17,7 @@ public class CompoundServiceImpl implements CompoundService {
     }
 
     @Override
-    public List<Compound> getAllCompounds() {
-        return compoundDAO.findAll();
+    public List<Compound> getAllCompounds(Pageable pageable) {
+        return compoundDAO.findAll(pageable);
     }
 }

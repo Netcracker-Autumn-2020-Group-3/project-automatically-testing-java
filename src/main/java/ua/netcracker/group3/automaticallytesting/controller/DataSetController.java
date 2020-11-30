@@ -53,4 +53,15 @@ public class DataSetController {
 
 
 
+    @PutMapping("/createDataSet")
+    public void createDataSet(@RequestBody DataSet dataSet) {
+        dataSetService.createDataSet(dataSet.getName());
+
+    }
+
+    @PutMapping("/createDataEntry/{name}")
+    public void createDataEntry(@PathVariable("name") String name,
+                                @RequestBody DataEntry dataEntry) {
+        dataEntryService.createDataEntry(name, dataEntry.getValue());
+    }
 }
