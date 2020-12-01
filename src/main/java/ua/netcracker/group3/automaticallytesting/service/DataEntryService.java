@@ -11,7 +11,7 @@ public interface DataEntryService {
 
     void deleteDataEntryValueById(Integer dataEntryId);
 
-    void createDataEntry(String dataSetName, String value);
+    void createDataEntry(Long dataSetId, List<String> dataSetValues);
 
     List<DataEntry> getAllByDataSetId(Long dataSetId);
 }

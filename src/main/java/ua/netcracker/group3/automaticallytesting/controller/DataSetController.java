@@ -57,17 +57,13 @@ public class DataSetController {
     }
 
 
-    @PutMapping("/createDataSet")
-    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','ENGINEER')")
-    public void createDataSet(@RequestBody DataSet dataSet) {
-        dataSetService.createDataSet(dataSet.getName());
-    }
+    @PostMapping("/create-data-set/{name}")
+    public void createDataSet(@PathVariable("name") String name,
+                              @RequestBody List<String> dataSetValues) {
 
-    @PutMapping("/createDataEntry/{name}")
-    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','ENGINEER')")
-    public void createDataEntry(@PathVariable("name") String name,
-                                @RequestBody DataEntry dataEntry) {
-        dataEntryService.createDataEntry(name, dataEntry.getValue());
+        long id = dataSetService.createDataSet(name);
+        dataEntryService.createDataEntry(id, dataSetValues);
+
     }
 
     @GetMapping("/data-set/list")

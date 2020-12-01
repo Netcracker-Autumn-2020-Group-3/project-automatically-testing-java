@@ -18,8 +18,8 @@ public class DataEntryServiceImpl implements DataEntryService {
     }
 
     @Override
-    public void createDataEntry(String dataSetName, String value) {
-        dataEntryDAO.createDataEntry(dataSetName, value);
+    public void createDataEntry(Long dataSetId, List<String> dataSetValues) {
+        dataEntryDAO.createDataEntry(dataSetId, dataSetValues);
     }
 
     @Override

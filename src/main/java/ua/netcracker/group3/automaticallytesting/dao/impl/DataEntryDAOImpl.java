@@ -59,10 +59,13 @@ public class DataEntryDAOImpl implements DataEntryDAO {
         jdbcTemplate.update(DELETE_DATA_ENTRY_BY_ID, dataEntryId);
     }
 
-
     @Override
-    public void createDataEntry(String dataSetName, String value) {
-        jdbcTemplate.update("insert into data_entry (data_set_id, value) values ((select id from data_set where name = ?), ?)", dataSetName, value);
+    public void createDataEntry(Long dataSetId, List<String> dataSetValues) {
+        String sql = "insert into data_entry (data_set_id, value) values (?, ?)";
+        jdbcTemplate.batchUpdate(sql, dataSetValues, dataSetValues.size(), (ps, dataSetValue) -> {
+            ps.setLong(1,dataSetId);
+            ps.setString(2, dataSetValue);
+        });
     }
 
     @Override
