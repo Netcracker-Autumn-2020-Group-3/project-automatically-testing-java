@@ -23,6 +23,10 @@ public class DataSetController {
         this.dataEntryService = dataEntryService;
     }
 
+    @GetMapping("/allDataSet")
+    public List<DataSet> getAllDataSet() {
+        return dataSetService.gettAllDataSet();
+    }
 
     @RequestMapping(value = "/dataset/edit/{id}",method = RequestMethod.GET)
     @PreAuthorize("hasAnyRole('ADMIN','MANAGER','ENGINEER')")
@@ -35,7 +39,6 @@ public class DataSetController {
     public List<DataEntry> getDataEntryForEdit(@PathVariable Integer dataSetId){
         return dataEntryService.getDataEntryByDataSetName(dataSetId);
     }
-
 
     @RequestMapping(value = "/dataset/edit/{id}/{name}/update",method = RequestMethod.PUT)
     @PreAuthorize("hasAnyRole('ADMIN','MANAGER','ENGINEER')")
@@ -58,7 +61,6 @@ public class DataSetController {
     @PreAuthorize("hasAnyRole('ADMIN','MANAGER','ENGINEER')")
     public void createDataSet(@RequestBody DataSet dataSet) {
         dataSetService.createDataSet(dataSet.getName());
-
     }
 
     @PutMapping("/createDataEntry/{name}")
