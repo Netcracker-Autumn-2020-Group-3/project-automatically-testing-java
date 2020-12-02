@@ -16,14 +16,17 @@ public class CompoundController {
     }
 
     @GetMapping("/compound/{id}")
-    @PreAuthorize("hasRole('ADMIN')" + "|| hasRole('MANAGER')" + "|| hasRole('ENGINEER')")
+    //@PreAuthorize("hasRole('ADMIN')" + "|| hasRole('MANAGER')" + "|| hasRole('ENGINEER')")
     public Compound editCompound(@PathVariable long id) throws Exception{
         return compoundService.getCompoundById(id);
     }
-    @PostMapping("/compound/{id}/edit")
-    @PreAuthorize("hasRole('ADMIN')" + "|| hasRole('MANAGER')" + "|| hasRole('ENGINEER')")
-    public String updateCompound(@PathVariable long id, @RequestBody Compound compound){
+    @PutMapping("/compound/{id}")
+    //@PreAuthorize("hasRole('ADMIN')" + "|| hasRole('MANAGER')" + "|| hasRole('ENGINEER')")
+    public void updateCompound(@PathVariable long id, @RequestBody Compound compound){
         compoundService.updateCompound(compound, id);
-        return "ok";
+    }
+    @PostMapping("/compound/{id}")
+    public void addActionToCompound(){
+
     }
 }

@@ -17,7 +17,7 @@ public class CompoundMapper implements RowMapper<Compound> {
     public Compound mapRow(ResultSet rs, int i) throws SQLException {
 
         return Compound.builder()
-                .compound_id(rs.getLong("compound_id"))
+                .compound_id(rs.getLong("id"))
                 .name(rs.getString("name"))
                 .description(rs.getString("description"))
                 .build();

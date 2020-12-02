@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import ua.netcracker.group3.automaticallytesting.dao.CompoundDAO;
 import ua.netcracker.group3.automaticallytesting.mapper.CompoundActionListMapper;
 import ua.netcracker.group3.automaticallytesting.mapper.CompoundMapper;
+import ua.netcracker.group3.automaticallytesting.model.ActionComp;
 import ua.netcracker.group3.automaticallytesting.model.Compound;
 
 import java.util.Optional;
@@ -22,7 +23,7 @@ public class CompoundDAOImpl implements CompoundDAO {
     @Value("${update.compound}")
     private String UPDATE_COMPOUND;
     @Value("${insert.comp.action.list}")
-    private String INSERT_ACTION_BY_ID;
+    private String INSERT_ACTION_TO_COMPOUND;
 
     private JdbcTemplate jdbcTemplate;
     private CompoundMapper compoundMapper;
@@ -59,8 +60,8 @@ public class CompoundDAOImpl implements CompoundDAO {
         jdbcTemplate.update(UPDATE_COMPOUND, compound.getName(), compound.getDescription(), compound.getCompound_id());
     }
 
-//    @Override
-//    public void insertActionById(long id) {
-//        jdbcTemplate.update(INSERT_ACTION_BY_ID,id);
-//    }
+    @Override
+    public void insertActionToCompound(long id) {
+        jdbcTemplate.update(INSERT_ACTION_TO_COMPOUND,id);
+    }
 }
