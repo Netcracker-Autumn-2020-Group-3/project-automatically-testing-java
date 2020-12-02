@@ -60,11 +60,12 @@ public class DataEntryDAOImpl implements DataEntryDAO {
     }
 
     @Override
-    public void createDataEntry(Long dataSetId, List<String> dataSetValues) {
-        String sql = "insert into data_entry (data_set_id, value) values (?, ?)";
+    public void createDataEntry(Long dataSetId, List<DataEntry> dataSetValues) {
+        String sql = "insert into data_entry (data_set_id, value, key) values (?, ?, ?)";
         jdbcTemplate.batchUpdate(sql, dataSetValues, dataSetValues.size(), (ps, dataSetValue) -> {
             ps.setLong(1,dataSetId);
-            ps.setString(2, dataSetValue);
+            ps.setString(2, dataSetValue.getValue());
+            ps.setString(3,dataSetValue.getKey());
         });
     }
 

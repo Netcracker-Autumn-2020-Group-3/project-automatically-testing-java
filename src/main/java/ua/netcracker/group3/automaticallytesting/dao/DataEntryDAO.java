@@ -12,7 +12,7 @@ public interface DataEntryDAO {
 
     void deleteDataEntryValueById(Integer dataEntryId);
 
-    void createDataEntry(Long dataSetId, List<String> dataSetValues);
+    void createDataEntry(Long dataSetId, List<DataEntry> dataSetValues);
 
     List<DataEntry> getAllByDataSetId(Long dataSetId);
 }

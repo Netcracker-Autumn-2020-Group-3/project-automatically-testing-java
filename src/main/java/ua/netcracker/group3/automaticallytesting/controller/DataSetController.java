@@ -59,8 +59,8 @@ public class DataSetController {
 
     @PostMapping("/create-data-set/{name}")
     public void createDataSet(@PathVariable("name") String name,
-                              @RequestBody List<String> dataSetValues) {
-
+                              @RequestBody List<DataEntry> dataSetValues) {
+        System.out.println(dataSetValues);
         long id = dataSetService.createDataSet(name);
         dataEntryService.createDataEntry(id, dataSetValues);
 

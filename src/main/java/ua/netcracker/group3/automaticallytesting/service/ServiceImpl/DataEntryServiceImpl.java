@@ -18,7 +18,7 @@ public class DataEntryServiceImpl implements DataEntryService {
     }
 
     @Override
-    public void createDataEntry(Long dataSetId, List<String> dataSetValues) {
+    public void createDataEntry(Long dataSetId, List<DataEntry> dataSetValues) {
         dataEntryDAO.createDataEntry(dataSetId, dataSetValues);
     }
 

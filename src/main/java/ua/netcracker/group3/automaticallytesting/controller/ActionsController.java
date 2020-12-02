@@ -43,9 +43,4 @@ public class ActionsController {
         return actionService.getNumberOfActions();
     }
 
-
-
-
-
-
 }
