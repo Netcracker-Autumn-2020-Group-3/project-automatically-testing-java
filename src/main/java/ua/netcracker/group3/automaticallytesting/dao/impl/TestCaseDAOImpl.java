@@ -31,7 +31,6 @@ public class TestCaseDAOImpl implements TestCaseDAO {
     @Override
     public long insert(TestCase testCase) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        //jdbcTemplate.update(INSERT, keyHolder, testCase.getName(), testCase.getUserId(), testCase.getProjectId(), testCase.getDatasetId(), testCase.getTestScenarioId());
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection
                     .prepareStatement(INSERT, new String[]{"id"});

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.dto.CreateTestCaseDto;
+import ua.netcracker.group3.automaticallytesting.dto.TestCaseDto;
 import ua.netcracker.group3.automaticallytesting.model.VariableValue;
 import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.TestCaseServiceImpl;
 import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.UserPrincipal;
@@ -32,5 +33,23 @@ public class TestCaseController {
 
         Long userId = ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser().getId();
         testCaseService.createTestCase(createTestCaseDto, userId);
+    }
+
+    @PostMapping("/update")
+    public void update(@RequestBody TestCaseDto testCaseDto) {
+        log.info("Test case: {}", testCaseDto);
+        // TODO
+    }
+
+    @GetMapping("/{id}")
+    public TestCaseDto getById(@PathVariable("id") Long testCaseId) {
+        log.info("Test case id: {}", testCaseId);
+        // TODO
+        return null;
+    }
+
+    @DeleteMapping("/{id}/delete")
+    public void delete(@PathVariable("id") Long testCaseId){
+        // TODO
     }
 }

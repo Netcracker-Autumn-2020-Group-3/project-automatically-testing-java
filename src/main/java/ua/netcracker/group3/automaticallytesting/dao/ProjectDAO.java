@@ -12,4 +12,9 @@ public interface ProjectDAO {
 
     List<Project> findAll(Pageable pageable);
 
+    Project getProjectById(Long id);
+
+    Integer countProjects();
+
+    void insert(Project project);
 }
