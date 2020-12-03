@@ -50,5 +50,10 @@ public class ProjectController {
         projectService.createProject(project);
     }
 
+    @PostMapping("/update")
+    public void updateProject(@RequestBody Project project){
+        // TODO
+    }
+
 
 }
