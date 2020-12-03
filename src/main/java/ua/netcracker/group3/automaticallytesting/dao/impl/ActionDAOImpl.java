@@ -3,12 +3,16 @@ package ua.netcracker.group3.automaticallytesting.dao.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ua.netcracker.group3.automaticallytesting.dao.ActionDAO;
 import ua.netcracker.group3.automaticallytesting.mapper.ActionMapper;
 import ua.netcracker.group3.automaticallytesting.model.Action;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -51,5 +55,16 @@ public class ActionDAOImpl implements ActionDAO {
         return jdbcTemplate.queryForObject(GET_NUMBER_OF_ACTIONS,Integer.class);
     }
 
-
+    @Override
+    public long createAction(String name, String description) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        String sql = "insert into action (name, description, is_void) values (?, ?, true) returning id";
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, name);
+            ps.setString(2, description);
+            return ps;
+        }, keyHolder);
+        return keyHolder.getKey().longValue();
+    }
 }

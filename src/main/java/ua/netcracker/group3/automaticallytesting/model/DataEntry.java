@@ -12,4 +12,5 @@ public class DataEntry {
     private Long id;
     private Long data_set_id;
     private String value;
+    private String key;
 }
