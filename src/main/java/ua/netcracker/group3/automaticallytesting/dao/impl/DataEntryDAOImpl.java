@@ -47,9 +47,9 @@ public class DataEntryDAOImpl implements DataEntryDAO {
     public void updateDataEntry(List<DataEntry> dataEntryList) {
         for (DataEntry de: dataEntryList) {
             if (de.getId() == null){
-                jdbcTemplate.update(INSERT_DATA_ENTRY_FOR_UPDATE_DEFAULT,de.getDataSetId(),de.getValue());
+                jdbcTemplate.update(INSERT_DATA_ENTRY_FOR_UPDATE_DEFAULT,de.getData_set_id(),de.getValue());
             }else{
-                jdbcTemplate.update(INSERT_DATA_ENTRY_FOR_UPDATE,de.getId(),de.getDataSetId(),de.getValue());
+                jdbcTemplate.update(INSERT_DATA_ENTRY_FOR_UPDATE,de.getId(),de.getData_set_id(),de.getValue());
             }
         }
     }

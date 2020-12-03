@@ -10,6 +10,6 @@ import lombok.*;
 @Setter
 public class DataEntry {
     private Long id;
-    private Long dataSetId;
+    private Long data_set_id;
     private String value;
 }
