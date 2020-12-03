@@ -20,6 +20,7 @@ public class ScenarioStepDto {
     private Compound compound;
     /**
      * consists of only one action if compound is null
+     * SORTED by priority!
      */
     private List<ActionDto> actionDto;
 
