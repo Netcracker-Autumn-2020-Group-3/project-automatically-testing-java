@@ -11,6 +11,7 @@ import java.util.List;
 
 @CrossOrigin("*")
 @RestController
+@RequestMapping("/compounds")
 public class CompoundController {
 
     private CompoundService compoundService;
@@ -31,17 +32,17 @@ public class CompoundController {
         return ResponseEntity.ok(compoundService.getAllCompounds(pageable));
     }
 
-    @RequestMapping(value = "/compound/create/check/{name}",method = RequestMethod.GET)
+    @RequestMapping(value = "/create/check/{name}",method = RequestMethod.GET)
     public boolean checkIfNameExist(@PathVariable String name){
         return compoundService.checkIfNameExist(name);
     }
 
-    @RequestMapping(value = "/compound/create",method = RequestMethod.POST)
+    @RequestMapping(value = "/create",method = RequestMethod.POST)
     public Integer createCompound(@RequestBody Compound compound){
         return compoundService.createCompound(compound);
     }
 
-    @RequestMapping(value = "/compound/create/actions",method = RequestMethod.PUT)
+    @RequestMapping(value = "/create/actions",method = RequestMethod.PUT)
     public String createCompoundActions(@RequestBody List<CompoundAction> compoundActions){
         compoundService.createCompoundActions(compoundActions);
         return "ok";
