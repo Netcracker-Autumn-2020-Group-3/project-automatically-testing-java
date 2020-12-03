@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 public interface ActionDAO {
+
     List<Action> getPageActions(String pageActionSql);
+
     List<Action> findActionsByName(String pageActionSql,String name);
 
     Integer getNumberOfActions();

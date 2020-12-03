@@ -8,8 +8,10 @@ public interface DataSetDAO {
     DataSet getDataSetById(Integer dataSetId);
 
     List<DataSet> getAllDataSet();
+
     void updateDataSet(DataSet editedDataSet);
-    void createDataSet(String name);
+
+    long createDataSet(String name);
 
     List<DataSet> getAll();
 }

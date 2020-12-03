@@ -27,9 +27,10 @@ public class DataSetServiceImpl implements DataSetService {
     public void updateDataSet(DataSet editedDataSet) {
         dataSetDAO.updateDataSet(editedDataSet);
     }
+
     @Override
-    public void createDataSet(String name) {
-        dataSetDAO.createDataSet(name);
+    public long createDataSet(String name) {
+        return dataSetDAO.createDataSet(name);
     }
 
     @Override
