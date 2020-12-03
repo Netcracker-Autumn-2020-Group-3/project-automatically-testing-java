@@ -9,11 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Compound {
-
-    private long id;
-    private String name;
-    private String description;
-
+public class CompoundAction {
+    private Integer id;
+    private Long compoundId;
+    private Long actionId;
+    private Integer priority;
 }
- 
