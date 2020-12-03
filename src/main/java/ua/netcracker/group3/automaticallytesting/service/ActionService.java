@@ -10,4 +10,6 @@ public interface ActionService {
     List<Action> getAllActions(Pageable pageable);
     List<Action> findActionsByName(String name,Pageable pageable);
     Integer getNumberOfActions();
+
+    long createAction(String name, String description);
 }

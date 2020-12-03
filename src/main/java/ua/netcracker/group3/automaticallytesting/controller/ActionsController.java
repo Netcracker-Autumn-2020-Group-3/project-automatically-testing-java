@@ -6,9 +6,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.model.Action;
 import ua.netcracker.group3.automaticallytesting.service.ActionService;
+import ua.netcracker.group3.automaticallytesting.service.VariableService;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin(origins = "*")
@@ -16,10 +16,12 @@ import java.util.List;
 public class ActionsController {
 
     private ActionService actionService;
+    private final VariableService variableService;
 
     @Autowired
-    public ActionsController(ActionService actionService){
+    public ActionsController(ActionService actionService, VariableService variableService) {
         this.actionService = actionService;
+        this.variableService = variableService;
     }
 
 
@@ -43,4 +45,11 @@ public class ActionsController {
         return actionService.getNumberOfActions();
     }
 
+    @PostMapping("create-action/{name}/{description}")
+    public void createAction(@PathVariable("name") String name, @PathVariable("description") String description,
+                             @RequestBody List<String> variableValues) {
+
+        long id = actionService.createAction(name, description);
+        this.variableService.createVariables(id, variableValues);
+    }
 }

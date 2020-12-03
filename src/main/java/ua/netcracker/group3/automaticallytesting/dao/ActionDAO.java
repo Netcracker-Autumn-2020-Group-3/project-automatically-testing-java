@@ -13,4 +13,6 @@ public interface ActionDAO {
     List<Action> findActionsByName(String pageActionSql,String name);
 
     Integer getNumberOfActions();
+
+    long createAction(String name, String description);
 }
