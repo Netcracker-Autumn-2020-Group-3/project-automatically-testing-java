@@ -7,6 +7,7 @@ import ua.netcracker.group3.automaticallytesting.dao.TestScenarioDAO;
 import ua.netcracker.group3.automaticallytesting.dao.VariableValueDAO;
 import ua.netcracker.group3.automaticallytesting.dto.CreateTestCaseDto;
 import ua.netcracker.group3.automaticallytesting.model.TestCase;
+import ua.netcracker.group3.automaticallytesting.model.TestCaseUpd;
 import ua.netcracker.group3.automaticallytesting.model.VariableValue;
 import ua.netcracker.group3.automaticallytesting.service.TestCaseService;
 
@@ -41,5 +42,8 @@ public class TestCaseServiceImpl implements TestCaseService {
 
     }
 
-
+    @Override
+    public List<TestCaseUpd> getAllTestCases() {
+        return testCaseDAO.getTestCases();
+    }
 }

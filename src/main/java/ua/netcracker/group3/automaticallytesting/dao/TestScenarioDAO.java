@@ -2,6 +2,7 @@ package ua.netcracker.group3.automaticallytesting.dao;
 
 import ua.netcracker.group3.automaticallytesting.model.TestScenario;
 
+
 import java.util.List;
 
 public interface TestScenarioDAO {
@@ -10,5 +11,8 @@ public interface TestScenarioDAO {
 
     void saveTestScenario(TestScenario testScenario);
 
-    List<TestScenario> getAll();
+ //   List<TestScenario> getAll();
+
+    List<TestScenario> getTestScenariosPageSorted(String orderByLimitOffsetWithValues, String name);
 }
+

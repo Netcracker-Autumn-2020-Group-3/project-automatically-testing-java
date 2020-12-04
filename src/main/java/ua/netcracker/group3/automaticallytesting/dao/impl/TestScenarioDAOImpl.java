@@ -16,8 +16,8 @@ import java.util.stream.Collectors;
 @PropertySource("classpath:queries/postgres.properties")
 public class TestScenarioDAOImpl implements TestScenarioDAO {
 
-    private JdbcTemplate jdbcTemplate;
-    private TestScenarioMapper testScenarioMapper;
+    private final JdbcTemplate jdbcTemplate;
+    private final TestScenarioMapper testScenarioMapper;
 
     @Value("${insert.test.scenario}")
     private String INSERT_TEST_SCENARIO;
@@ -25,7 +25,7 @@ public class TestScenarioDAOImpl implements TestScenarioDAO {
     @Value("${update.test.scenario.by.id}")
     private String UPDATE_TEST_SCENARIO_BY_ID;
 
-    @Value("${get.test.scenarios}")
+    @Value("SELECT id, name FROM \"test_scenario\" where name like ?")
     private String GET_ALL;
 
     @Autowired
@@ -46,8 +46,14 @@ public class TestScenarioDAOImpl implements TestScenarioDAO {
         jdbcTemplate.update(sql);
     }
 
+
+
+
     @Override
-    public List<TestScenario> getAll() {
-        return jdbcTemplate.queryForStream(GET_ALL, testScenarioMapper).collect(Collectors.toList());
+    public List<TestScenario> getTestScenariosPageSorted(String orderByLimitOffsetWithValues, String name) {
+        return jdbcTemplate.queryForStream(GET_ALL + orderByLimitOffsetWithValues,
+                testScenarioMapper, name)
+                .collect(Collectors.toList());
     }
 }
+
