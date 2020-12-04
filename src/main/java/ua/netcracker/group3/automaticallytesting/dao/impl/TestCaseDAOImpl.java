@@ -23,8 +23,9 @@ public class TestCaseDAOImpl implements TestCaseDAO {
 
     private TestCaseUpdMapper testCaseUpdMapper;
 
-    public TestCaseDAOImpl(JdbcTemplate jdbcTemplate) {
+    public TestCaseDAOImpl(JdbcTemplate jdbcTemplate, TestCaseUpdMapper testCaseUpdMapper) {
         this.jdbcTemplate = jdbcTemplate;
+        this.testCaseUpdMapper = testCaseUpdMapper;
     }
 
     @Value("${insert.test.case}")
