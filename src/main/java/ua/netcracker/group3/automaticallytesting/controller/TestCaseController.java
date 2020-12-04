@@ -5,7 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.dto.CreateTestCaseDto;
+
+import ua.netcracker.group3.automaticallytesting.model.TestCase;
+import ua.netcracker.group3.automaticallytesting.model.TestCaseUpd;
+
 import ua.netcracker.group3.automaticallytesting.dto.TestCaseDto;
+
 import ua.netcracker.group3.automaticallytesting.model.VariableValue;
 import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.TestCaseServiceImpl;
 import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.UserPrincipal;
@@ -35,6 +40,11 @@ public class TestCaseController {
         testCaseService.createTestCase(createTestCaseDto, userId);
     }
 
+
+    @GetMapping("/list")
+    public List<TestCaseUpd> getAllTestCases() {
+        return testCaseService.getAllTestCases();
+
     @PostMapping("/update")
     public void update(@RequestBody TestCaseDto testCaseDto) {
         log.info("Test case: {}", testCaseDto);
@@ -50,5 +60,6 @@ public class TestCaseController {
     @DeleteMapping("/{id}/delete")
     public void delete(@PathVariable("id") Long testCaseId){
         // TODO
+
     }
 }

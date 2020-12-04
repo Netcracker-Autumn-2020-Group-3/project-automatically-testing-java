@@ -8,8 +8,10 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ua.netcracker.group3.automaticallytesting.dao.TestCaseDAO;
 import ua.netcracker.group3.automaticallytesting.mapper.TestCaseStepMapper;
+import ua.netcracker.group3.automaticallytesting.mapper.TestCaseUpdMapper;
 import ua.netcracker.group3.automaticallytesting.model.TestCase;
 import ua.netcracker.group3.automaticallytesting.model.TestCaseStep;
+import ua.netcracker.group3.automaticallytesting.model.TestCaseUpd;
 
 import java.sql.PreparedStatement;
 import java.util.List;
@@ -22,9 +24,12 @@ public class TestCaseDAOImpl implements TestCaseDAO {
     private JdbcTemplate jdbcTemplate;
     private TestCaseStepMapper testCaseStepMapper;
 
-    public TestCaseDAOImpl(JdbcTemplate jdbcTemplate, TestCaseStepMapper testCaseStepMapper) {
+    private TestCaseUpdMapper testCaseUpdMapper;
+
+    public TestCaseDAOImpl(JdbcTemplate jdbcTemplate, TestCaseStepMapper testCaseStepMapper, TestCaseUpdMapper testCaseUpdMapper) {
         this.jdbcTemplate = jdbcTemplate;
         this.testCaseStepMapper = testCaseStepMapper;
+        this.testCaseUpdMapper = testCaseUpdMapper;
     }
 
     @Value("${insert.test.case}")
@@ -33,6 +38,8 @@ public class TestCaseDAOImpl implements TestCaseDAO {
     @Value("${get.test.case.steps}")
     private String GET_TEST_CASE_STEPS;
 
+    @Value("select id, name from \"test_case\"")
+    public String GET_ALL;
     /**
      *
      * @return created test_case_id
@@ -56,5 +63,10 @@ public class TestCaseDAOImpl implements TestCaseDAO {
 
     public List<TestCaseStep> getTestCaseSteps(Long testCaseId){
         return jdbcTemplate.queryForStream(GET_TEST_CASE_STEPS, testCaseStepMapper, testCaseId).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TestCaseUpd> getTestCases() {
+        return jdbcTemplate.queryForStream(GET_ALL,testCaseUpdMapper).collect(Collectors.toList());
     }
 }
