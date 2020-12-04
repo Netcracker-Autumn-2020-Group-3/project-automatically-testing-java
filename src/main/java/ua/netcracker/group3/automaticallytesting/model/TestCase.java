@@ -9,9 +9,10 @@ import lombok.*;
 @Builder
 @ToString
 public class TestCase {
+    private Long id;
     private String name;
     private Long userId;
     private Long projectId;
     private Long testScenarioId;
-    private Long datasetId;
+    private Long dataSetId;
 }

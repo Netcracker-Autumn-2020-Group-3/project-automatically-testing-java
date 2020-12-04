@@ -9,6 +9,7 @@ import ua.netcracker.group3.automaticallytesting.model.DataEntry;
 import ua.netcracker.group3.automaticallytesting.model.DataSet;
 import ua.netcracker.group3.automaticallytesting.model.TestScenario;
 import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.ActionInstanceService;
+import ua.netcracker.group3.automaticallytesting.service.TestCaseService;
 import ua.netcracker.group3.automaticallytesting.service.TestScenarioService;
 
 import java.util.List;
@@ -19,12 +20,15 @@ import java.util.List;
 public class TestScenarioController {
 
     private TestScenarioService testScenarioService;
+    private TestCaseService testCaseService;
     private ActionInstanceService actionInstanceService;
 
     @Autowired
-    public TestScenarioController(TestScenarioService testScenarioService, ActionInstanceService actionInstanceService) {
+    public TestScenarioController(TestScenarioService testScenarioService, ActionInstanceService actionInstanceService,
+                                  TestCaseService testCaseService) {
         this.testScenarioService = testScenarioService;
         this.actionInstanceService = actionInstanceService;
+        this.testCaseService = testCaseService;
     }
 
     @PostMapping
@@ -50,7 +54,8 @@ public class TestScenarioController {
     @GetMapping("/{id}/steps")
     public List<ScenarioStepDto> getTestScenarioActions(@PathVariable("id") Long testCaseId) {
 
-        return actionInstanceService.getTestScenarioStep(testCaseId);
+        //return actionInstanceService.getTestScenarioStep(testCaseId);
+        return testCaseService.getTestScenarioStep(testCaseId);
     }
 }
 

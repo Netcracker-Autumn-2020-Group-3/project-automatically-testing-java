@@ -38,14 +38,13 @@ public class TestCaseController {
     @PostMapping("/update")
     public void update(@RequestBody TestCaseDto testCaseDto) {
         log.info("Test case: {}", testCaseDto);
-        // TODO
+        //TODO
     }
 
     @GetMapping("/{id}")
     public TestCaseDto getById(@PathVariable("id") Long testCaseId) {
         log.info("Test case id: {}", testCaseId);
-        // TODO
-        return null;
+        return testCaseService.getTestCase(testCaseId);
     }
 
     @DeleteMapping("/{id}/delete")

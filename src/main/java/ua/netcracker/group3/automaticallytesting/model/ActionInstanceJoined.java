@@ -13,12 +13,12 @@ import java.util.Objects;
 @Builder
 @ToString
 public class ActionInstanceJoined {
-    private Long id;
-    private Long testScenarioId;
-    private Integer priority;
-    private Action action;
+    protected Long id;
+    protected Long testScenarioId;
+    protected Integer priority;
+    protected Action action;
     private CompoundInstance compoundInstance;
-    private Variable variable;
+    protected Variable variable;
 
     @Override
     public boolean equals(Object o) {
