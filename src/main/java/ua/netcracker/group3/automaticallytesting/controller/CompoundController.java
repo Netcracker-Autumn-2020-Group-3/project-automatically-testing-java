@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/compounds")
 public class CompoundController {
 
-    private CompoundService compoundService;
+    private final CompoundService compoundService;
 
     public CompoundController(CompoundService compoundService) {
         this.compoundService = compoundService;

@@ -3,6 +3,7 @@ package ua.netcracker.group3.automaticallytesting.service.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.netcracker.group3.automaticallytesting.dao.ActionDAO;
+import ua.netcracker.group3.automaticallytesting.dto.ActionDtoWithIdName;
 import ua.netcracker.group3.automaticallytesting.model.Action;
 import ua.netcracker.group3.automaticallytesting.service.ActionService;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
@@ -33,6 +34,11 @@ public class ActionServiceImpl implements ActionService {
     public List<Action> findActionsByName(String name,Pageable pageable) {
         pageable = pagination.setDefaultOrderValue(pageable);
         return actionDAO.findActionsByName(pagination.formSqlPostgresPaginationAction(pageable),name);
+    }
+
+    @Override
+    public List<ActionDtoWithIdName> getAllActionsWithIdName() {
+        return actionDAO.findAllWithIdName();
     }
 
     @Override
