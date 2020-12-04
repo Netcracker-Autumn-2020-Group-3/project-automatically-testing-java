@@ -14,11 +14,20 @@ import java.util.List;
 @PropertySource("classpath:queries/postgres.properties")
 public class ProjectDAOImpl implements ProjectDAO {
 
-    private JdbcTemplate jdbcTemplate;
-    private ProjectMapper mapper;
+    private final JdbcTemplate jdbcTemplate;
+    private final ProjectMapper mapper;
 
     @Value("${find.project.all}")
     private String FIND_ALL;
+
+    @Value("${get.project.by.id}")
+    private String GET_PROJECT_BY_ID;
+
+    @Value("${count.projects}")
+    private String COUNT_PROJECTS;
+
+    @Value("${insert.project}")
+    private String INSERT;
 
     public ProjectDAOImpl(JdbcTemplate jdbcTemplate, ProjectMapper mapper) {
         this.jdbcTemplate = jdbcTemplate;
@@ -34,5 +43,20 @@ public class ProjectDAOImpl implements ProjectDAO {
                 pageable.getPage()
         );
         return jdbcTemplate.query(sql, mapper);
+    }
+
+    @Override
+    public Project getProjectById(Long id) {
+        return jdbcTemplate.queryForObject(GET_PROJECT_BY_ID, mapper, id);
+    }
+
+    @Override
+    public Integer countProjects() {
+        return jdbcTemplate.queryForObject(COUNT_PROJECTS, Integer.class);
+    }
+
+    @Override
+    public void insert(Project project) {
+        jdbcTemplate.update(INSERT, project.getName(), project.getLink(), project.isArchived(), project.getUserId());
     }
 }

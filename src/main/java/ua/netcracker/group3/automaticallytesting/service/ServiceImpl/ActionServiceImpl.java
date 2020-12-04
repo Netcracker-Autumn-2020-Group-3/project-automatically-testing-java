@@ -39,4 +39,9 @@ public class ActionServiceImpl implements ActionService {
     public Integer getNumberOfActions() {
         return actionDAO.getNumberOfActions();
     }
+
+    @Override
+    public long createAction(String name, String description) {
+        return actionDAO.createAction(name, description);
+    }
 }

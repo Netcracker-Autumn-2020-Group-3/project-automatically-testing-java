@@ -25,8 +25,6 @@ public class VariableValueDAOImpl implements VariableValueDAO {
     @Value("${insert.variable.value}")
     public String INSERT;
 
-    //insert.variable.value=insert into variable_value(variable_id, action_instance_id, data_entry_id, test_case_id) values (?, ?, ?, ?)
-
     @Override
     public void insert(List<VariableValue> variableValues, Long testCaseId) {
         jdbcTemplate.batchUpdate(INSERT, variableValues, variableValues.size(), (ps, variableValue) -> {
