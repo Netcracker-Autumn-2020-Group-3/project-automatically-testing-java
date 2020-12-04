@@ -3,13 +3,18 @@ package ua.netcracker.group3.automaticallytesting.dao.impl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ua.netcracker.group3.automaticallytesting.dao.CompoundDAO;
+import ua.netcracker.group3.automaticallytesting.dto.CompoundDtoWithIdName;
+import ua.netcracker.group3.automaticallytesting.mapper.CompoundActionWithActionIdAndPriorityMapper;
 import ua.netcracker.group3.automaticallytesting.mapper.CompoundMapper;
+import ua.netcracker.group3.automaticallytesting.mapper.CompoundMapperWithIdName;
 import ua.netcracker.group3.automaticallytesting.model.Compound;
 import ua.netcracker.group3.automaticallytesting.model.CompoundAction;
+import ua.netcracker.group3.automaticallytesting.model.CompoundActionWithActionIdAndPriority;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
 
 import java.sql.PreparedStatement;
@@ -20,11 +25,17 @@ import java.util.Objects;
 @PropertySource("classpath:queries/postgres.properties")
 public class CompoundDAOImpl implements CompoundDAO {
 
-    private JdbcTemplate jdbcTemplate;
-    private CompoundMapper mapper;
+    private final JdbcTemplate jdbcTemplate;
+    private final CompoundMapper mapper;
 
     @Value("${find.compound.all}")
     private String FIND_ALL;
+
+    @Value("${find.compound.all.with.id.name}")
+    private String FIND_ALL_WITH_ID_NAME;
+
+    @Value("${get.compound.action.with.action.id.and.priority}")
+    private String FIND_COMPOUND_ACTION_WITH_ACTION_ID_AND_PRIORITY_BY_COMPOUND_ID;
 
     @Value("${check.if.compound.name.exist}")
     private String CHECK_IF_COMPOUND_NAME_EXIST;
@@ -49,6 +60,23 @@ public class CompoundDAOImpl implements CompoundDAO {
                 pageable.getPage()
         );
         return jdbcTemplate.query(sql, mapper);
+    }
+
+    @Override
+    public List<CompoundDtoWithIdName> findAllWithIdName() {
+        RowMapper<CompoundDtoWithIdName> mapper = new CompoundMapperWithIdName();
+        return jdbcTemplate.query(FIND_ALL_WITH_ID_NAME, mapper);
+    }
+
+    @Override
+    public List<CompoundActionWithActionIdAndPriority> findAllCompoundActionsWithActionIdAndPriorityByCompoundId(long compoundId) {
+        RowMapper<CompoundActionWithActionIdAndPriority> mapper =
+                new CompoundActionWithActionIdAndPriorityMapper();
+        return jdbcTemplate.query(
+                FIND_COMPOUND_ACTION_WITH_ACTION_ID_AND_PRIORITY_BY_COMPOUND_ID,
+                mapper,
+                compoundId
+        );
     }
 
     @Override

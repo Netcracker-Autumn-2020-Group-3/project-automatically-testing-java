@@ -4,12 +4,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ua.netcracker.group3.automaticallytesting.dao.TestScenarioDAO;
+import ua.netcracker.group3.automaticallytesting.dto.TestScenarioDto;
 import ua.netcracker.group3.automaticallytesting.mapper.TestScenarioMapper;
 import ua.netcracker.group3.automaticallytesting.model.TestScenario;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Repository
@@ -44,9 +50,14 @@ public class TestScenarioDAOImpl implements TestScenarioDAO {
     }
 
     @Override
-    public void saveTestScenario(TestScenario testScenario) {
-        String sql = String.format(INSERT_TEST_SCENARIO, testScenario.getName());
-        jdbcTemplate.update(sql);
+    public long saveTestScenario(TestScenarioDto testScenarioDto) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(INSERT_TEST_SCENARIO, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, testScenarioDto.getName());
+            return ps;
+        }, keyHolder);
+        return Objects.requireNonNull(keyHolder.getKey()).longValue();
     }
 
     @Override
