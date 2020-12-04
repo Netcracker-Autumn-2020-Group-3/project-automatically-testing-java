@@ -22,8 +22,9 @@ public class TestScenarioServiceImpl implements TestScenarioService {
     }
 
 
-    public TestScenarioServiceImpl(TestScenarioDAO testScenarioDAO) {
+    public TestScenarioServiceImpl(TestScenarioDAO testScenarioDAO, Pagination pagination) {
         this.testScenarioDAO = testScenarioDAO;
+        this.pagination = pagination;
     }
 
     @Override
@@ -43,6 +44,9 @@ public class TestScenarioServiceImpl implements TestScenarioService {
         return testScenarioDAO.getTestScenariosPageSorted(pagination.formSqlPostgresPaginationPiece(pageable),
                 replaceNullsForSearch(name));
     }
-
+    @Override
+    public List<TestScenario> getAll(){
+        return testScenarioDAO.getAll();
+    }
 
 }

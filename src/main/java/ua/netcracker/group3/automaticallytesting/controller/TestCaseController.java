@@ -45,6 +45,10 @@ public class TestCaseController {
     public List<TestCaseUpd> getAllTestCases() {
         return testCaseService.getAllTestCases();
 
+    }
+
+
+
     @PostMapping("/update")
     public void update(@RequestBody TestCaseDto testCaseDto) {
         log.info("Test case: {}", testCaseDto);

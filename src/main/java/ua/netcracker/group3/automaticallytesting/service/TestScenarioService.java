@@ -13,6 +13,8 @@ public interface TestScenarioService {
 
     List<TestScenario> getTestScenarios(Pageable pageable, String name);
 
+    List<TestScenario> getAll();
+
 
     //     List<User> getUsers(Pageable pageable, String name, String surname, String email, String role);
 }

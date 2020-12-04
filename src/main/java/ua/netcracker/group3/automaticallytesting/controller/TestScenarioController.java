@@ -6,10 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.dto.ScenarioStepDto;
-import ua.netcracker.group3.automaticallytesting.model.DataEntry;
-import ua.netcracker.group3.automaticallytesting.model.DataSet;
-import ua.netcracker.group3.automaticallytesting.model.TestScenario;
-import ua.netcracker.group3.automaticallytesting.model.User;
+import ua.netcracker.group3.automaticallytesting.model.*;
 import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.ActionInstanceService;
 import ua.netcracker.group3.automaticallytesting.service.TestCaseService;
 import ua.netcracker.group3.automaticallytesting.service.TestScenarioService;
@@ -47,7 +44,7 @@ public class TestScenarioController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/list")
+    @GetMapping("/list/page")
 
     public List<TestScenario> getPageTestScenarios(Integer pageSize, Integer page, String sortOrder, String sortField,
                                    String name) {
@@ -55,6 +52,10 @@ public class TestScenarioController {
         return testScenarioService.getTestScenarios(pageable, name);
     }
 
+    @GetMapping("/list")
+    public List<TestScenario> getAll() {
+        return testScenarioService.getAll();
+    }
 
 
     /**

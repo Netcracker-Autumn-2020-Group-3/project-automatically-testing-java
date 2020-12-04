@@ -11,7 +11,7 @@ public interface TestScenarioDAO {
 
     void saveTestScenario(TestScenario testScenario);
 
- //   List<TestScenario> getAll();
+    List<TestScenario> getAll();
 
     List<TestScenario> getTestScenariosPageSorted(String orderByLimitOffsetWithValues, String name);
 }
