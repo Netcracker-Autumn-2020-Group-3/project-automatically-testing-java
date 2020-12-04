@@ -2,13 +2,10 @@ package ua.netcracker.group3.automaticallytesting.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.dto.ActionDtoWithIdName;
 import ua.netcracker.group3.automaticallytesting.dto.CompoundDtoWithIdName;
 import ua.netcracker.group3.automaticallytesting.dto.ScenarioStepDto;
-import ua.netcracker.group3.automaticallytesting.model.*;
-import ua.netcracker.group3.automaticallytesting.dto.TestScenarioDto;
 import ua.netcracker.group3.automaticallytesting.model.TestScenario;
 import ua.netcracker.group3.automaticallytesting.service.ActionService;
 import ua.netcracker.group3.automaticallytesting.service.CompoundService;
@@ -16,7 +13,7 @@ import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.ActionInsta
 import ua.netcracker.group3.automaticallytesting.service.TestCaseService;
 import ua.netcracker.group3.automaticallytesting.service.TestScenarioService;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
-import ua.netcracker.group3.automaticallytesting.dto.TestScenarioDTO;
+import ua.netcracker.group3.automaticallytesting.dto.TestScenarioDto;
 
 import java.util.List;
 
