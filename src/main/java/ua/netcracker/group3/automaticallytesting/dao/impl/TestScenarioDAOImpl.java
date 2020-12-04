@@ -34,6 +34,10 @@ public class TestScenarioDAOImpl implements TestScenarioDAO {
     @Value("${get.test.scenarios}")
     private String GET_ALL;
 
+    @Value("SELECT id, name FROM \"test_scenario\" where name like ?")
+    private String GET_PAGE;
+
+    @Autowired
     public TestScenarioDAOImpl(JdbcTemplate jdbcTemplate, TestScenarioMapper testScenarioMapper) {
         this.jdbcTemplate = jdbcTemplate;
         this.testScenarioMapper = testScenarioMapper;
@@ -61,4 +65,11 @@ public class TestScenarioDAOImpl implements TestScenarioDAO {
         return jdbcTemplate.queryForStream(GET_ALL, testScenarioMapper).collect(Collectors.toList());
     }
 
+    @Override
+    public List<TestScenario> getTestScenariosPageSorted(String orderByLimitOffsetWithValues, String name) {
+        return jdbcTemplate.queryForStream(GET_PAGE + orderByLimitOffsetWithValues,
+                testScenarioMapper, name)
+                .collect(Collectors.toList());
+    }
 }
+

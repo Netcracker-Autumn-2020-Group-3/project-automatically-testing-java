@@ -10,7 +10,10 @@ import ua.netcracker.group3.automaticallytesting.dto.TestScenarioItemDto;
 import ua.netcracker.group3.automaticallytesting.model.CompoundActionWithActionIdAndPriority;
 import ua.netcracker.group3.automaticallytesting.model.TestScenario;
 import ua.netcracker.group3.automaticallytesting.service.TestScenarioService;
+import ua.netcracker.group3.automaticallytesting.util.Pageable;
+import ua.netcracker.group3.automaticallytesting.util.Pagination;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,12 +21,20 @@ import java.util.stream.Collectors;
 public class TestScenarioServiceImpl implements TestScenarioService {
 
     private final TestScenarioDAO testScenarioDAO;
+    private final Pagination pagination;
+    private final List<String> TEST_SCENARIO_TABLE_FIELDS = Arrays.asList("id", "name");
     private final CompoundInstanceDAO compoundInstanceDAO;
     private final CompoundDAO compoundDAO;
     private final ActionInstanceDAO actionInstanceDAO;
 
-    public TestScenarioServiceImpl(TestScenarioDAO testScenarioDAO, CompoundInstanceDAO compoundInstanceDAO, CompoundDAO compoundDAO, ActionInstanceDAO actionInstanceDAO) {
+    private String replaceNullsForSearch(String val) {
+        return val == null ? "%" : val;
+    }
+
+
+    public TestScenarioServiceImpl(TestScenarioDAO testScenarioDAO, Pagination pagination, CompoundInstanceDAO compoundInstanceDAO, CompoundDAO compoundDAO, ActionInstanceDAO actionInstanceDAO) {
         this.testScenarioDAO = testScenarioDAO;
+        this.pagination = pagination;
         this.compoundInstanceDAO = compoundInstanceDAO;
         this.compoundDAO = compoundDAO;
         this.actionInstanceDAO = actionInstanceDAO;
@@ -66,7 +77,14 @@ public class TestScenarioServiceImpl implements TestScenarioService {
     }
 
     @Override
-    public List<TestScenario> getAll() {
+    public List<TestScenario> getTestScenarios(Pageable pageable, String name) {
+        pageable = pagination.replaceNullsUserPage(pageable);
+        pagination.validate(pageable,TEST_SCENARIO_TABLE_FIELDS);
+        return testScenarioDAO.getTestScenariosPageSorted(pagination.formSqlPostgresPaginationPiece(pageable),
+                replaceNullsForSearch(name));
+    }
+    @Override
+    public List<TestScenario> getAll(){
         return testScenarioDAO.getAll();
     }
 

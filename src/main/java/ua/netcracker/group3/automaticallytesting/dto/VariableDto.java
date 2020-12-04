@@ -14,6 +14,9 @@ import java.util.Objects;
 public class VariableDto {
     private Long id;
     private String name;
+    /**
+     * is null for test scenario
+     */
     private DataEntry dataEntry;
 
     @Override
