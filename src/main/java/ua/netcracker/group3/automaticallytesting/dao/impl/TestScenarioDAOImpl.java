@@ -37,6 +37,9 @@ public class TestScenarioDAOImpl implements TestScenarioDAO {
     @Value("SELECT id, name FROM \"test_scenario\" where name like ?")
     private String GET_PAGE;
 
+    @Value("${select.test.scenario.exist}")
+    private String CHECK_EXIST_TEST_SCENARIO_BY_NAME;
+
     @Autowired
     public TestScenarioDAOImpl(JdbcTemplate jdbcTemplate, TestScenarioMapper testScenarioMapper) {
         this.jdbcTemplate = jdbcTemplate;
@@ -58,6 +61,11 @@ public class TestScenarioDAOImpl implements TestScenarioDAO {
             return ps;
         }, keyHolder);
         return Objects.requireNonNull(keyHolder.getKey()).longValue();
+    }
+
+    @Override
+    public boolean checkExistTestScenarioByName(String name) {
+        return Objects.requireNonNull(jdbcTemplate.queryForObject(CHECK_EXIST_TEST_SCENARIO_BY_NAME, Boolean.class, name));
     }
 
     @Override
