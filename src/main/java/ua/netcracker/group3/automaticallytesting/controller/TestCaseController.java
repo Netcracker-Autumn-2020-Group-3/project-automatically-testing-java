@@ -14,6 +14,7 @@ import ua.netcracker.group3.automaticallytesting.dto.TestCaseDto;
 import ua.netcracker.group3.automaticallytesting.model.VariableValue;
 import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.TestCaseServiceImpl;
 import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.UserPrincipal;
+import ua.netcracker.group3.automaticallytesting.testcaseexec.TestCaseExecutionService;
 
 import java.security.Principal;
 import java.util.List;
@@ -25,10 +26,12 @@ import java.util.List;
 public class TestCaseController {
 
     private final TestCaseServiceImpl testCaseService;
+    private final TestCaseExecutionService testCaseExecutionService;
 
     @Autowired
-    public TestCaseController(TestCaseServiceImpl testCaseService) {
+    public TestCaseController(TestCaseServiceImpl testCaseService,  TestCaseExecutionService testCaseExecutionService) {
         this.testCaseService = testCaseService;
+        this.testCaseExecutionService = testCaseExecutionService;
     }
 
     @PostMapping("/create")
@@ -64,6 +67,14 @@ public class TestCaseController {
     @DeleteMapping("/{id}/delete")
     public void delete(@PathVariable("id") Long testCaseId){
         // TODO
+
+    }
+
+    @GetMapping("/execute")
+    public void execute() {
+        TestCaseDto testCaseDto =  testCaseService.getTestCase(16L);
+        System.out.println("testCaseDto  " + testCaseDto);
+        testCaseExecutionService.executeTestCase(testCaseDto , "https://github.com/");
 
     }
 }

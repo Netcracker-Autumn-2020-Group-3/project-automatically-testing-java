@@ -47,10 +47,18 @@ public class TestScenarioServiceImpl implements TestScenarioService {
 
     @Override
     public void saveTestScenario(TestScenarioDto testScenarioDto) {
+
+        System.out.println("testScenarioDto " + testScenarioDto);
+
         long testScenarioId = testScenarioDAO.saveTestScenario(testScenarioDto);
+
+        System.out.println(" testScenarioId " + testScenarioId);
 
         List<TestScenarioItemDto> actionsWithoutCompoundInstanceId =
                 getItemsByType("Action", testScenarioDto.getItems());
+
+        System.out.println(" actionsWithoutCompoundInstanceId " + actionsWithoutCompoundInstanceId);
+
 
         actionInstanceDAO.saveActionInstancesWithoutCompoundInstanceId(
                 actionsWithoutCompoundInstanceId, testScenarioId
@@ -59,6 +67,7 @@ public class TestScenarioServiceImpl implements TestScenarioService {
                 getItemsByType("Compound", testScenarioDto.getItems());
 
         for(TestScenarioItemDto compound : compounds) {
+            System.out.println("conpounds: " + compound);
 
             long compoundId = compoundInstanceDAO.saveCompoundInstanceAndGetGeneratedId(compound, testScenarioId);
 
