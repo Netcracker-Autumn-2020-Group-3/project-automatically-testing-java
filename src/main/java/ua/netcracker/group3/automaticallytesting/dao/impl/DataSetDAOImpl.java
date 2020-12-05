@@ -20,8 +20,6 @@ import java.sql.Statement;
 import java.util.List;
 
 
-
-import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -42,6 +40,9 @@ public class DataSetDAOImpl implements DataSetDAO {
     @Value("${get.datasets}")
     private String GET_ALL;
 
+    @Value("${delete.data.set}")
+    private String DELETE_DATA_SET;
+
     @Autowired
     public DataSetDAOImpl(JdbcTemplate jdbcTemplate, DataSetMapper dataSetMapper){
         this.jdbcTemplate = jdbcTemplate;
@@ -58,6 +59,11 @@ public class DataSetDAOImpl implements DataSetDAO {
             return ps;
             }, keyHolder);
         return Objects.requireNonNull(keyHolder.getKey()).longValue();
+    }
+
+    @Override
+    public int deleteDataSet(long id) {
+        return jdbcTemplate.update(DELETE_DATA_SET, id);
     }
 
     @Override

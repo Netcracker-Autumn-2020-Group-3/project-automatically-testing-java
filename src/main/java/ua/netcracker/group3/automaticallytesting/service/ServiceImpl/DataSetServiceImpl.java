@@ -34,6 +34,11 @@ public class DataSetServiceImpl implements DataSetService {
     }
 
     @Override
+    public int deleteDataSet(long id) {
+        return dataSetDAO.deleteDataSet(id);
+    }
+
+    @Override
     public List<DataSet> gettAllDataSet() {
         return dataSetDAO.getAllDataSet();
     }
