@@ -70,9 +70,9 @@ public class TestCaseController {
 
     }
 
-    @GetMapping("/execute")
-    public void execute() {
-        TestCaseDto testCaseDto =  testCaseService.getTestCase(16L);
+    @GetMapping("/execute/{id}")
+    public void execute(@PathVariable("id") Long id) {
+        TestCaseDto testCaseDto =  testCaseService.getTestCase(id);
         System.out.println("testCaseDto  " + testCaseDto);
         testCaseExecutionService.executeTestCase(testCaseDto , "https://github.com/");
 

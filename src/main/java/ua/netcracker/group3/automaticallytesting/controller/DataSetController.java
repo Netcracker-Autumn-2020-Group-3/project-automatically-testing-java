@@ -60,10 +60,14 @@ public class DataSetController {
     @PostMapping("/create-data-set/{name}")
     public void createDataSet(@PathVariable("name") String name,
                               @RequestBody List<DataEntry> dataSetValues) {
-        System.out.println(dataSetValues);
         long id = dataSetService.createDataSet(name);
         dataEntryService.createDataEntry(id, dataSetValues);
+    }
 
+    @DeleteMapping("/delete-data-set/{id}")
+    public int deleteDataSet(@PathVariable("id") long id) {
+        dataEntryService.deleteDataEntry(id);
+        return  dataSetService.deleteDataSet(id);
     }
 
     @GetMapping("/data-set/list")
