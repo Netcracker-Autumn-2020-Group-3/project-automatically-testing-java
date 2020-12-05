@@ -21,7 +21,7 @@ public class TestCaseExecutionService {
 
 
     public TestCaseExecutionService() {
-        System.setProperty("webdriver.chrome.driver", "C:\\webdriver86\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "D:\\netcracker\\chrome-driver87\\chromedriver.exe");
 
         actions.put("click sign in", new ClickActionExecutable());
         actions.put("click login", new ClickActionExecutable());
