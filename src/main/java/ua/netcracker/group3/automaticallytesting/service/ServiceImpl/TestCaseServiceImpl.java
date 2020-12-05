@@ -124,6 +124,7 @@ public class TestCaseServiceImpl implements TestCaseService {
                                 .name(ai.getAction().getActionName())
                                 .variables(new ArrayList<>(actionsVariables.getOrDefault(ai.getAction().getActionId(), new HashSet<>()))).build()))
                         .build())
+                .filter(distinctBy(ScenarioStepDto::getPriority))
                 .collect(Collectors.toList());
     }
 
