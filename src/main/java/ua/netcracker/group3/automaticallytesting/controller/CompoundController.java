@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("/compounds")
 public class CompoundController {
 
-    private CompoundService compoundService;
+    private final CompoundService compoundService;
 
     public CompoundController(CompoundService compoundService) {
         this.compoundService = compoundService;
@@ -27,9 +27,10 @@ public class CompoundController {
                                        @RequestParam String sortOrder,
                                        @RequestParam String sortField) {
 
-        Pageable pageable = new Pageable(pageSize, page, sortField, sortOrder);
-        pageable.setPage(
-                (pageable.getPage() > 0 ? pageable.getPage() - 1 : 0) * pageable.getPageSize()); // Будет исправлено
+        Pageable pageable = new Pageable();
+        pageable.setPageSize(pageSize);
+        pageable.setSortField(sortField);
+        pageable.setPage((page > 0 ? page - 1 : 0) * pageSize); // Будет исправлено
         return ResponseEntity.ok(compoundService.getAllCompounds(pageable));
     }
 

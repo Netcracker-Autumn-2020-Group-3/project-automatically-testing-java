@@ -3,11 +3,14 @@ package ua.netcracker.group3.automaticallytesting.dao.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ua.netcracker.group3.automaticallytesting.dao.ActionDAO;
+import ua.netcracker.group3.automaticallytesting.dto.ActionDtoWithIdName;
 import ua.netcracker.group3.automaticallytesting.mapper.ActionMapper;
+import ua.netcracker.group3.automaticallytesting.mapper.ActionMapperWithIdName;
 import ua.netcracker.group3.automaticallytesting.model.Action;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
 
@@ -32,6 +35,9 @@ public class ActionDAOImpl implements ActionDAO {
     @Value("${get.number.of.actions}")
     private String GET_NUMBER_OF_ACTIONS;
 
+    @Value("${find.action.all.with.id.name}")
+    private String FIND_ALL_WITH_ID_NAME;
+
     @Autowired
     public ActionDAOImpl(JdbcTemplate jdbcTemplate,ActionMapper actionMapper) {
         this.jdbcTemplate = jdbcTemplate;
@@ -48,6 +54,12 @@ public class ActionDAOImpl implements ActionDAO {
     @Override
     public List<Action> findActionsByName(String pageActionSql,String name) {
         return jdbcTemplate.queryForStream(FIND_ACTIONS_BY_NAME + pageActionSql,actionMapper,name).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ActionDtoWithIdName> findAllWithIdName() {
+        RowMapper<ActionDtoWithIdName> mapper = new ActionMapperWithIdName();
+        return jdbcTemplate.query(FIND_ALL_WITH_ID_NAME, mapper);
     }
 
     @Override

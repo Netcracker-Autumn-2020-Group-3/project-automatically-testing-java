@@ -5,10 +5,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.dto.CreateTestCaseDto;
+
+import ua.netcracker.group3.automaticallytesting.model.TestCase;
+import ua.netcracker.group3.automaticallytesting.model.TestCaseUpd;
+
 import ua.netcracker.group3.automaticallytesting.dto.TestCaseDto;
+
 import ua.netcracker.group3.automaticallytesting.model.VariableValue;
 import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.TestCaseServiceImpl;
 import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.UserPrincipal;
+import ua.netcracker.group3.automaticallytesting.testcaseexec.TestCaseExecutionService;
 
 import java.security.Principal;
 import java.util.List;
@@ -20,10 +26,12 @@ import java.util.List;
 public class TestCaseController {
 
     private final TestCaseServiceImpl testCaseService;
+    private final TestCaseExecutionService testCaseExecutionService;
 
     @Autowired
-    public TestCaseController(TestCaseServiceImpl testCaseService) {
+    public TestCaseController(TestCaseServiceImpl testCaseService,  TestCaseExecutionService testCaseExecutionService) {
         this.testCaseService = testCaseService;
+        this.testCaseExecutionService = testCaseExecutionService;
     }
 
     @PostMapping("/create")
@@ -35,21 +43,38 @@ public class TestCaseController {
         testCaseService.createTestCase(createTestCaseDto, userId);
     }
 
+
+    @GetMapping("/list")
+    public List<TestCaseUpd> getAllTestCases() {
+        return testCaseService.getAllTestCases();
+
+    }
+
+
+
     @PostMapping("/update")
     public void update(@RequestBody TestCaseDto testCaseDto) {
         log.info("Test case: {}", testCaseDto);
-        // TODO
+        //TODO
     }
 
     @GetMapping("/{id}")
     public TestCaseDto getById(@PathVariable("id") Long testCaseId) {
         log.info("Test case id: {}", testCaseId);
-        // TODO
-        return null;
+        return testCaseService.getTestCase(testCaseId);
     }
 
     @DeleteMapping("/{id}/delete")
     public void delete(@PathVariable("id") Long testCaseId){
         // TODO
+
+    }
+
+    @GetMapping("/execute/{id}")
+    public void execute(@PathVariable("id") Long id) {
+        TestCaseDto testCaseDto =  testCaseService.getTestCase(id);
+        System.out.println("testCaseDto  " + testCaseDto);
+        testCaseExecutionService.executeTestCase(testCaseDto , "https://github.com/");
+
     }
 }

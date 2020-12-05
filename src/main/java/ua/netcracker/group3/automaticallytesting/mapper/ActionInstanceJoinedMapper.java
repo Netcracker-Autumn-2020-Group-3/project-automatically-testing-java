@@ -15,7 +15,7 @@ public class ActionInstanceJoinedMapper implements RowMapper<ActionInstanceJoine
     public ActionInstanceJoined mapRow(ResultSet resultSet, int i) throws SQLException {
         ActionInstanceJoined ai = ActionInstanceJoined.builder()
 
-                .id(resultSet.getLong("id"))
+                .id(resultSet.getLong("action_instance_id"))
                 .testScenarioId(resultSet.getLong("test_scenario_id"))
                 .priority(resultSet.getInt("priority"))
 

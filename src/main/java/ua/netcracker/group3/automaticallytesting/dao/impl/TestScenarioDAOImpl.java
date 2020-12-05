@@ -4,20 +4,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ua.netcracker.group3.automaticallytesting.dao.TestScenarioDAO;
+import ua.netcracker.group3.automaticallytesting.dto.TestScenarioDto;
 import ua.netcracker.group3.automaticallytesting.mapper.TestScenarioMapper;
 import ua.netcracker.group3.automaticallytesting.model.TestScenario;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Repository
 @PropertySource("classpath:queries/postgres.properties")
 public class TestScenarioDAOImpl implements TestScenarioDAO {
 
-    private JdbcTemplate jdbcTemplate;
-    private TestScenarioMapper testScenarioMapper;
+    private final JdbcTemplate jdbcTemplate;
+    private final TestScenarioMapper testScenarioMapper;
 
     @Value("${insert.test.scenario}")
     private String INSERT_TEST_SCENARIO;
@@ -27,6 +33,12 @@ public class TestScenarioDAOImpl implements TestScenarioDAO {
 
     @Value("${get.test.scenarios}")
     private String GET_ALL;
+
+    @Value("SELECT id, name FROM \"test_scenario\" where name like ?")
+    private String GET_PAGE;
+
+    @Value("${select.test.scenario.exist}")
+    private String CHECK_EXIST_TEST_SCENARIO_BY_NAME;
 
     @Autowired
     public TestScenarioDAOImpl(JdbcTemplate jdbcTemplate, TestScenarioMapper testScenarioMapper) {
@@ -41,13 +53,31 @@ public class TestScenarioDAOImpl implements TestScenarioDAO {
     }
 
     @Override
-    public void saveTestScenario(TestScenario testScenario) {
-        String sql = String.format(INSERT_TEST_SCENARIO, testScenario.getName());
-        jdbcTemplate.update(sql);
+    public long saveTestScenario(TestScenarioDto testScenarioDto) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(INSERT_TEST_SCENARIO, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, testScenarioDto.getName());
+            return ps;
+        }, keyHolder);
+        return Objects.requireNonNull(keyHolder.getKey()).longValue();
+    }
+
+    @Override
+    public boolean checkExistTestScenarioByName(String name) {
+        return Objects.requireNonNull(jdbcTemplate.queryForObject(CHECK_EXIST_TEST_SCENARIO_BY_NAME, Boolean.class, name));
     }
 
     @Override
     public List<TestScenario> getAll() {
         return jdbcTemplate.queryForStream(GET_ALL, testScenarioMapper).collect(Collectors.toList());
     }
+
+    @Override
+    public List<TestScenario> getTestScenariosPageSorted(String orderByLimitOffsetWithValues, String name) {
+        return jdbcTemplate.queryForStream(GET_PAGE + orderByLimitOffsetWithValues,
+                testScenarioMapper, name)
+                .collect(Collectors.toList());
+    }
 }
+

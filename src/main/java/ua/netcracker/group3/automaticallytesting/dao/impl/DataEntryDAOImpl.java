@@ -32,6 +32,9 @@ public class DataEntryDAOImpl implements DataEntryDAO {
     @Value("${get.data.entries.by.dataset.id}")
     private String GET_BY_DATA_SET_ID;
 
+    @Value("${delete.data.entry}")
+    private String DELETE_DATA_ENTRY;
+
     @Autowired
     public DataEntryDAOImpl(JdbcTemplate jdbcTemplate,DataEntryMapper dataEntryMapper){
         this.jdbcTemplate = jdbcTemplate;
@@ -67,6 +70,11 @@ public class DataEntryDAOImpl implements DataEntryDAO {
             ps.setString(2, dataSetValue.getValue());
             ps.setString(3,dataSetValue.getKey());
         });
+    }
+
+    @Override
+    public void deleteDataEntry(long dataSetId) {
+        jdbcTemplate.update(DELETE_DATA_ENTRY, dataSetId);
     }
 
     @Override

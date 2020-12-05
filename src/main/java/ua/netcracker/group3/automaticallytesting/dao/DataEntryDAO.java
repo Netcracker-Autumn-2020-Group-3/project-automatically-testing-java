@@ -15,4 +15,6 @@ public interface DataEntryDAO {
     void createDataEntry(Long dataSetId, List<DataEntry> dataSetValues);
 
     List<DataEntry> getAllByDataSetId(Long dataSetId);
+
+    void deleteDataEntry(long dataSetId);
 }
