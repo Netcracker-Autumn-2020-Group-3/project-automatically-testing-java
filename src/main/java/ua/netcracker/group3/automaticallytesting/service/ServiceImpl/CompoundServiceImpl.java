@@ -2,6 +2,7 @@ package ua.netcracker.group3.automaticallytesting.service.ServiceImpl;
 
 import org.springframework.stereotype.Service;
 import ua.netcracker.group3.automaticallytesting.dao.CompoundDAO;
+import ua.netcracker.group3.automaticallytesting.model.Action;
 import ua.netcracker.group3.automaticallytesting.model.Compound;
 import ua.netcracker.group3.automaticallytesting.model.CompoundAction;
 import ua.netcracker.group3.automaticallytesting.service.CompoundService;
@@ -35,5 +36,15 @@ public class CompoundServiceImpl implements CompoundService {
     @Override
     public void createCompoundActions(List<CompoundAction> compoundActions) {
         compoundDAO.createCompoundActions(compoundActions);
+    }
+
+    @Override
+    public Compound getCompoundById(Long id) {
+        return compoundDAO.getCompoundById(id);
+    }
+
+    @Override
+    public List<Action> getCompoundActions(Integer id) {
+        return compoundDAO.getCompoundActions(id);
     }
 }

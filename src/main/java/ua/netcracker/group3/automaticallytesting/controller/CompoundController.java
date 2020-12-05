@@ -2,6 +2,7 @@ package ua.netcracker.group3.automaticallytesting.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ua.netcracker.group3.automaticallytesting.model.Action;
 import ua.netcracker.group3.automaticallytesting.model.Compound;
 import ua.netcracker.group3.automaticallytesting.model.CompoundAction;
 import ua.netcracker.group3.automaticallytesting.service.CompoundService;
@@ -46,6 +47,17 @@ public class CompoundController {
     public String createCompoundActions(@RequestBody List<CompoundAction> compoundActions){
         compoundService.createCompoundActions(compoundActions);
         return "ok";
+    }
+
+    @RequestMapping(value = "/get/{id}",method = RequestMethod.GET)
+    public Compound getCompoundById(@PathVariable Long id){
+        return compoundService.getCompoundById(id);
+    }
+
+    @RequestMapping(value = "/get/actions/{id}",method = RequestMethod.GET)
+    public List<Action> getCompoundActionsByCompoundId(@PathVariable Integer id){
+        System.out.println(compoundService.getCompoundActions(id).toString());
+        return null;
     }
 
 

@@ -7,7 +7,9 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ua.netcracker.group3.automaticallytesting.dao.CompoundDAO;
+import ua.netcracker.group3.automaticallytesting.mapper.ActionMapper;
 import ua.netcracker.group3.automaticallytesting.mapper.CompoundMapper;
+import ua.netcracker.group3.automaticallytesting.model.Action;
 import ua.netcracker.group3.automaticallytesting.model.Compound;
 import ua.netcracker.group3.automaticallytesting.model.CompoundAction;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
@@ -15,13 +17,16 @@ import ua.netcracker.group3.automaticallytesting.util.Pageable;
 import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Repository
 @PropertySource("classpath:queries/postgres.properties")
 public class CompoundDAOImpl implements CompoundDAO {
 
-    private JdbcTemplate jdbcTemplate;
-    private CompoundMapper mapper;
+    private final JdbcTemplate jdbcTemplate;
+    private final CompoundMapper mapper;
+    private ActionMapper actionMapper;
 
     @Value("${find.compound.all}")
     private String FIND_ALL;
@@ -34,6 +39,12 @@ public class CompoundDAOImpl implements CompoundDAO {
 
     @Value("${insert.compound.actions}")
     private String CREATE_COMPOUND_ACTIONS;
+
+    @Value("${get.compound.by.id}")
+    private String GET_COMPOUND_BY_ID;
+
+    @Value("${get.compound.actions}")
+    private String GET_COMPOUND_ACTIONS;
 
     public CompoundDAOImpl(JdbcTemplate jdbcTemplate, CompoundMapper mapper) {
         this.jdbcTemplate = jdbcTemplate;
@@ -77,6 +88,16 @@ public class CompoundDAOImpl implements CompoundDAO {
             ps.setLong(2,compoundActionsValue.getActionId());
             ps.setInt(3,compoundActionsValue.getPriority());
         }));
+    }
+
+    @Override
+    public Compound getCompoundById(Long id) {
+        return jdbcTemplate.queryForObject(GET_COMPOUND_BY_ID,mapper,id);
+    }
+
+    @Override
+    public List<Action> getCompoundActions(Integer id) {
+        return jdbcTemplate.queryForStream(GET_COMPOUND_ACTIONS,actionMapper,id).collect(Collectors.toList());
     }
 
 }

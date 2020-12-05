@@ -1,5 +1,6 @@
 package ua.netcracker.group3.automaticallytesting.service;
 
+import ua.netcracker.group3.automaticallytesting.model.Action;
 import ua.netcracker.group3.automaticallytesting.model.Compound;
 import ua.netcracker.group3.automaticallytesting.model.CompoundAction;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
@@ -14,4 +15,8 @@ public interface CompoundService {
     Integer createCompound(Compound compound);
 
     void createCompoundActions(List<CompoundAction> compoundActions);
+
+    Compound getCompoundById(Long id);
+
+    List<Action> getCompoundActions(Integer id);
 }
