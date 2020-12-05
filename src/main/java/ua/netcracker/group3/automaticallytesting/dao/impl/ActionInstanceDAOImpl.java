@@ -57,6 +57,7 @@ public class ActionInstanceDAOImpl implements ActionInstanceDAO {
 
     @Override
     public void saveActionInstancesWithCompoundInstanceId(List<TestScenarioItemDto> actions, long testScenarioId, long compoundInstanceId) {
+        System.out.println("saveActionInstancesWithCompoundInstanceId dao " + actions);
         jdbcTemplate.batchUpdate(
                 INSERT_ALL_WITH_COMPOUND_INSTANCE_ID,
                 actions,

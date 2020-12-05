@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 public class CompoundServiceImpl implements CompoundService {
 
-    private CompoundDAO compoundDAO;
+    private final CompoundDAO compoundDAO;
 
     public CompoundServiceImpl(CompoundDAO compoundDAO) {
         this.compoundDAO = compoundDAO;

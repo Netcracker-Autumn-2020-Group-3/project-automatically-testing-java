@@ -46,7 +46,14 @@ public class TestScenarioServiceImpl implements TestScenarioService {
     }
 
     @Override
-    public void saveTestScenario(TestScenarioDto testScenarioDto) {
+    public boolean saveTestScenario(TestScenarioDto testScenarioDto) {
+
+        String testScenarioName = testScenarioDto.getName();
+
+        if(testScenarioDAO.checkExistTestScenarioByName(testScenarioName)) {
+            return false;
+        }
+
         long testScenarioId = testScenarioDAO.saveTestScenario(testScenarioDto);
 
         List<TestScenarioItemDto> actionsWithoutCompoundInstanceId =
@@ -74,6 +81,14 @@ public class TestScenarioServiceImpl implements TestScenarioService {
                     compoundId
             );
         }
+
+        return true;
+
+    }
+
+    @Override
+    public boolean checkTestScenarioExistsByName(String name) {
+        return testScenarioDAO.checkExistTestScenarioByName(name);
     }
 
     @Override
