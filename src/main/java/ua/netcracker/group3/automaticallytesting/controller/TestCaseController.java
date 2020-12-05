@@ -5,17 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.dto.CreateTestCaseDto;
-
-import ua.netcracker.group3.automaticallytesting.model.TestCase;
 import ua.netcracker.group3.automaticallytesting.model.TestCaseUpd;
-
 import ua.netcracker.group3.automaticallytesting.dto.TestCaseDto;
-
-import ua.netcracker.group3.automaticallytesting.model.VariableValue;
 import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.TestCaseServiceImpl;
 import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.UserPrincipal;
 
-import java.security.Principal;
 import java.util.List;
 
 @CrossOrigin(origins = "*")
@@ -57,7 +51,6 @@ public class TestCaseController {
 
     @GetMapping("/{id}")
     public TestCaseDto getById(@PathVariable("id") Long testCaseId) {
-        log.info("Test case id: {}", testCaseId);
         return testCaseService.getTestCase(testCaseId);
     }
 
