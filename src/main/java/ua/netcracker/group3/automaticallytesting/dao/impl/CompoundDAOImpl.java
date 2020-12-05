@@ -53,13 +53,13 @@ public class CompoundDAOImpl implements CompoundDAO {
 
     @Override
     public List<Compound> findAll(Pageable pageable) {
-        String sql = String.format(FIND_ALL,
+        return jdbcTemplate.query(
+                FIND_ALL,
+                mapper,
                 pageable.getSortField(),
-                pageable.getSortOrder(),
                 pageable.getPageSize(),
                 pageable.getPage()
         );
-        return jdbcTemplate.query(sql, mapper);
     }
 
     @Override

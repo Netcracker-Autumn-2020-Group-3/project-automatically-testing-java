@@ -23,12 +23,12 @@ public class CompoundController {
     @GetMapping
     public ResponseEntity<?> compounds(@RequestParam Integer pageSize,
                                        @RequestParam Integer page,
-                                       @RequestParam String sortOrder,
                                        @RequestParam String sortField) {
 
-        Pageable pageable = new Pageable(pageSize, page, sortField, sortOrder);
-        pageable.setPage(
-                (pageable.getPage() > 0 ? pageable.getPage() - 1 : 0) * pageable.getPageSize()); // Будет исправлено
+        Pageable pageable = new Pageable();
+        pageable.setPageSize(pageSize);
+        pageable.setSortField(sortField);
+        pageable.setPage((page > 0 ? page - 1 : 0) * pageSize); // Будет исправлено
         return ResponseEntity.ok(compoundService.getAllCompounds(pageable));
     }
 
@@ -47,7 +47,5 @@ public class CompoundController {
         compoundService.createCompoundActions(compoundActions);
         return "ok";
     }
-
-
 
 }
