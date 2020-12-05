@@ -10,11 +10,13 @@ public interface TestScenarioService {
 
     void updateTestScenario(TestScenario testScenario);
 
-    void saveTestScenario(TestScenarioDto testScenarioDto);
+    boolean saveTestScenario(TestScenarioDto testScenarioDto);
 
     List<TestScenario> getTestScenarios(Pageable pageable, String name);
 
     List<TestScenario> getAll();
+
+    boolean checkTestScenarioExistsByName(String name);
 
 
     //     List<User> getUsers(Pageable pageable, String name, String surname, String email, String role);
