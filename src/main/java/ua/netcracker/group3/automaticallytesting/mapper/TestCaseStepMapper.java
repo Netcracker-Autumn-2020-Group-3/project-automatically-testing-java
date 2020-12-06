@@ -29,6 +29,8 @@ public class TestCaseStepMapper implements RowMapper<TestCaseStep> {
                         .name(resultSet.getString("test_case_name"))
                         .id(resultSet.getLong("test_case_id"))
                         .build())
+                .projectLink(resultSet.getString("test_case_project_link"))
+                .projectName(resultSet.getString("test_case_project_name"))
                 .actionInstanceJoined(actionInstanceJoinedMapper.mapRow(resultSet, i)).dataEntry(
                         DataEntry.builder()
                                 .id(resultSet.getLong("data_entry_id"))

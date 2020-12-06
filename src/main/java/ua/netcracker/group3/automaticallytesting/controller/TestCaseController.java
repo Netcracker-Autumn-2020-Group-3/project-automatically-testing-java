@@ -67,7 +67,7 @@ public class TestCaseController {
     public void execute(@PathVariable("id") Long id) {
         TestCaseDto testCaseDto =  testCaseService.getTestCase(id);
         System.out.println("testCaseDto  " + testCaseDto);
-        testCaseExecutionService.executeTestCase(testCaseDto , "https://github.com/");
+        testCaseExecutionService.executeTestCase(testCaseDto , testCaseDto.getProjectLink()/*"https://github.com/"*/);
 
     }
 }

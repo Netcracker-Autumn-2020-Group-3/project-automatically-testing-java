@@ -168,6 +168,8 @@ public class TestCaseServiceImpl implements TestCaseService {
         List<ScenarioStepDto> scenarioStepsWithData = buildTestScenarioStep(actionInstanceJoinedList, actionsVariables);
 
         return TestCaseDto.builder()
+                .projectName(testCaseSteps.get(0).getProjectName())
+                .projectLink(testCaseSteps.get(0).getProjectLink())
                 .testCase(testCaseSteps.get(0).getTestCase())
                 .scenarioStepsWithData(scenarioStepsWithData)
                 .build();

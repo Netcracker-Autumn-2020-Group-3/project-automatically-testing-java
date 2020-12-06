@@ -14,6 +14,7 @@ public class DataEntryMapper implements RowMapper<DataEntry> {
     public DataEntry mapRow(ResultSet resultSet, int i) throws SQLException {
         return DataEntry.builder()
                 .id(resultSet.getLong("id"))
+                .key(resultSet.getString("key"))
                 .data_set_id(resultSet.getLong("data_set_id"))
                 .value(resultSet.getString("value"))
                 .build();
