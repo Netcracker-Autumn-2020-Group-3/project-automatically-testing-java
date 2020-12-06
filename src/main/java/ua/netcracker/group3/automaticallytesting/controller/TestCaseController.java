@@ -9,12 +9,7 @@ import ua.netcracker.group3.automaticallytesting.dto.CreateTestCaseDto;
 import ua.netcracker.group3.automaticallytesting.execution.TestCaseExecutionService;
 import ua.netcracker.group3.automaticallytesting.model.TestCaseUpd;
 import ua.netcracker.group3.automaticallytesting.dto.TestCaseDto;
-
-import ua.netcracker.group3.automaticallytesting.model.TestScenario;
-import ua.netcracker.group3.automaticallytesting.model.VariableValue;
-import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.TestCaseServiceImpl;
 import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.UserPrincipal;
-import ua.netcracker.group3.automaticallytesting.testcaseexec.TestCaseExecutionService;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
 import ua.netcracker.group3.automaticallytesting.service.TestCaseService;
 
