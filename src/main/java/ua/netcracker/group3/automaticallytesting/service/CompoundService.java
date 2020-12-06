@@ -1,5 +1,6 @@
 package ua.netcracker.group3.automaticallytesting.service;
 
+import ua.netcracker.group3.automaticallytesting.dto.CompoundDto;
 import ua.netcracker.group3.automaticallytesting.dto.CompoundDtoWithIdName;
 import ua.netcracker.group3.automaticallytesting.model.Action;
 import ua.netcracker.group3.automaticallytesting.model.Compound;
@@ -18,6 +19,10 @@ public interface CompoundService {
     Integer createCompound(Compound compound);
 
     void createCompoundActions(List<CompoundAction> compoundActions);
+
+    CompoundDto getCompoundById(long id) throws Exception;
+
+    void updateCompound(Compound compound, long id);
 
     Compound getCompoundById(Long id);
 

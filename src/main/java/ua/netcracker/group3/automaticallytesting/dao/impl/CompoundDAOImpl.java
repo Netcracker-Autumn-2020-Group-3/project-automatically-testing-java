@@ -2,6 +2,7 @@ package ua.netcracker.group3.automaticallytesting.dao.impl;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -9,7 +10,9 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ua.netcracker.group3.automaticallytesting.dao.CompoundDAO;
 import ua.netcracker.group3.automaticallytesting.mapper.ActionMapper;
+import ua.netcracker.group3.automaticallytesting.dto.CompoundDto;
 import ua.netcracker.group3.automaticallytesting.dto.CompoundDtoWithIdName;
+import ua.netcracker.group3.automaticallytesting.mapper.CompoundActionListMapper;
 import ua.netcracker.group3.automaticallytesting.mapper.CompoundActionWithActionIdAndPriorityMapper;
 import ua.netcracker.group3.automaticallytesting.mapper.CompoundMapper;
 import ua.netcracker.group3.automaticallytesting.model.Action;
@@ -24,6 +27,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Repository
 @PropertySource("classpath:queries/postgres.properties")
@@ -31,7 +35,17 @@ public class CompoundDAOImpl implements CompoundDAO {
 
     private final JdbcTemplate jdbcTemplate;
     private final CompoundMapper mapper;
-    private ActionMapper actionMapper;
+    private final CompoundActionListMapper actionListMapper;
+
+    @Value("${find.compound.by.id}")
+    private String FIND_COMPOUND_BY_ID;
+    @Value("${find.comp.action.by.id}")
+    private String FIND_COMP_ACTION_BY_ID;
+    @Value("${update.compound}")
+    private String UPDATE_COMPOUND;
+    @Value("${insert.comp.action.list}")
+    private String INSERT_ACTION_TO_COMPOUND;
+
 
 
     @Value("${find.compound.all}")
@@ -59,8 +73,11 @@ public class CompoundDAOImpl implements CompoundDAO {
     private String GET_COMPOUND_ACTIONS;
 
     public CompoundDAOImpl(JdbcTemplate jdbcTemplate, CompoundMapper mapper) {
+
+    public CompoundDAOImpl(JdbcTemplate jdbcTemplate, CompoundMapper mapper, CompoundActionListMapper actionListMapper) {
         this.jdbcTemplate = jdbcTemplate;
         this.mapper = mapper;
+        this.actionListMapper = actionListMapper;
     }
 
     @Override
@@ -117,6 +134,27 @@ public class CompoundDAOImpl implements CompoundDAO {
             ps.setLong(2,compoundActionsValue.getActionId());
             ps.setInt(3,compoundActionsValue.getPriority());
         }));
+    }
+    @Override
+    public Optional<Compound> findCompoundById(long id) {
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_COMPOUND_BY_ID, mapper, id));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
+    @Override
+    public void updateCompound(Compound compound) {
+        jdbcTemplate.update(UPDATE_COMPOUND, compound.getName(), compound.getDescription(), compound.getId());
+    }
+
+    @Override
+    public Optional<CompoundDto> findCompActionListById(long id) {
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_COMP_ACTION_BY_ID, actionListMapper, id));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override

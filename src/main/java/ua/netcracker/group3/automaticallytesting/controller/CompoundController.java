@@ -2,6 +2,7 @@ package ua.netcracker.group3.automaticallytesting.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ua.netcracker.group3.automaticallytesting.dto.CompoundDto;
 import ua.netcracker.group3.automaticallytesting.model.Action;
 import ua.netcracker.group3.automaticallytesting.model.Compound;
 import ua.netcracker.group3.automaticallytesting.model.CompoundAction;
@@ -63,4 +64,14 @@ public class CompoundController {
 
 
 
+    @GetMapping("/edit/{id}")
+    //@PreAuthorize("hasRole('ADMIN')" + "|| hasRole('MANAGER')" + "|| hasRole('ENGINEER')")
+    public CompoundDto editCompound(@PathVariable long id) throws Exception{
+        return compoundService.getCompoundById(id);
+    }
+    @PutMapping("/edit/{id}")
+    //@PreAuthorize("hasRole('ADMIN')" + "|| hasRole('MANAGER')" + "|| hasRole('ENGINEER')")
+    public void updateCompound(@PathVariable long id, @RequestBody Compound compound){
+        compoundService.updateCompound(compound, id);
+    }
 }
