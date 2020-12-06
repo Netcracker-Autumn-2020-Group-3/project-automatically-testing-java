@@ -25,7 +25,7 @@ public class CompoundController {
     @GetMapping
     public ResponseEntity<?> compounds(@RequestParam Integer pageSize,
                                        @RequestParam Integer page,
-                                       @RequestParam String sortOrder,
+                                       //@RequestParam String sortOrder,
                                        @RequestParam String sortField) {
 
         Pageable pageable = new Pageable();
@@ -46,9 +46,9 @@ public class CompoundController {
     }
 
     @RequestMapping(value = "/create/actions",method = RequestMethod.PUT)
-    public String createCompoundActions(@RequestBody List<CompoundAction> compoundActions){
+    public void createCompoundActions(@RequestBody List<CompoundAction> compoundActions){
         compoundService.createCompoundActions(compoundActions);
-        return "ok";
+        //return "ok";
     }
 
 

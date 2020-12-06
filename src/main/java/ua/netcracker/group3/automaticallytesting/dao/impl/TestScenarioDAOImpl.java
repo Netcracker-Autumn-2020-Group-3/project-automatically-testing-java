@@ -37,7 +37,7 @@ public class TestScenarioDAOImpl implements TestScenarioDAO {
     @Value("${get.test.scenario.page}")
     private String GET_PAGE;
 
-    @Value("${count.test.scenario")
+    @Value("${count.test.scenario}")
     private String COUNT_TEST_SCENARIO;
 
 

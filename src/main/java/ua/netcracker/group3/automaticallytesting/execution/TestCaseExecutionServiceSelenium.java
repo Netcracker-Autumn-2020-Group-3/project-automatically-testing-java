@@ -13,6 +13,7 @@ import ua.netcracker.group3.automaticallytesting.execution.action.impl.ClickActi
 import ua.netcracker.group3.automaticallytesting.execution.action.impl.TypeActionExecutable;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,8 +28,8 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
     }};
 
     public TestCaseExecutionServiceSelenium() {
-        // System.setProperty("webdriver.chrome.driver", "D:\\netcracker\\chrome-driver87\\chromedriver.exe");
-        System.setProperty("webdriver.chrome.driver", "C:\\webdriver86\\chromedriver.exe");
+         System.setProperty("webdriver.chrome.driver", "D:\\netcracker\\chrome-driver87\\chromedriver.exe");
+        // System.setProperty("webdriver.chrome.driver", "C:\\webdriver86\\chromedriver.exe");
     }
 
     @Override
@@ -43,6 +44,7 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
         driver.get(testCaseDto.getProjectLink());
         driver.manage().window().maximize();
 
+
         scenarioStepDtoList.forEach(step -> {
             step.getActionDto().forEach(actionDto -> {
                 actions.get(actionDto.getName())
@@ -50,6 +52,11 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
                         .ifPresent(cv ->
                                 contextVariables.put(actionDto.getId(), cv));
                 log.info("{} action is fine", actionDto.getName());
+                try {
+                    Thread.sleep(1250);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             });
         });
 
