@@ -119,4 +119,9 @@ public class TestScenarioServiceImpl implements TestScenarioService {
                         c.getPriority()
                 )).collect(Collectors.toList());
     }
+
+    @Override
+    public Integer countPages(Integer pageSize) {
+        return pagination.countPages(testScenarioDAO.countUsers(), pageSize);
+    }
 }

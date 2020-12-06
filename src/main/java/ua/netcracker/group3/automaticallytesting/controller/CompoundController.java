@@ -2,6 +2,8 @@ package ua.netcracker.group3.automaticallytesting.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ua.netcracker.group3.automaticallytesting.dto.CompoundDto;
+import ua.netcracker.group3.automaticallytesting.model.Action;
 import ua.netcracker.group3.automaticallytesting.model.Compound;
 import ua.netcracker.group3.automaticallytesting.model.CompoundAction;
 import ua.netcracker.group3.automaticallytesting.service.CompoundService;
@@ -23,6 +25,7 @@ public class CompoundController {
     @GetMapping
     public ResponseEntity<?> compounds(@RequestParam Integer pageSize,
                                        @RequestParam Integer page,
+                                       @RequestParam String sortOrder,
                                        @RequestParam String sortField) {
 
         Pageable pageable = new Pageable();
@@ -48,4 +51,15 @@ public class CompoundController {
         return "ok";
     }
 
+
+    @GetMapping("/edit/{id}")
+    //@PreAuthorize("hasRole('ADMIN')" + "|| hasRole('MANAGER')" + "|| hasRole('ENGINEER')")
+    public CompoundDto getCompoundById(@PathVariable long id) throws Exception{
+        return compoundService.getCompoundById(id);
+    }
+    @PutMapping("/edit/{id}")
+    //@PreAuthorize("hasRole('ADMIN')" + "|| hasRole('MANAGER')" + "|| hasRole('ENGINEER')")
+    public void updateCompound(@PathVariable long id, @RequestBody Compound compound){
+        compoundService.updateCompound(compound, id);
+    }
 }

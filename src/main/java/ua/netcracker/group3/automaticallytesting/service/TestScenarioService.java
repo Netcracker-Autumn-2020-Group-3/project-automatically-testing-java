@@ -14,9 +14,12 @@ public interface TestScenarioService {
 
     List<TestScenario> getTestScenarios(Pageable pageable, String name);
 
-    List<TestScenario> getAll();
+
 
     boolean checkTestScenarioExistsByName(String name);
+    List<TestScenario> getAll();
+
+    Integer countPages(Integer pageSize);
 
 
     //     List<User> getUsers(Pageable pageable, String name, String surname, String email, String role);

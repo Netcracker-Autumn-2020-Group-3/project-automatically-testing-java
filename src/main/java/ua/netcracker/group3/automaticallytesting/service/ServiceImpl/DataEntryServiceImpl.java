@@ -6,6 +6,7 @@ import ua.netcracker.group3.automaticallytesting.dao.DataEntryDAO;
 import ua.netcracker.group3.automaticallytesting.model.DataEntry;
 import ua.netcracker.group3.automaticallytesting.service.DataEntryService;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DataEntryServiceImpl implements DataEntryService {
@@ -34,7 +35,10 @@ public class DataEntryServiceImpl implements DataEntryService {
 
     @Override
     public void updateDataEntry(List<DataEntry> dataEntryList) {
-        dataEntryDAO.updateDataEntry(dataEntryList);
+        List<DataEntry> dataEntryForUpdate = dataEntryList.stream().filter(d -> d.getId() != null).collect(Collectors.toList());
+        List<DataEntry> dataEntryForInsert = dataEntryList.stream().filter(d -> d.getId() == null).collect(Collectors.toList());
+        dataEntryDAO.createDataEntry(dataEntryForInsert);
+        dataEntryDAO.updateDataEntry(dataEntryForUpdate);
     }
 
     @Override

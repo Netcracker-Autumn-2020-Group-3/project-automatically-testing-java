@@ -2,6 +2,7 @@ package ua.netcracker.group3.automaticallytesting.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.dto.ActionDtoWithIdName;
 import ua.netcracker.group3.automaticallytesting.dto.CompoundDtoWithIdName;
@@ -80,5 +81,13 @@ public class TestScenarioController {
 
         return testCaseService.getTestScenarioStep(testCaseId);
     }
+
+    @GetMapping("/pages/count")
+    @PreAuthorize("hasRole('ADMIN')")
+    public Integer countUserPages(Integer pageSize) {
+        return testScenarioService.countPages(pageSize);
+    }
 }
+
+
 

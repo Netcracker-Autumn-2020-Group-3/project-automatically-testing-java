@@ -12,6 +12,8 @@ import ua.netcracker.group3.automaticallytesting.model.TestCase;
 import ua.netcracker.group3.automaticallytesting.model.TestCaseUpd;
 import ua.netcracker.group3.automaticallytesting.model.VariableValue;
 import ua.netcracker.group3.automaticallytesting.service.TestCaseService;
+import ua.netcracker.group3.automaticallytesting.util.Pageable;
+import ua.netcracker.group3.automaticallytesting.util.Pagination;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -25,11 +27,14 @@ public class TestCaseServiceImpl implements TestCaseService {
     private final TestCaseDAO testCaseDAO;
     private final VariableValueDAO variableValueDAO;
     private final ActionInstanceDAO actionInstanceDAO;
+    private final Pagination pagination;
 
-    public TestCaseServiceImpl(TestCaseDAO testCaseDAO, VariableValueDAO variableValueDAO, ActionInstanceDAO actionInstanceDAO) {
+    private final List<String> TEST_CASE_UPD_TABLE_FIELDS = Arrays.asList("id", "name");
+    public TestCaseServiceImpl(TestCaseDAO testCaseDAO, VariableValueDAO variableValueDAO, ActionInstanceDAO actionInstanceDAO, Pagination pagination) {
         this.testCaseDAO = testCaseDAO;
         this.variableValueDAO = variableValueDAO;
         this.actionInstanceDAO = actionInstanceDAO;
+        this.pagination = pagination;
     }
 
     @Override
@@ -180,5 +185,25 @@ public class TestCaseServiceImpl implements TestCaseService {
     @Override
     public List<TestCaseUpd> getAllTestCases() {
         return testCaseDAO.getTestCases();
+    }
+
+
+    @Override
+    public Integer countPages(Integer pageSize) {
+        return pagination.countPages(testCaseDAO.countUsers(), pageSize);
+    }
+
+
+
+    @Override
+    public List<TestCaseUpd> getTestCases (Pageable pageable, String name) {
+        pageable = pagination.replaceNullsUserPage(pageable);
+        pagination.validate(pageable,TEST_CASE_UPD_TABLE_FIELDS);
+        return testCaseDAO.getTestCasesPageSorted(pagination.formSqlPostgresPaginationPiece(pageable),
+                replaceNullsForSearch(name));
+    }
+
+    private String replaceNullsForSearch(String val) {
+        return val == null ? "%" : val;
     }
 }
