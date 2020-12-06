@@ -10,5 +10,7 @@ import java.util.List;
 @Builder
 public class TestCaseDto {
     private TestCase testCase;
+    private String projectName;
+    private String projectLink;
     private List<ScenarioStepDto> scenarioStepsWithData;
 }

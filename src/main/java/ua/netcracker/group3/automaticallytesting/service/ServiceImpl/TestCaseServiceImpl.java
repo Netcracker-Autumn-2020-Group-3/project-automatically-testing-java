@@ -37,6 +37,7 @@ public class TestCaseServiceImpl implements TestCaseService {
         this.pagination = pagination;
     }
 
+    @Override
     @Transactional
     public void createTestCase(CreateTestCaseDto createTestCaseDto, Long userId) {
 
@@ -53,7 +54,7 @@ public class TestCaseServiceImpl implements TestCaseService {
 
     }
 
-    public <T> Predicate<T> distinctBy(Function<? super T, ?> keyExtractor) {
+    private <T> Predicate<T> distinctBy(Function<? super T, ?> keyExtractor) {
         Set<Object> seen = ConcurrentHashMap.newKeySet();
         return t -> seen.add(keyExtractor.apply(t));
     }
@@ -61,7 +62,7 @@ public class TestCaseServiceImpl implements TestCaseService {
     /**
      * @return map with actionId as key and variableDto without dataEntry as value
      */
-    public Map<Long, Set<VariableDto>> getActionVariables(List<ActionInstanceJoined> actionInstanceJoinedList) {
+    private Map<Long, Set<VariableDto>> getActionVariables(List<ActionInstanceJoined> actionInstanceJoinedList) {
         return actionInstanceJoinedList.stream()
                 .collect(Collectors.groupingBy(ai -> ai.getAction().getActionId(),
                         Collectors.mapping(ai -> VariableDto.builder()
@@ -73,7 +74,7 @@ public class TestCaseServiceImpl implements TestCaseService {
     /**
      * @return map with actionId as key and variableDto with dataEntry as value
      */
-    public Map<Long, Set<VariableDto>> getActionVariablesWithDataEntries(List<TestCaseStep> testCaseSteps) {
+    private Map<Long, Set<VariableDto>> getActionVariablesWithDataEntries(List<TestCaseStep> testCaseSteps) {
         return testCaseSteps.stream()
                 .collect(Collectors.groupingBy(tcs -> tcs.getActionInstanceJoined().getAction().getActionId(),
                         Collectors.mapping(tcs -> VariableDto.builder()
@@ -88,7 +89,7 @@ public class TestCaseServiceImpl implements TestCaseService {
      *
      * @return map with compound priority as a key and step as value
      */
-    public List<ScenarioStepDto> getCompoundsByPriorities(List<ActionInstanceJoined> actionInstanceJoinedList,
+    private List<ScenarioStepDto> getCompoundsByPriorities(List<ActionInstanceJoined> actionInstanceJoinedList,
                                                           Map<Long, Set<VariableDto>> actionsVariables) {
         Map<Integer, List<ActionInstanceJoined>> priorityCompound = actionInstanceJoinedList.stream()
                 .filter(ai -> ai.getCompoundInstance() != null)
@@ -118,8 +119,8 @@ public class TestCaseServiceImpl implements TestCaseService {
      *
      * @return map with action priority as a key and step as value
      */
-    public List<ScenarioStepDto> getActionsByPriorities(List<ActionInstanceJoined> actionInstanceJoinedList,
-                                                                Map<Long, Set<VariableDto>> actionsVariables) {
+    private List<ScenarioStepDto> getActionsByPriorities(List<ActionInstanceJoined> actionInstanceJoinedList,
+                                                        Map<Long, Set<VariableDto>> actionsVariables) {
         return actionInstanceJoinedList.stream()
                 .filter(ai -> ai.getCompoundInstance() == null)
                 .map(ai -> ScenarioStepDto.builder()
@@ -133,7 +134,7 @@ public class TestCaseServiceImpl implements TestCaseService {
                 .collect(Collectors.toList());
     }
 
-    public List<ScenarioStepDto> buildTestScenarioStep(List<ActionInstanceJoined> actionInstanceJoinedList, Map<Long, Set<VariableDto>> actionsVariables){
+    private List<ScenarioStepDto> buildTestScenarioStep(List<ActionInstanceJoined> actionInstanceJoinedList, Map<Long, Set<VariableDto>> actionsVariables) {
         //getting compounds by priorities
         List<ScenarioStepDto> priorityCompound = getCompoundsByPriorities(actionInstanceJoinedList, actionsVariables);
 
@@ -141,7 +142,6 @@ public class TestCaseServiceImpl implements TestCaseService {
         List<ScenarioStepDto> priorityActionNotCompound = getActionsByPriorities(actionInstanceJoinedList, actionsVariables);
 
         //building scenario steps
-        // priorityCompound.addAll(priorityActionNotCompound)
         List<ScenarioStepDto> scenarioSteps = new ArrayList<>(priorityCompound);
         scenarioSteps.addAll(priorityActionNotCompound);
         scenarioSteps.sort(Comparator.comparing(ScenarioStepDto::getPriority));
@@ -161,7 +161,7 @@ public class TestCaseServiceImpl implements TestCaseService {
     }
 
     @Override
-    public TestCaseDto getTestCase(Long testCaseId){
+    public TestCaseDto getTestCase(Long testCaseId) {
 
         List<TestCaseStep> testCaseSteps = testCaseDAO.getTestCaseSteps(testCaseId);
 
@@ -174,6 +174,8 @@ public class TestCaseServiceImpl implements TestCaseService {
         List<ScenarioStepDto> scenarioStepsWithData = buildTestScenarioStep(actionInstanceJoinedList, actionsVariables);
 
         return TestCaseDto.builder()
+                .projectName(testCaseSteps.get(0).getProjectName())
+                .projectLink(testCaseSteps.get(0).getProjectLink())
                 .testCase(testCaseSteps.get(0).getTestCase())
                 .scenarioStepsWithData(scenarioStepsWithData)
                 .build();

@@ -9,4 +9,6 @@ public class TestCaseStep {
     private TestCase testCase;
     private ActionInstanceJoined actionInstanceJoined;
     private DataEntry dataEntry;
+    private String projectName;
+    private String projectLink;
 }

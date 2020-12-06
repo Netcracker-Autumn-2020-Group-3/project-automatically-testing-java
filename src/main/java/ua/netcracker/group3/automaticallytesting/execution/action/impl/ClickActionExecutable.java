@@ -1,9 +1,9 @@
-package ua.netcracker.group3.automaticallytesting.testcaseexec.action.impl;
+package ua.netcracker.group3.automaticallytesting.execution.action.impl;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import ua.netcracker.group3.automaticallytesting.testcaseexec.action.ActionExecutable;
-import ua.netcracker.group3.automaticallytesting.testcaseexec.action.ContextVariable;
+import ua.netcracker.group3.automaticallytesting.execution.action.ActionExecutable;
+import ua.netcracker.group3.automaticallytesting.execution.action.ContextVariable;
 
 import java.util.Map;
 import java.util.Optional;
