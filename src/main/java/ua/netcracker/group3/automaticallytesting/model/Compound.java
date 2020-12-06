@@ -1,18 +1,18 @@
 package ua.netcracker.group3.automaticallytesting.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.List;
-
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Builder
 public class Compound {
-    private long compound_id;
+
+    private long id;
     private String name;
     private String description;
-    private List<ActionComp> actionList;
+
 }

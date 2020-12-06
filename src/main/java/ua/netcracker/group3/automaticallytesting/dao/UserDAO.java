@@ -11,18 +11,15 @@ import java.util.Optional;
 public interface UserDAO {
     User findUserByEmail(String email);
 
-    public String getEmail(Long userId);
+    String getEmail(Long id);
 
-    public void saveUser(User user);
-
-    public List<Map<String, Object>> getAll();
-
+    void saveUser(User user);
 
     Optional<User> findUserById(long id);
 
-    List<User> getUsersAsc(String sortField, int pageSize, int offset,String name, String surname,String email, String role);
-
-    List<User> getUsersDesc(String sortField, int pageSize, int offset,String name, String surname,String email, String role);
+    List<User> getUsersPageSorted(String orderByLimitOffsetWithValues,  String name, String surname, String email, String role);
 
     void updateUserById(String email, String name,String surname,String role,boolean is_enabled, long id);
+
+    Integer countUsers();
 }
