@@ -9,7 +9,9 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ua.netcracker.group3.automaticallytesting.dao.CompoundDAO;
+import ua.netcracker.group3.automaticallytesting.dto.CompoundDto;
 import ua.netcracker.group3.automaticallytesting.dto.CompoundDtoWithIdName;
+import ua.netcracker.group3.automaticallytesting.mapper.CompoundActionListMapper;
 import ua.netcracker.group3.automaticallytesting.mapper.CompoundActionWithActionIdAndPriorityMapper;
 import ua.netcracker.group3.automaticallytesting.mapper.CompoundMapper;
 import ua.netcracker.group3.automaticallytesting.mapper.CompoundMapperWithIdName;
@@ -29,6 +31,7 @@ public class CompoundDAOImpl implements CompoundDAO {
 
     private final JdbcTemplate jdbcTemplate;
     private final CompoundMapper mapper;
+    private final CompoundActionListMapper actionListMapper;
 
     @Value("${find.compound.by.id}")
     private String FIND_COMPOUND_BY_ID;
@@ -58,9 +61,10 @@ public class CompoundDAOImpl implements CompoundDAO {
     private String CREATE_COMPOUND_ACTIONS;
 
 
-    public CompoundDAOImpl(JdbcTemplate jdbcTemplate, CompoundMapper mapper) {
+    public CompoundDAOImpl(JdbcTemplate jdbcTemplate, CompoundMapper mapper, CompoundActionListMapper actionListMapper) {
         this.jdbcTemplate = jdbcTemplate;
         this.mapper = mapper;
+        this.actionListMapper = actionListMapper;
     }
 
     @Override
@@ -129,6 +133,15 @@ public class CompoundDAOImpl implements CompoundDAO {
     @Override
     public void updateCompound(Compound compound) {
         jdbcTemplate.update(UPDATE_COMPOUND, compound.getName(), compound.getDescription(), compound.getId());
+    }
+
+    @Override
+    public Optional<CompoundDto> findCompActionListById(long id) {
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_COMP_ACTION_BY_ID, actionListMapper, id));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
 }

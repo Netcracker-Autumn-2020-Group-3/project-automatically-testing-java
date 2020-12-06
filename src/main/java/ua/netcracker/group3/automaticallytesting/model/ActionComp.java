@@ -10,5 +10,6 @@ import lombok.*;
 @Builder
 public class ActionComp {
     private long actionId;
+    private int priority;
 
 }

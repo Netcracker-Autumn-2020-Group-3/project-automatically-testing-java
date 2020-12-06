@@ -1,5 +1,6 @@
 package ua.netcracker.group3.automaticallytesting.dao;
 
+import ua.netcracker.group3.automaticallytesting.dto.CompoundDto;
 import ua.netcracker.group3.automaticallytesting.dto.CompoundDtoWithIdName;
 import ua.netcracker.group3.automaticallytesting.model.Compound;
 import ua.netcracker.group3.automaticallytesting.model.CompoundAction;
@@ -24,4 +25,6 @@ public interface CompoundDAO {
 
     Optional<Compound> findCompoundById(long id);
     void updateCompound(Compound compound);
+
+    Optional<CompoundDto> findCompActionListById(long id);
 }

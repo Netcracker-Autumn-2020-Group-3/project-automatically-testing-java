@@ -3,6 +3,7 @@ package ua.netcracker.group3.automaticallytesting.service.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.netcracker.group3.automaticallytesting.dao.CompoundDAO;
+import ua.netcracker.group3.automaticallytesting.dto.CompoundDto;
 import ua.netcracker.group3.automaticallytesting.dto.CompoundDtoWithIdName;
 import ua.netcracker.group3.automaticallytesting.model.Compound;
 import ua.netcracker.group3.automaticallytesting.model.CompoundAction;
@@ -44,7 +45,7 @@ public class CompoundServiceImpl implements CompoundService {
         compoundDAO.createCompoundActions(compoundActions);
     }
     @Override
-    public Compound getCompoundById(long id) throws Exception {
+    public CompoundDto getCompoundById(long id) throws Exception {
         return buildCompoundByID(id);
     }
 
@@ -56,11 +57,11 @@ public class CompoundServiceImpl implements CompoundService {
     }
 
 
-    private Compound buildCompoundByID(long id) throws Exception {
+    private CompoundDto buildCompoundByID(long id) throws Exception {
         Compound compound = compoundDAO.findCompoundById(id).orElseThrow(Exception::new);
-        Compound compoundActionList = compoundDAO.findCompActionListById(id).orElseThrow(Exception::new);
+        CompoundDto compoundActionList = compoundDAO.findCompActionListById(id).orElseThrow(Exception::new);
 
-        return Compound.builder()
+        return CompoundDto.builder()
                 .id(compound.getId())
                 .name(compound.getName())
                 .description(compound.getDescription())
