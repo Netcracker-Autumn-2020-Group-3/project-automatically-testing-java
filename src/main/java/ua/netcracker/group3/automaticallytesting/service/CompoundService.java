@@ -24,7 +24,5 @@ public interface CompoundService {
 
     void updateCompound(Compound compound, long id);
 
-    Compound getCompoundById(Long id);
 
-    List<Action> getCompoundActions(Integer id);
 }

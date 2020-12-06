@@ -51,22 +51,10 @@ public class CompoundController {
         return "ok";
     }
 
-    @RequestMapping(value = "/get/{id}",method = RequestMethod.GET)
-    public Compound getCompoundById(@PathVariable Long id){
-        return compoundService.getCompoundById(id);
-    }
-
-    /*@RequestMapping(value = "/get/actions/{id}",method = RequestMethod.GET)
-    public List<Action> getCompoundActionsByCompoundId(@PathVariable Integer id){
-        System.out.println(compoundService.getCompoundActions(id).toString());
-        return null;
-    }*/
-
-
 
     @GetMapping("/edit/{id}")
     //@PreAuthorize("hasRole('ADMIN')" + "|| hasRole('MANAGER')" + "|| hasRole('ENGINEER')")
-    public CompoundDto editCompound(@PathVariable long id) throws Exception{
+    public CompoundDto getCompoundById(@PathVariable long id) throws Exception{
         return compoundService.getCompoundById(id);
     }
     @PutMapping("/edit/{id}")

@@ -24,9 +24,9 @@ public interface CompoundDAO {
 
     void createCompoundActions(List<CompoundAction> compoundActions);
 
-    Compound getCompoundById(Long id);
+    /*Compound getCompoundById(Long id);*/
 
-    List<Action> getCompoundActions(Integer id);
+/*    List<Action> getCompoundActions(Integer id);*/
 
     Optional<Compound> findCompoundById(long id);
     void updateCompound(Compound compound);

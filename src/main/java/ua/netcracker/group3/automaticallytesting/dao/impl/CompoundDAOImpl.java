@@ -72,7 +72,7 @@ public class CompoundDAOImpl implements CompoundDAO {
     @Value("${get.compound.actions}")
     private String GET_COMPOUND_ACTIONS;
 
-    public CompoundDAOImpl(JdbcTemplate jdbcTemplate, CompoundMapper mapper) {
+
 
     public CompoundDAOImpl(JdbcTemplate jdbcTemplate, CompoundMapper mapper, CompoundActionListMapper actionListMapper) {
         this.jdbcTemplate = jdbcTemplate;
@@ -157,14 +157,14 @@ public class CompoundDAOImpl implements CompoundDAO {
         }
     }
 
-    @Override
+   /* @Override
     public Compound getCompoundById(Long id) {
         return jdbcTemplate.queryForObject(GET_COMPOUND_BY_ID,mapper,id);
-    }
+    }*/
 
-    @Override
+   /* @Override
     public List<Action> getCompoundActions(Integer id) {
         return jdbcTemplate.queryForStream(GET_COMPOUND_ACTIONS,actionMapper,id).collect(Collectors.toList());
-    }
+    }*/
 
 }
