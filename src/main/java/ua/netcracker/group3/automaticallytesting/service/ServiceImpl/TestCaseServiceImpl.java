@@ -83,7 +83,7 @@ public class TestCaseServiceImpl implements TestCaseService {
      *
      * @return map with compound priority as a key and step as value
      */
-    public List<ScenarioStepDto> getCompoundsByPriorities(List<ActionInstanceJoined> actionInstanceJoinedList,
+    private List<ScenarioStepDto> getCompoundsByPriorities(List<ActionInstanceJoined> actionInstanceJoinedList,
                                                           Map<Long, Set<VariableDto>> actionsVariables) {
         Map<Integer, List<ActionInstanceJoined>> priorityCompound = actionInstanceJoinedList.stream()
                 .filter(ai -> ai.getCompoundInstance() != null)
@@ -113,7 +113,7 @@ public class TestCaseServiceImpl implements TestCaseService {
      *
      * @return map with action priority as a key and step as value
      */
-    public List<ScenarioStepDto> getActionsByPriorities(List<ActionInstanceJoined> actionInstanceJoinedList,
+    private List<ScenarioStepDto> getActionsByPriorities(List<ActionInstanceJoined> actionInstanceJoinedList,
                                                         Map<Long, Set<VariableDto>> actionsVariables) {
         return actionInstanceJoinedList.stream()
                 .filter(ai -> ai.getCompoundInstance() == null)
@@ -128,7 +128,7 @@ public class TestCaseServiceImpl implements TestCaseService {
                 .collect(Collectors.toList());
     }
 
-    public List<ScenarioStepDto> buildTestScenarioStep(List<ActionInstanceJoined> actionInstanceJoinedList, Map<Long, Set<VariableDto>> actionsVariables) {
+    private List<ScenarioStepDto> buildTestScenarioStep(List<ActionInstanceJoined> actionInstanceJoinedList, Map<Long, Set<VariableDto>> actionsVariables) {
         //getting compounds by priorities
         List<ScenarioStepDto> priorityCompound = getCompoundsByPriorities(actionInstanceJoinedList, actionsVariables);
 
