@@ -5,11 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.dto.CreateTestCaseDto;
+import ua.netcracker.group3.automaticallytesting.execution.TestCaseExecutionService;
 import ua.netcracker.group3.automaticallytesting.model.TestCaseUpd;
 import ua.netcracker.group3.automaticallytesting.dto.TestCaseDto;
-import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.TestCaseServiceImpl;
 import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.UserPrincipal;
-import ua.netcracker.group3.automaticallytesting.testcaseexec.TestCaseExecutionService;
+import ua.netcracker.group3.automaticallytesting.service.TestCaseService;
 
 import java.util.List;
 
@@ -19,11 +19,11 @@ import java.util.List;
 @RequestMapping("/test-case")
 public class TestCaseController {
 
-    private final TestCaseServiceImpl testCaseService;
+    private final TestCaseService testCaseService;
     private final TestCaseExecutionService testCaseExecutionService;
 
     @Autowired
-    public TestCaseController(TestCaseServiceImpl testCaseService,  TestCaseExecutionService testCaseExecutionService) {
+    public TestCaseController(TestCaseService testCaseService, TestCaseExecutionService testCaseExecutionService) {
         this.testCaseService = testCaseService;
         this.testCaseExecutionService = testCaseExecutionService;
     }
@@ -67,7 +67,7 @@ public class TestCaseController {
     public void execute(@PathVariable("id") Long id) {
         TestCaseDto testCaseDto =  testCaseService.getTestCase(id);
         System.out.println("testCaseDto  " + testCaseDto);
-        testCaseExecutionService.executeTestCase(testCaseDto , testCaseDto.getProjectLink()/*"https://github.com/"*/);
+        testCaseExecutionService.executeTestCase(testCaseDto);
 
     }
 }
