@@ -23,6 +23,11 @@ public class DataEntryServiceImpl implements DataEntryService {
     }
 
     @Override
+    public void deleteDataEntry(long dataSetId) {
+        dataEntryDAO.deleteDataEntry(dataSetId);
+    }
+
+    @Override
     public List<DataEntry> getDataEntryByDataSetName(Integer dataSetId) {
         return dataEntryDAO.getDataEntryByDataSetName(dataSetId);
     }

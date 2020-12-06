@@ -48,8 +48,8 @@ public class TestScenarioController {
 
     @PostMapping
     public ResponseEntity<?> createTestScenario(@RequestBody TestScenarioDto testScenario) {
-        testScenarioService.saveTestScenario(testScenario);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        boolean isCreated = testScenarioService.saveTestScenario(testScenario);
+        return ResponseEntity.ok(isCreated);
     }
 
     @PutMapping("/{id}")

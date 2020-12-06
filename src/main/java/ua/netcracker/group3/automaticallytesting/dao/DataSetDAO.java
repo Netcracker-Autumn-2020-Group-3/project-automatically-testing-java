@@ -14,4 +14,7 @@ public interface DataSetDAO {
     long createDataSet(String name);
 
     List<DataSet> getAll();
+
+    int deleteDataSet(long id);
+
 }

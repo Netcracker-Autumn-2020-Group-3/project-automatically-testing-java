@@ -15,4 +15,6 @@ public interface DataSetService {
     List<DataSet> gettAllDataSet();
 
     List<DataSet> getAll();
+
+    int deleteDataSet(long id);
 }
