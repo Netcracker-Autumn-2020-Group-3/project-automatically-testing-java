@@ -17,5 +17,8 @@ public interface TestScenarioDAO {
     List<TestScenario> getTestScenariosPageSorted(String orderByLimitOffsetWithValues, String name);
 
     boolean checkExistTestScenarioByName(String name);
+
+    Integer countUsers();
+
 }
 

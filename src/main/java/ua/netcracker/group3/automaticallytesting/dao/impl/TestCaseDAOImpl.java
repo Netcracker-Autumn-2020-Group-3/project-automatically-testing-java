@@ -12,6 +12,7 @@ import ua.netcracker.group3.automaticallytesting.mapper.TestCaseUpdMapper;
 import ua.netcracker.group3.automaticallytesting.model.TestCase;
 import ua.netcracker.group3.automaticallytesting.model.TestCaseStep;
 import ua.netcracker.group3.automaticallytesting.model.TestCaseUpd;
+import ua.netcracker.group3.automaticallytesting.model.TestScenario;
 
 import java.sql.PreparedStatement;
 import java.util.List;
@@ -21,10 +22,10 @@ import java.util.stream.Collectors;
 @PropertySource("classpath:queries/postgres.properties")
 public class TestCaseDAOImpl implements TestCaseDAO {
 
-    private JdbcTemplate jdbcTemplate;
-    private TestCaseStepMapper testCaseStepMapper;
+    private final JdbcTemplate jdbcTemplate;
+    private final TestCaseStepMapper testCaseStepMapper;
 
-    private TestCaseUpdMapper testCaseUpdMapper;
+    private final TestCaseUpdMapper testCaseUpdMapper;
 
     public TestCaseDAOImpl(JdbcTemplate jdbcTemplate, TestCaseStepMapper testCaseStepMapper, TestCaseUpdMapper testCaseUpdMapper) {
         this.jdbcTemplate = jdbcTemplate;
@@ -40,6 +41,12 @@ public class TestCaseDAOImpl implements TestCaseDAO {
 
     @Value("select id, name from \"test_case\"")
     public String GET_ALL;
+
+    @Value("${get.test.case.page}")
+    public String GET_PAGE;
+
+    @Value("${count.test.cases}")
+    public String COUNT_TEST_CASES;
     /**
      *
      * @return created test_case_id
@@ -68,5 +75,17 @@ public class TestCaseDAOImpl implements TestCaseDAO {
     @Override
     public List<TestCaseUpd> getTestCases() {
         return jdbcTemplate.queryForStream(GET_ALL,testCaseUpdMapper).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TestCaseUpd> getTestCasesPageSorted(String orderByLimitOffsetWithValues, String name) {
+        return jdbcTemplate.queryForStream(GET_PAGE + orderByLimitOffsetWithValues,
+                testCaseUpdMapper, name)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Integer countUsers() {
+        return jdbcTemplate.queryForObject(COUNT_TEST_CASES, Integer.class);
     }
 }
