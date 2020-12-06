@@ -22,7 +22,7 @@ public class TestCaseExecutionService {
 
     public TestCaseExecutionService() {
        // System.setProperty("webdriver.chrome.driver", "D:\\netcracker\\chrome-driver87\\chromedriver.exe");
-        System.setProperty("webdriver.chrome.driver", "C:\\webdriver86\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "E:\\chromedriver.exe");
 
         actions.put("click sign in", new ClickActionExecutable());
         actions.put("click login", new ClickActionExecutable());
@@ -38,7 +38,7 @@ public class TestCaseExecutionService {
 
         driver.get(projectLink);
         driver.manage().window().maximize();
-        System.out.println("exec");
+        //System.out.println("exec");
 
         List<ScenarioStepDto> scenarioStepDtoList = testCaseDto.getScenarioStepsWithData();
         for (ScenarioStepDto step : scenarioStepDtoList) {
@@ -51,7 +51,7 @@ public class TestCaseExecutionService {
                         contextVariables.put(actionDto.getId(), cv));
 
 
-                System.out.println(actionDto.getName() + " is fine");
+              //  System.out.println(actionDto.getName() + " is fine");
             }
 
         }

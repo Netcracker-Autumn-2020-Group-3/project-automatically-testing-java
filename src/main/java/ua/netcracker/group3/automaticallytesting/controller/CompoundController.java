@@ -55,11 +55,11 @@ public class CompoundController {
         return compoundService.getCompoundById(id);
     }
 
-    @RequestMapping(value = "/get/actions/{id}",method = RequestMethod.GET)
+    /*@RequestMapping(value = "/get/actions/{id}",method = RequestMethod.GET)
     public List<Action> getCompoundActionsByCompoundId(@PathVariable Integer id){
         System.out.println(compoundService.getCompoundActions(id).toString());
         return null;
-    }
+    }*/
 
 
 

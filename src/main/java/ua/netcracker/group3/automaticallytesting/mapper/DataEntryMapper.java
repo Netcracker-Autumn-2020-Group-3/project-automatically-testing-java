@@ -16,6 +16,7 @@ public class DataEntryMapper implements RowMapper<DataEntry> {
                 .id(resultSet.getLong("id"))
                 .data_set_id(resultSet.getLong("data_set_id"))
                 .value(resultSet.getString("value"))
+                .key(resultSet.getString("key"))
                 .build();
     }
 }

@@ -3,11 +3,15 @@ package ua.netcracker.group3.automaticallytesting.dao.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ParameterizedPreparedStatementSetter;
 import org.springframework.stereotype.Repository;
 import ua.netcracker.group3.automaticallytesting.dao.DataEntryDAO;
 import ua.netcracker.group3.automaticallytesting.mapper.DataEntryMapper;
 import ua.netcracker.group3.automaticallytesting.model.DataEntry;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,11 +24,11 @@ public class DataEntryDAOImpl implements DataEntryDAO {
     @Value("${get.data.entry.by.data.set.id}")
     private String GET_DATA_ENTRY_FOR_EDIT;
 
-    @Value("${update.or.insert.data.entry}")
-    private String INSERT_DATA_ENTRY_FOR_UPDATE;
+    @Value("${update.data.entry}")
+    private String UPDATE_DATA_ENTRY;
 
-    @Value("${update.or.insert.data.entry.default}")
-    private String INSERT_DATA_ENTRY_FOR_UPDATE_DEFAULT;
+    @Value("${insert.data.entry.default}")
+    private String INSERT_DATA_ENTRY_DEFAULT;
 
     @Value("${delete.data.entry.by.id}")
     private String DELETE_DATA_ENTRY_BY_ID;
@@ -48,29 +52,54 @@ public class DataEntryDAOImpl implements DataEntryDAO {
 
     @Override
     public void updateDataEntry(List<DataEntry> dataEntryList) {
-        for (DataEntry de: dataEntryList) {
-            if (de.getId() == null){
-                jdbcTemplate.update(INSERT_DATA_ENTRY_FOR_UPDATE_DEFAULT,de.getData_set_id(),de.getValue());
-            }else{
-                jdbcTemplate.update(INSERT_DATA_ENTRY_FOR_UPDATE,de.getId(),de.getData_set_id(),de.getValue());
+       /* List<DataEntry> list1 = dataEntryList.stream()
+                .filter(d -> d.getId() != null)
+                .collect(Collectors.toList());*/
+        jdbcTemplate.batchUpdate(UPDATE_DATA_ENTRY, dataEntryList, dataEntryList.size(), (ps, dataEntryValue) -> {
+            if (dataEntryValue.getId() != null) {
+                ps.setString(1, dataEntryValue.getValue());
+                ps.setString(2, dataEntryValue.getKey());
+                ps.setLong(3, dataEntryValue.getId());
             }
-        }
+        });
+
+       /* List<DataEntry> list = dataEntryList.stream()
+                .filter(d -> d.getId() == null)
+                .collect(Collectors.toList());
+
+        jdbcTemplate.batchUpdate(INSERT_DATA_ENTRY_DEFAULT, list, list.size(), (ps, dataEntryValue) -> {
+                System.out.println(dataEntryValue.toString());
+                ps.setLong(1, dataEntryValue.getData_set_id());
+                ps.setString(2, dataEntryValue.getValue());
+                ps.setString(3, dataEntryValue.getKey());
+        });*/
+
+
     }
 
     @Override
     public void deleteDataEntryValueById(Integer dataEntryId) {
         jdbcTemplate.update(DELETE_DATA_ENTRY_BY_ID, dataEntryId);
     }
+    @Override
+    public void createDataEntry(List<DataEntry> dataEntryValues) {
+        jdbcTemplate.batchUpdate(INSERT_DATA_ENTRY_DEFAULT, dataEntryValues, dataEntryValues.size(), (ps, dataEntryValue) -> {
+            ps.setLong(1, dataEntryValue.getData_set_id());
+            ps.setString(2, dataEntryValue.getValue());
+            ps.setString(3, dataEntryValue.getKey());
+        });
+    }
 
     @Override
     public void createDataEntry(Long dataSetId, List<DataEntry> dataSetValues) {
         String sql = "insert into data_entry (data_set_id, value, key) values (?, ?, ?)";
         jdbcTemplate.batchUpdate(sql, dataSetValues, dataSetValues.size(), (ps, dataSetValue) -> {
-            ps.setLong(1,dataSetId);
+            ps.setLong(1, dataSetId);
             ps.setString(2, dataSetValue.getValue());
-            ps.setString(3,dataSetValue.getKey());
+            ps.setString(3, dataSetValue.getKey());
         });
     }
+
 
     @Override
     public void deleteDataEntry(long dataSetId) {

@@ -1,6 +1,8 @@
 package ua.netcracker.group3.automaticallytesting.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.model.DataEntry;
@@ -36,23 +38,24 @@ public class DataSetController {
 
     @RequestMapping(value = "/dataentry/edit/{dataSetId}",method = RequestMethod.GET)
     @PreAuthorize("hasAnyRole('ADMIN','MANAGER','ENGINEER')")
-    public List<DataEntry> getDataEntryForEdit(@PathVariable Integer dataSetId){
+    public List<DataEntry> getDataEntry(@PathVariable Integer dataSetId){
         return dataEntryService.getDataEntryByDataSetName(dataSetId);
     }
 
     @RequestMapping(value = "/dataset/edit/{id}/{name}/update",method = RequestMethod.PUT)
     @PreAuthorize("hasAnyRole('ADMIN','MANAGER','ENGINEER')")
-    public String updateDataEntryById(@PathVariable Long id,@PathVariable String name,@RequestBody List<DataEntry> dataEntryList){
+    public ResponseEntity<?> updateDataEntryById(@PathVariable Long id, @PathVariable String name, @RequestBody List<DataEntry> dataEntryList){
         DataSet editedDataSet = DataSet.builder().id(id).name(name).build();
         dataSetService.updateDataSet(editedDataSet);
         dataEntryService.updateDataEntry(dataEntryList);
-        return "ok";
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/dataset/edit/{id}/{dataEntryId}/delete",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/dataset/edit/{dataEntryId}/delete",method = RequestMethod.DELETE)
     @PreAuthorize("hasAnyRole('ADMIN','MANAGER','ENGINEER')")
-    public String deleteDataEntryById(@PathVariable Long id,@PathVariable Integer dataEntryId){
+    public String deleteDataEntryById(@PathVariable Integer dataEntryId){
         dataEntryService.deleteDataEntryValueById(dataEntryId);
+        System.out.println("ok");
         return "ok";
     }
 
