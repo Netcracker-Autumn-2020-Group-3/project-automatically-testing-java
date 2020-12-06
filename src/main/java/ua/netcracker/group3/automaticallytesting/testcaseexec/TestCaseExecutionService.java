@@ -22,7 +22,7 @@ public class TestCaseExecutionService {
 
     public TestCaseExecutionService() {
        // System.setProperty("webdriver.chrome.driver", "D:\\netcracker\\chrome-driver87\\chromedriver.exe");
-        System.setProperty("webdriver.chrome.driver", "C:\\webdriver86\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "E:\\chromedriver.exe");
 
         actions.put("click sign in", new ClickActionExecutable());
         actions.put("click login", new ClickActionExecutable());
@@ -38,20 +38,24 @@ public class TestCaseExecutionService {
 
         driver.get(projectLink);
         driver.manage().window().maximize();
-        System.out.println("exec");
+        //System.out.println("exec");
+        System.out.println("aCTIONS " + actions.toString());
 
         List<ScenarioStepDto> scenarioStepDtoList = testCaseDto.getScenarioStepsWithData();
+        System.out.println(scenarioStepDtoList);
         for (ScenarioStepDto step : scenarioStepDtoList) {
             for (ActionDto actionDto : step.getActionDto()) {
                 Map<String, String> variableValues = new HashMap<>();
                 for (VariableDto variableDto : actionDto.getVariables()) {
+                    System.out.println("MAP " + variableDto.getName() + " " + variableDto.getDataEntry().getValue());
                     variableValues.put(variableDto.getName(), variableDto.getDataEntry().getValue());
                 }
                 actions.get(actionDto.getName()).execute(driver, variableValues).ifPresent(cv ->
                         contextVariables.put(actionDto.getId(), cv));
 
+                System.out.println("CONTEXT " + contextVariables.toString());
 
-                System.out.println(actionDto.getName() + " is fine");
+              //  System.out.println(actionDto.getName() + " is fine");
             }
 
         }

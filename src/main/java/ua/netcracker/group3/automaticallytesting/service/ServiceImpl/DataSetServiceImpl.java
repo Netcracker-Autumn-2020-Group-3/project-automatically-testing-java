@@ -2,6 +2,7 @@ package ua.netcracker.group3.automaticallytesting.service.ServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.netcracker.group3.automaticallytesting.dao.DataSetDAO;
 import ua.netcracker.group3.automaticallytesting.model.DataSet;
 import ua.netcracker.group3.automaticallytesting.service.DataSetService;
@@ -23,6 +24,7 @@ public class DataSetServiceImpl implements DataSetService {
         return dataSetDAO.getDataSetById(dataSetId);
     }
 
+    @Transactional
     @Override
     public void updateDataSet(DataSet editedDataSet) {
         dataSetDAO.updateDataSet(editedDataSet);
