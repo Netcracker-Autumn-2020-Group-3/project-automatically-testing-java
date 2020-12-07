@@ -55,7 +55,6 @@ public class DataSetController {
     @PreAuthorize("hasAnyRole('ADMIN','MANAGER','ENGINEER')")
     public String deleteDataEntryById(@PathVariable Integer dataEntryId){
         dataEntryService.deleteDataEntryValueById(dataEntryId);
-        System.out.println("ok");
         return "ok";
     }
 

@@ -48,7 +48,6 @@ public class CompoundController {
     @RequestMapping(value = "/create/actions",method = RequestMethod.PUT)
     public void createCompoundActions(@RequestBody List<CompoundAction> compoundActions){
         compoundService.createCompoundActions(compoundActions);
-        //return "ok";
     }
 
 
