@@ -1,5 +1,6 @@
 package ua.netcracker.group3.automaticallytesting.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.dto.CompoundDto;
@@ -46,9 +47,9 @@ public class CompoundController {
     }
 
     @RequestMapping(value = "/create/actions",method = RequestMethod.PUT)
-    public String createCompoundActions(@RequestBody List<CompoundAction> compoundActions){
+    public ResponseEntity<?> createCompoundActions(@RequestBody List<CompoundAction> compoundActions){
         compoundService.createCompoundActions(compoundActions);
-        return "ok";
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
 
