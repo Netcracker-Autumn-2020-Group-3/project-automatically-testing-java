@@ -34,8 +34,12 @@ public class TestScenarioDAOImpl implements TestScenarioDAO {
     @Value("${get.test.scenarios}")
     private String GET_ALL;
 
-    @Value("SELECT id, name FROM \"test_scenario\" where name like ?")
+    @Value("${get.test.scenario.page}")
     private String GET_PAGE;
+
+    @Value("${count.test.scenario}")
+    private String COUNT_TEST_SCENARIO;
+
 
     @Value("${select.test.scenario.exist}")
     private String CHECK_EXIST_TEST_SCENARIO_BY_NAME;
@@ -78,6 +82,10 @@ public class TestScenarioDAOImpl implements TestScenarioDAO {
         return jdbcTemplate.queryForStream(GET_PAGE + orderByLimitOffsetWithValues,
                 testScenarioMapper, name)
                 .collect(Collectors.toList());
+    }
+    @Override
+    public Integer countUsers() {
+        return jdbcTemplate.queryForObject(COUNT_TEST_SCENARIO, Integer.class);
     }
 }
 

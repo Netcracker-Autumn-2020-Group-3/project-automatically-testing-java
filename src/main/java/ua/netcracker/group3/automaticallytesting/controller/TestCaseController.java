@@ -2,21 +2,17 @@ package ua.netcracker.group3.automaticallytesting.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.dto.CreateTestCaseDto;
-
-import ua.netcracker.group3.automaticallytesting.model.TestCase;
+import ua.netcracker.group3.automaticallytesting.execution.TestCaseExecutionService;
 import ua.netcracker.group3.automaticallytesting.model.TestCaseUpd;
-
 import ua.netcracker.group3.automaticallytesting.dto.TestCaseDto;
-
-import ua.netcracker.group3.automaticallytesting.model.VariableValue;
-import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.TestCaseServiceImpl;
 import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.UserPrincipal;
-import ua.netcracker.group3.automaticallytesting.testcaseexec.TestCaseExecutionService;
+import ua.netcracker.group3.automaticallytesting.util.Pageable;
+import ua.netcracker.group3.automaticallytesting.service.TestCaseService;
 
-import java.security.Principal;
 import java.util.List;
 
 @CrossOrigin(origins = "*")
@@ -25,11 +21,11 @@ import java.util.List;
 @RequestMapping("/test-case")
 public class TestCaseController {
 
-    private final TestCaseServiceImpl testCaseService;
+    private final TestCaseService testCaseService;
     private final TestCaseExecutionService testCaseExecutionService;
 
     @Autowired
-    public TestCaseController(TestCaseServiceImpl testCaseService,  TestCaseExecutionService testCaseExecutionService) {
+    public TestCaseController(TestCaseService testCaseService, TestCaseExecutionService testCaseExecutionService) {
         this.testCaseService = testCaseService;
         this.testCaseExecutionService = testCaseExecutionService;
     }
@@ -60,7 +56,6 @@ public class TestCaseController {
 
     @GetMapping("/{id}")
     public TestCaseDto getById(@PathVariable("id") Long testCaseId) {
-        log.info("Test case id: {}", testCaseId);
         return testCaseService.getTestCase(testCaseId);
     }
 
@@ -74,7 +69,20 @@ public class TestCaseController {
     public void execute(@PathVariable("id") Long id) {
         TestCaseDto testCaseDto =  testCaseService.getTestCase(id);
         System.out.println("testCaseDto  " + testCaseDto);
-        testCaseExecutionService.executeTestCase(testCaseDto , "https://github.com/");
+        testCaseExecutionService.executeTestCase(testCaseDto);
 
+    }
+
+    @GetMapping("/list/page")
+    public List<TestCaseUpd> getPageTestScenarios(Integer pageSize, Integer page, String sortOrder, String sortField,
+                                                   String name) {
+        Pageable pageable = Pageable.builder().page(page).pageSize(pageSize).sortField(sortField).sortOrder(sortOrder).build();
+        return testCaseService.getTestCases (pageable, name);
+    }
+
+    @GetMapping("/pages/count")
+    @PreAuthorize("hasRole('ADMIN')")
+    public Integer countTestCasePages(Integer pageSize) {
+        return testCaseService.countPages(pageSize);
     }
 }

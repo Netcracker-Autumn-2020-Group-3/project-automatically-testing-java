@@ -3,8 +3,6 @@ package ua.netcracker.group3.automaticallytesting.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import ua.netcracker.group3.automaticallytesting.dto.UserDto;
-import ua.netcracker.group3.automaticallytesting.exception.UserNotFoundException;
 import ua.netcracker.group3.automaticallytesting.model.User;
 import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.EmailServiceImpl;
 import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.UserServiceImpl;
@@ -35,13 +33,13 @@ public class UserController {
 
     @GetMapping("/users/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public User getUserById(@PathVariable("id") long id) throws UserNotFoundException {
+    public User getUserById(@PathVariable("id") long id) {
         return userService.getUserById(id);
     }
 
     @PostMapping("/users/updateUser")
     @PreAuthorize("hasRole('ADMIN')")
-    public void updateUserById(@RequestBody User user) throws UserNotFoundException{
+    public void updateUserById(@RequestBody User user) {
         userService.updateUserById(user.getEmail(), user.getName(), user.getSurname(), user.getRole(), user.isEnabled(), user.getId());
     }
 
