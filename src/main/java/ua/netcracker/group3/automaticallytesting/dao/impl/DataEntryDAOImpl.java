@@ -52,9 +52,6 @@ public class DataEntryDAOImpl implements DataEntryDAO {
 
     @Override
     public void updateDataEntry(List<DataEntry> dataEntryList) {
-       /* List<DataEntry> list1 = dataEntryList.stream()
-                .filter(d -> d.getId() != null)
-                .collect(Collectors.toList());*/
         jdbcTemplate.batchUpdate(UPDATE_DATA_ENTRY, dataEntryList, dataEntryList.size(), (ps, dataEntryValue) -> {
             if (dataEntryValue.getId() != null) {
                 ps.setString(1, dataEntryValue.getValue());
@@ -62,21 +59,9 @@ public class DataEntryDAOImpl implements DataEntryDAO {
                 ps.setLong(3, dataEntryValue.getId());
             }
         });
-
-       /* List<DataEntry> list = dataEntryList.stream()
-                .filter(d -> d.getId() == null)
-                .collect(Collectors.toList());
-
-        jdbcTemplate.batchUpdate(INSERT_DATA_ENTRY_DEFAULT, list, list.size(), (ps, dataEntryValue) -> {
-                System.out.println(dataEntryValue.toString());
-                ps.setLong(1, dataEntryValue.getData_set_id());
-                ps.setString(2, dataEntryValue.getValue());
-                ps.setString(3, dataEntryValue.getKey());
-        });*/
-
-
     }
 
+    //batch
     @Override
     public void deleteDataEntryValueById(Integer dataEntryId) {
         jdbcTemplate.update(DELETE_DATA_ENTRY_BY_ID, dataEntryId);

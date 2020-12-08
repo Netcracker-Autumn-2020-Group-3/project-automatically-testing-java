@@ -37,15 +37,11 @@ public class CompoundServiceImpl implements CompoundService {
     }
 
     @Override
-    public Integer createCompound(Compound compound) {
-        return compoundDAO.createCompound(compound);
+    public void createCompound(CompoundDto compoundDto) {
+        Compound compound = Compound.builder().name(compoundDto.getName()).description(compoundDto.getDescription()).build();
+        Integer compoundId = compoundDAO.createCompound(compound);
+        compoundDAO.createCompoundActions(compoundId,compoundDto);
     }
-
-    @Override
-    public void createCompoundActions(List<CompoundAction> compoundActions) {
-        compoundDAO.createCompoundActions(compoundActions);
-    }
-
 
     @Override
     public CompoundDto getCompoundById(long id) throws Exception {
@@ -63,7 +59,6 @@ public class CompoundServiceImpl implements CompoundService {
     private CompoundDto buildCompoundByID(long id) throws Exception {
         Compound compound = compoundDAO.findCompoundById(id).orElseThrow(Exception::new);
         //CompoundDto compoundActionList = compoundDAO.findCompActionListById(id).orElseThrow(Exception::new);
-
         return CompoundDto.builder()
                 .id(compound.getId())
                 .name(compound.getName())

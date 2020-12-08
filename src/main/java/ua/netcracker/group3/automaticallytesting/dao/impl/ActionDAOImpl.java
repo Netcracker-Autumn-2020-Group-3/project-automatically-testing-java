@@ -79,4 +79,9 @@ public class ActionDAOImpl implements ActionDAO {
         }, keyHolder);
         return keyHolder.getKey().longValue();
     }
+
+    @Override
+    public List<Action> getAllActions() {
+        return jdbcTemplate.query(GET_ALL_ACTIONS,actionMapper);
+    }
 }

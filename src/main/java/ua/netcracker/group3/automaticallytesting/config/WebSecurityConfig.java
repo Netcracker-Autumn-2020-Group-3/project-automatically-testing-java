@@ -87,7 +87,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
 
         return NoOpPasswordEncoder.getInstance();  //TODO realize Bcrypt(dont know how to implement cause authorization doesnt work with it)
     }
-
+   /*@Bean
+   public PasswordEncoder passwordEncoder() {
+       return new BCryptPasswordEncoder();
+   }*/
 
     /*@Override
     public void addCorsMappings(CorsRegistry corsRegistry) {

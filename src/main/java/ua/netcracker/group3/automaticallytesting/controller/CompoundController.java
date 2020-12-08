@@ -1,5 +1,6 @@
 package ua.netcracker.group3.automaticallytesting.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.dto.CompoundDto;
@@ -10,6 +11,7 @@ import ua.netcracker.group3.automaticallytesting.service.CompoundService;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
 
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin("*")
 @RestController
@@ -41,16 +43,9 @@ public class CompoundController {
     }
 
     @RequestMapping(value = "/create",method = RequestMethod.POST)
-    public Integer createCompound(@RequestBody Compound compound){
-        return compoundService.createCompound(compound);
+    public void createCompound(@RequestBody CompoundDto compoundDto){
+        compoundService.createCompound(compoundDto);
     }
-
-    @RequestMapping(value = "/create/actions",method = RequestMethod.PUT)
-    public void createCompoundActions(@RequestBody List<CompoundAction> compoundActions){
-        compoundService.createCompoundActions(compoundActions);
-        //return "ok";
-    }
-
 
     @GetMapping("/edit/{id}")
     //@PreAuthorize("hasRole('ADMIN')" + "|| hasRole('MANAGER')" + "|| hasRole('ENGINEER')")
