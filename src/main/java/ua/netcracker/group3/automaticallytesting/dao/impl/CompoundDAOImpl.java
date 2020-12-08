@@ -128,9 +128,9 @@ public class CompoundDAOImpl implements CompoundDAO {
     }
 
     @Override
-    public void createCompoundActions(List<CompoundAction> compoundActions) {
-        jdbcTemplate.batchUpdate(CREATE_COMPOUND_ACTIONS,compoundActions,compoundActions.size(),((ps, compoundActionsValue) -> {
-            ps.setLong(1,compoundActionsValue.getCompoundId());
+    public void createCompoundActions(Integer compoundId,CompoundDto compoundDto) {
+        jdbcTemplate.batchUpdate(CREATE_COMPOUND_ACTIONS,compoundDto.getActionList(),compoundDto.getActionList().size(),((ps, compoundActionsValue) -> {
+            ps.setLong(1,compoundId);
             ps.setLong(2,compoundActionsValue.getActionId());
             ps.setInt(3,compoundActionsValue.getPriority());
         }));
@@ -156,15 +156,5 @@ public class CompoundDAOImpl implements CompoundDAO {
             return Optional.empty();
         }
     }
-
-   /* @Override
-    public Compound getCompoundById(Long id) {
-        return jdbcTemplate.queryForObject(GET_COMPOUND_BY_ID,mapper,id);
-    }*/
-
-   /* @Override
-    public List<Action> getCompoundActions(Integer id) {
-        return jdbcTemplate.queryForStream(GET_COMPOUND_ACTIONS,actionMapper,id).collect(Collectors.toList());
-    }*/
 
 }

@@ -52,4 +52,10 @@ public class ActionsController {
         long id = actionService.createAction(name, description);
         this.variableService.createVariables(id, variableValues);
     }
+
+    @GetMapping("/library/actions/get/all")
+    public  List<Action> getAllActions(){
+        return actionService.getAllActions();
+    }
+
 }
