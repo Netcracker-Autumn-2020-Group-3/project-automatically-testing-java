@@ -9,6 +9,7 @@ import java.util.List;
 public interface ActionService {
 
     List<Action> getAllActions(Pageable pageable);
+    List<Action> getAllActions();
     List<Action> findActionsByName(String name,Pageable pageable);
     Integer getNumberOfActions();
 

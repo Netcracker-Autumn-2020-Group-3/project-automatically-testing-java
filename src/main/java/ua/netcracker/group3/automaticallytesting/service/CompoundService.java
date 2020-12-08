@@ -16,9 +16,9 @@ public interface CompoundService {
 
     boolean checkIfNameExist(String name);
 
-    Integer createCompound(Compound compound);
+    void createCompound(CompoundDto compoundDto);
 
-    void createCompoundActions(List<CompoundAction> compoundActions);
+    //void createCompoundActions(List<CompoundAction> compoundActions);
 
     CompoundDto getCompoundById(long id) throws Exception;
 

@@ -22,7 +22,7 @@ public interface CompoundDAO {
 
     Integer createCompound(Compound compound);
 
-    void createCompoundActions(List<CompoundAction> compoundActions);
+    void createCompoundActions(Integer compoundId,CompoundDto compoundDto);
 
     /*Compound getCompoundById(Long id);*/
 

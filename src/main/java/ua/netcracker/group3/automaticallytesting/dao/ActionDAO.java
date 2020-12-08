@@ -19,4 +19,6 @@ public interface ActionDAO {
     Integer getNumberOfActions();
 
     long createAction(String name, String description);
+
+    List<Action> getAllActions();
 }
