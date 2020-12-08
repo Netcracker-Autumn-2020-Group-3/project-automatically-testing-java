@@ -46,6 +46,8 @@ public class UserDAOImpl implements UserDAO {
     private String INSERT_USER;
     @Value("${get.user.email.by.id}")
     private String GET_USER_EMAIL_BY_ID;
+    @Value("${update.user.password}")
+    private String UPDATE_USER_PASS;
 
     @Override
     public User findUserByEmail(String email) {
@@ -94,5 +96,10 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public Integer countUsers() {
         return jdbcTemplate.queryForObject(COUNT_USERS, Integer.class);
+    }
+
+    @Override
+    public void updateUserPassword(String email, String password) {
+        jdbcTemplate.update(UPDATE_USER_PASS, password, email);
     }
 }
