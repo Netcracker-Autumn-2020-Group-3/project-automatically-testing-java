@@ -42,6 +42,8 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
         log.info("Test case execution started");
 
         driver.get(testCaseDto.getProjectLink());
+
+
         driver.manage().window().maximize();
 
 
