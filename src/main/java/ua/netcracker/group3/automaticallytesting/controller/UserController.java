@@ -64,6 +64,6 @@ public class UserController {
 
     @PutMapping("/users/resetpass")
     public void resetPassword(@RequestBody ResetPassDto resetPassDto) throws Exception {
-        userService.updateUserPassword(resetPassDto.getToken(), resetPassDto.getPassword());
+        userService.updateUserPasswordByToken(resetPassDto.getToken(), resetPassDto.getPassword());
     }
 }

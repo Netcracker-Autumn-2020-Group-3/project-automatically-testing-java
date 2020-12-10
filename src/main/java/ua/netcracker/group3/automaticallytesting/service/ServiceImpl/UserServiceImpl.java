@@ -72,11 +72,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUserPassword(String token, String password) throws Exception {
+    public void updateUserPasswordByToken(String token, String password) throws Exception {
         PasswordResetToken passwordResetToken = new PasswordResetToken();
             String resolvedToken = passwordResetToken.resolveToken(token);
             String email = passwordResetToken.getEmailFromResetToken(resolvedToken);
             userDAO.updateUserPassword(email, password);
+    }
+
+    @Override
+    @Transactional
+    public void updateUserSettings(User user) {
+        userDAO.updateUserSettings(user);
+    }
+
+    @Override
+    @Transactional
+    public void updateUserPassword(User user) {
+        userDAO.updateUserPassword(user.getEmail(), user.getPassword());
     }
 
     private User buildUser(User user) {

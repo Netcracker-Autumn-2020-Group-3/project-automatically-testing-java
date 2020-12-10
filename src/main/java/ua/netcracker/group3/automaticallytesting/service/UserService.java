@@ -23,5 +23,9 @@ public interface UserService {
 
     User getUserById(long id);
 
-    void updateUserPassword(String token, String password) throws Exception;
+    void updateUserPasswordByToken(String token, String password) throws Exception;
+
+    void updateUserSettings(User user);
+
+    void updateUserPassword(User user);
 }

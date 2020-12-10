@@ -48,6 +48,8 @@ public class UserDAOImpl implements UserDAO {
     private String GET_USER_EMAIL_BY_ID;
     @Value("${update.user.password}")
     private String UPDATE_USER_PASS;
+    @Value("${update.user.settings}")
+    private String UPDATE_SETTINGS;
 
     @Override
     public User findUserByEmail(String email) {
@@ -101,5 +103,10 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public void updateUserPassword(String email, String password) {
         jdbcTemplate.update(UPDATE_USER_PASS, password, email);
+    }
+
+    @Override
+    public void updateUserSettings(User user) {
+        jdbcTemplate.update(UPDATE_SETTINGS, user.getName(), user.getSurname(), user.getEmail());
     }
 }
