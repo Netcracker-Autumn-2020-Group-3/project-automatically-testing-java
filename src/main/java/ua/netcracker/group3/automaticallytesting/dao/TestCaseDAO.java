@@ -19,4 +19,5 @@ public interface TestCaseDAO {
     Integer countUsers();
 
 
+    void update(Long testCaseId, String newTestCaseName);
 }

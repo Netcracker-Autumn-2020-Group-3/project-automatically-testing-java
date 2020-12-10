@@ -47,6 +47,10 @@ public class TestCaseDAOImpl implements TestCaseDAO {
 
     @Value("${count.test.cases}")
     public String COUNT_TEST_CASES;
+
+    @Value("${update.test.case.name}")
+    public String UPDATE_TEST_CASE_NAME;
+
     /**
      *
      * @return created test_case_id
@@ -87,5 +91,10 @@ public class TestCaseDAOImpl implements TestCaseDAO {
     @Override
     public Integer countUsers() {
         return jdbcTemplate.queryForObject(COUNT_TEST_CASES, Integer.class);
+    }
+
+    @Override
+    public void update(Long testCaseId, String newTestCaseName) {
+        jdbcTemplate.update(UPDATE_TEST_CASE_NAME, newTestCaseName, testCaseId);
     }
 }
