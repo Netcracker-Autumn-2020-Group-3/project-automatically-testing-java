@@ -11,7 +11,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class CreateTestCaseDto {
+public class CreateUpdateTestCaseDto {
+    private Long id;
     private String testCaseName;
     private Long projectId;
     private Long dataSetId;

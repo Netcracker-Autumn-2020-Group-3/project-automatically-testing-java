@@ -18,4 +18,5 @@ public interface TestCaseDAO {
     List<TestCaseTopSubscribed> getTopFiveSubscribedTestCases();
 
 
+    void update(Long testCaseId, String newTestCaseName);
 }

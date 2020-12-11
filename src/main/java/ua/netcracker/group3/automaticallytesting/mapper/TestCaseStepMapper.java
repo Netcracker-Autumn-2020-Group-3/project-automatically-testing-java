@@ -2,6 +2,7 @@ package ua.netcracker.group3.automaticallytesting.mapper;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
+import ua.netcracker.group3.automaticallytesting.model.ActionInstanceJoined;
 import ua.netcracker.group3.automaticallytesting.model.DataEntry;
 import ua.netcracker.group3.automaticallytesting.model.TestCase;
 import ua.netcracker.group3.automaticallytesting.model.TestCaseStep;
@@ -20,6 +21,8 @@ public class TestCaseStepMapper implements RowMapper<TestCaseStep> {
 
     @Override
     public TestCaseStep mapRow(ResultSet resultSet, int i) throws SQLException {
+        ActionInstanceJoined ai = actionInstanceJoinedMapper.mapRow(resultSet, i);
+        ai.setVariableValueId(resultSet.getLong("variable_value_id"));
         return TestCaseStep.builder()
                 .testCase(TestCase.builder()
                         .userId(resultSet.getLong("test_case_user_id"))
@@ -31,7 +34,7 @@ public class TestCaseStepMapper implements RowMapper<TestCaseStep> {
                         .build())
                 .projectLink(resultSet.getString("test_case_project_link"))
                 .projectName(resultSet.getString("test_case_project_name"))
-                .actionInstanceJoined(actionInstanceJoinedMapper.mapRow(resultSet, i)).dataEntry(
+                .actionInstanceJoined(ai).dataEntry(
                         DataEntry.builder()
                                 .id(resultSet.getLong("data_entry_id"))
                                 .data_set_id(resultSet.getLong("data_set_id"))

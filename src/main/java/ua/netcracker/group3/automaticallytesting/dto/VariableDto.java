@@ -18,6 +18,7 @@ public class VariableDto {
      * is null for test scenario
      */
     private DataEntry dataEntry;
+    private Long variableValueId;
 
     @Override
     public boolean equals(Object o) {

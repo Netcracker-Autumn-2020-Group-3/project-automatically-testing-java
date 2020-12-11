@@ -6,19 +6,15 @@ import lombok.*;
 import java.util.Objects;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
 @Builder
-@ToString
 public class ActionInstanceJoined {
-    protected Long id;
-    protected Long testScenarioId;
-    protected Integer priority;
-    protected Action action;
+    private Long id;
+    private Long testScenarioId;
+    private Integer priority;
+    private Action action;
     private CompoundInstance compoundInstance;
-    protected Variable variable;
+    private Variable variable;
+    private Long variableValueId;
 
     @Override
     public boolean equals(Object o) {
