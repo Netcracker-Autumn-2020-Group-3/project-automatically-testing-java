@@ -12,11 +12,11 @@ public interface TestScenarioDAO {
 
     long saveTestScenario(TestScenarioDto testScenarioDto);
 
+    boolean checkExistTestScenarioByName(String name);
+
     List<TestScenario> getAll();
 
     List<TestScenario> getTestScenariosPageSorted(String orderByLimitOffsetWithValues, String name);
-
-    boolean checkExistTestScenarioByName(String name);
 
     Integer countUsers();
 

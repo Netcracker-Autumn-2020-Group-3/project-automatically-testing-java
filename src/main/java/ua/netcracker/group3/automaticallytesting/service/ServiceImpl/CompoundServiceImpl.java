@@ -27,6 +27,11 @@ public class CompoundServiceImpl implements CompoundService {
     }
 
     @Override
+    public long getQuantityCompounds() {
+        return compoundDAO.getQuantityCompounds();
+    }
+
+    @Override
     public List<CompoundDtoWithIdName> getAllCompoundsWithIdName() {
         return compoundDAO.findAllWithIdName();
     }

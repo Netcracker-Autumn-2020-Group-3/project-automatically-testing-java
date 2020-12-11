@@ -9,24 +9,19 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ua.netcracker.group3.automaticallytesting.dao.CompoundDAO;
-import ua.netcracker.group3.automaticallytesting.mapper.ActionMapper;
 import ua.netcracker.group3.automaticallytesting.dto.CompoundDto;
 import ua.netcracker.group3.automaticallytesting.dto.CompoundDtoWithIdName;
 import ua.netcracker.group3.automaticallytesting.mapper.CompoundActionListMapper;
 import ua.netcracker.group3.automaticallytesting.mapper.CompoundActionWithActionIdAndPriorityMapper;
 import ua.netcracker.group3.automaticallytesting.mapper.CompoundMapper;
-import ua.netcracker.group3.automaticallytesting.model.Action;
 import ua.netcracker.group3.automaticallytesting.mapper.CompoundMapperWithIdName;
 import ua.netcracker.group3.automaticallytesting.model.Compound;
-import ua.netcracker.group3.automaticallytesting.model.CompoundAction;
 import ua.netcracker.group3.automaticallytesting.model.CompoundActionWithActionIdAndPriority;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
 
 import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 import java.util.Optional;
 
 @Repository
@@ -46,10 +41,11 @@ public class CompoundDAOImpl implements CompoundDAO {
     @Value("${insert.comp.action.list}")
     private String INSERT_ACTION_TO_COMPOUND;
 
-
+    @Value("${find.compound.quantity}")
+    private String GET_QUANTITY_COMPOUNDS;
 
     @Value("${find.compound.all}")
-    private String FIND_ALL;
+    private String FIND_ALL_WITH_PAGINATION;
 
     @Value("${find.compound.all.with.id.name}")
     private String FIND_ALL_WITH_ID_NAME;
@@ -81,14 +77,19 @@ public class CompoundDAOImpl implements CompoundDAO {
     }
 
     @Override
+    public long getQuantityCompounds() {
+        return Objects.requireNonNull(jdbcTemplate.queryForObject(GET_QUANTITY_COMPOUNDS, Long.class));
+    }
+
+    @Override
     public List<Compound> findAll(Pageable pageable) {
-        return jdbcTemplate.query(
-                FIND_ALL,
-                mapper,
+        String sql = String.format(
+                FIND_ALL_WITH_PAGINATION,
                 pageable.getSortField(),
                 pageable.getPageSize(),
                 pageable.getPage()
         );
+        return jdbcTemplate.query(sql, mapper);
     }
 
     @Override
