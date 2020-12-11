@@ -65,6 +65,27 @@ public class TestCaseController {
 
     }
 
+    @PostMapping("/follow")
+    public void follow(@RequestBody Long testCaseId){
+        Long userId = ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser().getId();
+        log.info("follow testcase: {}, userId: {}", testCaseId, userId);
+        testCaseService.addSubscriber(testCaseId, userId);
+    }
+
+    @PostMapping("/unfollow")
+    public void unfollow(@RequestBody Long testCaseId){
+        Long userId = ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser().getId();
+        log.info("unfollow testcase: {}, userId: {}", testCaseId, userId);
+        testCaseService.removeSubscriber(testCaseId, userId);
+    }
+    @GetMapping("/{id}/is-followed")
+    public Boolean isFollowed(@PathVariable("id") Long testCaseId){
+        Long userId = ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser().getId();
+        boolean answer =  testCaseService.isFollowedByUser(testCaseId, userId);
+        log.info("is followed testcase: {}, userId: {}, is followed: {}", testCaseId, userId, answer);
+        return answer;
+    }
+
     @GetMapping("/execute/{id}")
     public void execute(@PathVariable("id") Long id) {
         TestCaseDto testCaseDto =  testCaseService.getTestCase(id);
