@@ -16,7 +16,7 @@ public class DashboardServiceImpl implements DashboardService{
     }
 
     @Override
-    public Integer getCountOfUsersByRole(String role) {
+    public Integer getCountOfUsers(String role) {
         return userDAO.countUsers(role);
     }
 }
