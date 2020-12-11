@@ -7,7 +7,7 @@ import ua.netcracker.group3.automaticallytesting.dto.CompoundDtoWithIdName;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class CompoundMapperWithIdName implements RowMapper<CompoundDtoWithIdName> {
+public class CompoundWithIdNameMapper implements RowMapper<CompoundDtoWithIdName> {
     @Override
     public CompoundDtoWithIdName mapRow(ResultSet rs, int i) throws SQLException {
         return new CompoundDtoWithIdName(

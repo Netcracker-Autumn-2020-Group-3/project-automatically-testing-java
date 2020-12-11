@@ -14,7 +14,7 @@ import ua.netcracker.group3.automaticallytesting.dto.CompoundDtoWithIdName;
 import ua.netcracker.group3.automaticallytesting.mapper.CompoundActionListMapper;
 import ua.netcracker.group3.automaticallytesting.mapper.CompoundActionWithActionIdAndPriorityMapper;
 import ua.netcracker.group3.automaticallytesting.mapper.CompoundMapper;
-import ua.netcracker.group3.automaticallytesting.mapper.CompoundMapperWithIdName;
+import ua.netcracker.group3.automaticallytesting.mapper.CompoundWithIdNameMapper;
 import ua.netcracker.group3.automaticallytesting.model.Compound;
 import ua.netcracker.group3.automaticallytesting.model.CompoundActionWithActionIdAndPriority;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
@@ -77,14 +77,15 @@ public class CompoundDAOImpl implements CompoundDAO {
     }
 
     @Override
-    public long getQuantityCompounds() {
-        return Objects.requireNonNull(jdbcTemplate.queryForObject(GET_QUANTITY_COMPOUNDS, Long.class));
+    public long getQuantityCompounds(String search) {
+        return Objects.requireNonNull(jdbcTemplate.queryForObject(GET_QUANTITY_COMPOUNDS, Long.class, search + "%"));
     }
 
     @Override
     public List<Compound> findAll(Pageable pageable) {
         String sql = String.format(
                 FIND_ALL_WITH_PAGINATION,
+                pageable.getSearch(),
                 pageable.getSortField(),
                 pageable.getPageSize(),
                 pageable.getPage()
@@ -94,7 +95,7 @@ public class CompoundDAOImpl implements CompoundDAO {
 
     @Override
     public List<CompoundDtoWithIdName> findAllWithIdName() {
-        RowMapper<CompoundDtoWithIdName> mapper = new CompoundMapperWithIdName();
+        RowMapper<CompoundDtoWithIdName> mapper = new CompoundWithIdNameMapper();
         return jdbcTemplate.query(FIND_ALL_WITH_ID_NAME, mapper);
     }
 
