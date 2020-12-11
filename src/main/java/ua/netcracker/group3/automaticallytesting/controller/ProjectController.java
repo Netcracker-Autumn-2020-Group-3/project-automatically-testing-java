@@ -64,5 +64,11 @@ public class ProjectController {
         projectService.archiveProject(projectId);
     }
 
+    @PostMapping("/unarchive")
+    public void unarchiveProject(@RequestBody Long projectId){
+        log.info("id {}" , projectId);
+        projectService.unarchiveProject(projectId);
+    }
+
 
 }
