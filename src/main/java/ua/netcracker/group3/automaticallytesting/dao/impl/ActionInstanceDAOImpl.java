@@ -52,12 +52,12 @@ public class ActionInstanceDAOImpl implements ActionInstanceDAO {
                     preparedStatement.setLong(1, testScenarioId);
                     preparedStatement.setLong(2, action.getId());
                     preparedStatement.setLong(3, action.getPriority());
+                    preparedStatement.setString(4, action.getContextInstanceName());
         });
     }
 
     @Override
     public void saveActionInstancesWithCompoundInstanceId(List<TestScenarioItemDto> actions, long testScenarioId, long compoundInstanceId) {
-        System.out.println("saveActionInstancesWithCompoundInstanceId dao " + actions);
         jdbcTemplate.batchUpdate(
                 INSERT_ALL_WITH_COMPOUND_INSTANCE_ID,
                 actions,
@@ -67,6 +67,7 @@ public class ActionInstanceDAOImpl implements ActionInstanceDAO {
                     preparedStatement.setLong(2, compoundInstanceId);
                     preparedStatement.setLong(3, action.getId());
                     preparedStatement.setLong(4, action.getPriority());
+                    preparedStatement.setString(5, action.getContextInstanceName());
                 });
     }
 }

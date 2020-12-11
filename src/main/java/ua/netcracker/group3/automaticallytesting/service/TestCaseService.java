@@ -3,6 +3,7 @@ package ua.netcracker.group3.automaticallytesting.service;
 import ua.netcracker.group3.automaticallytesting.model.TestCase;
 import org.springframework.transaction.annotation.Transactional;
 import ua.netcracker.group3.automaticallytesting.dto.CreateTestCaseDto;
+import ua.netcracker.group3.automaticallytesting.model.TestCaseTopSubscribed;
 import ua.netcracker.group3.automaticallytesting.model.TestCaseUpd;
 
 import java.util.List;
@@ -25,6 +26,8 @@ public interface TestCaseService {
     List<TestCaseUpd> getTestCases(Pageable pageable, String name);
     List<TestCaseUpd> getAllTestCases();
     Integer countPages(Integer pageSize);
+
+    List<TestCaseTopSubscribed> getFiveTopSubscribedTestCases();
 
 
 }

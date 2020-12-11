@@ -8,11 +8,9 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ua.netcracker.group3.automaticallytesting.dao.TestCaseDAO;
 import ua.netcracker.group3.automaticallytesting.mapper.TestCaseStepMapper;
+import ua.netcracker.group3.automaticallytesting.mapper.TestCaseTopSubscribedMapper;
 import ua.netcracker.group3.automaticallytesting.mapper.TestCaseUpdMapper;
-import ua.netcracker.group3.automaticallytesting.model.TestCase;
-import ua.netcracker.group3.automaticallytesting.model.TestCaseStep;
-import ua.netcracker.group3.automaticallytesting.model.TestCaseUpd;
-import ua.netcracker.group3.automaticallytesting.model.TestScenario;
+import ua.netcracker.group3.automaticallytesting.model.*;
 
 import java.sql.PreparedStatement;
 import java.util.List;
@@ -24,12 +22,13 @@ public class TestCaseDAOImpl implements TestCaseDAO {
 
     private final JdbcTemplate jdbcTemplate;
     private final TestCaseStepMapper testCaseStepMapper;
-
+    private final TestCaseTopSubscribedMapper testCaseTopSubscribedMapper;
     private final TestCaseUpdMapper testCaseUpdMapper;
 
-    public TestCaseDAOImpl(JdbcTemplate jdbcTemplate, TestCaseStepMapper testCaseStepMapper, TestCaseUpdMapper testCaseUpdMapper) {
+    public TestCaseDAOImpl(JdbcTemplate jdbcTemplate, TestCaseStepMapper testCaseStepMapper, TestCaseTopSubscribedMapper testCaseTopSubscribedMapper, TestCaseUpdMapper testCaseUpdMapper) {
         this.jdbcTemplate = jdbcTemplate;
         this.testCaseStepMapper = testCaseStepMapper;
+        this.testCaseTopSubscribedMapper = testCaseTopSubscribedMapper;
         this.testCaseUpdMapper = testCaseUpdMapper;
     }
 
@@ -47,6 +46,9 @@ public class TestCaseDAOImpl implements TestCaseDAO {
 
     @Value("${count.test.cases}")
     public String COUNT_TEST_CASES;
+
+    @Value("${dashboard.top.subscribed.test.cases}")
+    public String GET_TOP_FIVE_SUBSCRIBED_TEST_CASES;
     /**
      *
      * @return created test_case_id
@@ -82,6 +84,11 @@ public class TestCaseDAOImpl implements TestCaseDAO {
         return jdbcTemplate.queryForStream(GET_PAGE + orderByLimitOffsetWithValues,
                 testCaseUpdMapper, name)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TestCaseTopSubscribed> getTopFiveSubscribedTestCases() {
+        return jdbcTemplate.query(GET_TOP_FIVE_SUBSCRIBED_TEST_CASES, testCaseTopSubscribedMapper);
     }
 
     @Override

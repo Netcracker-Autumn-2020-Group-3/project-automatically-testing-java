@@ -12,6 +12,8 @@ import java.util.Optional;
 
 public interface CompoundDAO {
 
+    long getQuantityCompounds();
+
     List<Compound> findAll(Pageable pageable);
 
     List<CompoundDtoWithIdName> findAllWithIdName();

@@ -10,6 +10,8 @@ import java.util.List;
 
 public interface CompoundService {
 
+    long getQuantityCompounds();
+
     List<Compound> getAllCompounds(Pageable pageable);
 
     List<CompoundDtoWithIdName> getAllCompoundsWithIdName();

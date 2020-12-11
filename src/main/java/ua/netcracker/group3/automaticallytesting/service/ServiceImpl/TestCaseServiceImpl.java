@@ -187,6 +187,10 @@ public class TestCaseServiceImpl implements TestCaseService {
         return testCaseDAO.getTestCases();
     }
 
+    @Override
+    public List<TestCaseTopSubscribed> getFiveTopSubscribedTestCases() {
+        return testCaseDAO.getTopFiveSubscribedTestCases();
+    }
 
     @Override
     public Integer countPages(Integer pageSize) {

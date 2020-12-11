@@ -4,13 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class TestScenarioItemDto {
     private long id;
-    private long priority;
     private String type;
+    private long priority;
+    private String contextInstanceName;
+    private List<TestScenarioItemDto> items;
 
     public TestScenarioItemDto(long id, long priority) {
         this.id = id;
