@@ -22,4 +22,7 @@ public interface UserDAO {
     void updateUserById(String email, String name,String surname,String role,boolean is_enabled, long id);
 
     Integer countUsers();
+
+    Integer countUsers(String role);
+
 }

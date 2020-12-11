@@ -47,6 +47,8 @@ public class UserDAOImpl implements UserDAO {
     @Value("${get.user.email.by.id}")
     private String GET_USER_EMAIL_BY_ID;
 
+    @Value("Select count(*) from \"user\" WHERE role=?")
+    private String COUNT_BY_ROLE;
     @Override
     public User findUserByEmail(String email) {
         return jdbcTemplate.queryForObject(FIND_USER_BY_EMAIL_WITH_PASSWORD, mapper, email);
@@ -94,5 +96,13 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public Integer countUsers() {
         return jdbcTemplate.queryForObject(COUNT_USERS, Integer.class);
+    }
+
+
+    @Override
+    public Integer countUsers(String role) {
+        String temp = "role_" + role;
+        temp = temp.toUpperCase();
+        return jdbcTemplate.queryForObject(COUNT_BY_ROLE, Integer.class, new Object[] { temp } );
     }
 }
