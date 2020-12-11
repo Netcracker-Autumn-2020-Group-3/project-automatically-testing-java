@@ -47,7 +47,7 @@ public class UserDAOImpl implements UserDAO {
     @Value("${get.user.email.by.id}")
     private String GET_USER_EMAIL_BY_ID;
 
-    @Value("Select count(*) from \"user\" WHERE role=?")
+    @Value("${count.users.by.role}")
     private String COUNT_BY_ROLE;
     @Override
     public User findUserByEmail(String email) {
