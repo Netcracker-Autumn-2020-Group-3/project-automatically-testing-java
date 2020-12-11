@@ -8,6 +8,6 @@ import java.util.Map;
 
 public interface TestCaseExecutionService {
 
-    Map<Long, ContextVariable> executeTestCase(TestCaseDto testCaseDto);
-
+  /*  Map<Long, ContextVariable> executeTestCase(TestCaseDto testCaseDto,Long testCaseExecutionId);*/
+    List<String> executeTestCase(TestCaseDto testCaseDto, Long testCaseExecutionId);
 }
