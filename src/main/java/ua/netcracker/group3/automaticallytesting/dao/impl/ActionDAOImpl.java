@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import ua.netcracker.group3.automaticallytesting.dao.ActionDAO;
 import ua.netcracker.group3.automaticallytesting.dto.ActionDtoWithIdNameVoid;
 import ua.netcracker.group3.automaticallytesting.mapper.ActionMapper;
-import ua.netcracker.group3.automaticallytesting.mapper.ActionMapperWithIdNameVoid;
+import ua.netcracker.group3.automaticallytesting.mapper.ActionWithIdNameVoidMapper;
 import ua.netcracker.group3.automaticallytesting.model.Action;
 
 import java.sql.PreparedStatement;
@@ -56,7 +56,7 @@ public class ActionDAOImpl implements ActionDAO {
 
     @Override
     public List<ActionDtoWithIdNameVoid> findAllWithIdName() {
-        RowMapper<ActionDtoWithIdNameVoid> mapper = new ActionMapperWithIdNameVoid();
+        RowMapper<ActionDtoWithIdNameVoid> mapper = new ActionWithIdNameVoidMapper();
         return jdbcTemplate.query(FIND_ALL_WITH_ID_NAME, mapper);
     }
 
