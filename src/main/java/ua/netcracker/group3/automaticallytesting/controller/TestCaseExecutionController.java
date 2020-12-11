@@ -54,34 +54,14 @@ public class TestCaseExecutionController {
     }
 
     public void executeTestCase(long testCaseId, long testCaseExecutionId) {
-
-        //TestCaseDto testCaseDto =  testCaseService.getTestCase(testCaseId);
-        //System.out.println(testCaseExecutionService.executeTestCase(testCaseDto));
-
+        TestCaseDto testCaseDto =  testCaseService.getTestCase(testCaseId);
         long errorNumber;
-        List status = test();
-        errorNumber = status.stream().filter(el -> el == Status.FAILED).count();
+        List<String> status = testCaseExecutionService.executeTestCase(testCaseDto, testCaseExecutionId);
+        System.out.println(status);
+        errorNumber = status.stream().filter(el -> el.equals("FAILED")).count();
         System.out.println(errorNumber);
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println("finished");
         testCaseExecService.updateTestCaseExecution(FINISHED, testCaseExecutionId);
     }
-
-    public List<Enum> test() {
-        List<Enum> enumList = new ArrayList<Enum>();
-        enumList.add(Status.PASSED);
-        enumList.add(Status.PASSED);
-        enumList.add(Status.FAILED);
-        enumList.add(Status.FAILED);
-        enumList.add(Status.FAILED);
-        return enumList;
-    }
 }
 
-enum Status {
-    PASSED, FAILED
-}
+

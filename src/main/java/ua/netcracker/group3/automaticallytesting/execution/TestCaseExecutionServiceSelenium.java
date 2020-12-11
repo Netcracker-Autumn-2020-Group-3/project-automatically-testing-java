@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class TestCaseExecutionServiceSelenium implements TestCaseExecutionService {
 
     private ActionExecutionDAO actionExecutionDAO;
-    private final List<ActionExecution> actionExecutions = new ArrayList<>();
+    private List<ActionExecution> actionExecutions;
 
     //TODO make actionExecutionController to get all the actions` status
     //TODO on front make page of all actions` execution
@@ -31,6 +31,7 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
     @Autowired
     public TestCaseExecutionServiceSelenium(ActionExecutionDAO actionExecutionDAO){
         this.actionExecutionDAO = actionExecutionDAO;
+        System.setProperty("webdriver.chrome.driver", "D:\\netcracker\\chrome-driver87\\chromedriver.exe");
     }
 
 
@@ -50,6 +51,7 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
     @Override
     public List<String> executeTestCase(TestCaseDto testCaseDto,Long testCaseExecutionId) {
 
+        actionExecutions = new ArrayList<>();
         WebDriver driver = new ChromeDriver();
         Map<Long, ContextVariable> contextVariables = new HashMap<>();
         List<ScenarioStepDto> scenarioStepDtoList = testCaseDto.getScenarioStepsWithData();
@@ -81,7 +83,7 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
             });
         });
 
-        driver.close();
+        //river.close();
         log.info("Test case execution finished");
 
         List<String> statusActionExecutionsResult = statusValuesForTestExecution(actionExecutions);
