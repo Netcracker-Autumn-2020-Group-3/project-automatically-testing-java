@@ -13,7 +13,6 @@ import ua.netcracker.group3.automaticallytesting.execution.action.impl.ClickActi
 import ua.netcracker.group3.automaticallytesting.execution.action.impl.TypeActionExecutable;
 
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
@@ -50,7 +49,7 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
                 actions.get(actionDto.getName())
                         .execute(driver, variableDtosToVariableValues(actionDto.getVariables()))
                         .ifPresent(cv ->
-                                contextVariables.put(actionDto.getId(), cv));
+                                contextVariables.put(actionDto.getActionInstanceId(), cv));
                 log.info("{} action is fine", actionDto.getName());
                 try {
                     Thread.sleep(1250);

@@ -7,4 +7,6 @@ import java.util.List;
 public interface VariableValueDAO {
 
     void insert(List<VariableValue> variableValues, Long testCaseId);
+
+    void updateDataEntry(List<VariableValue> variableValues);
 }

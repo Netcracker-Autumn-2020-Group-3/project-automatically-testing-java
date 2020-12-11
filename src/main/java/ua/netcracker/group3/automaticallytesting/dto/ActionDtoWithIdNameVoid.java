@@ -5,7 +5,8 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class ActionDtoWithIdName {
+public class ActionDtoWithIdNameVoid {
     private long id;
     private String name;
+    private boolean isVoid;
 }

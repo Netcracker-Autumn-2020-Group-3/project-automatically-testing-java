@@ -1,19 +1,16 @@
 package ua.netcracker.group3.automaticallytesting.controller;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import ua.netcracker.group3.automaticallytesting.dto.ActionDtoWithIdName;
-import ua.netcracker.group3.automaticallytesting.dto.CompoundDtoWithIdName;
-import ua.netcracker.group3.automaticallytesting.dto.ScenarioStepDto;
+import ua.netcracker.group3.automaticallytesting.dto.*;
+import ua.netcracker.group3.automaticallytesting.model.CompoundActionWithActionIdAndPriority;
 import ua.netcracker.group3.automaticallytesting.model.TestScenario;
 import ua.netcracker.group3.automaticallytesting.service.ActionService;
 import ua.netcracker.group3.automaticallytesting.service.CompoundService;
 import ua.netcracker.group3.automaticallytesting.service.TestCaseService;
 import ua.netcracker.group3.automaticallytesting.service.TestScenarioService;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
-import ua.netcracker.group3.automaticallytesting.dto.TestScenarioDto;
 
 import java.util.List;
 
@@ -43,8 +40,15 @@ public class TestScenarioController {
 
     @GetMapping("/actions")
     public ResponseEntity<?> getAllActionsWithIdName() {
-        List<ActionDtoWithIdName> actions = actionService.getAllActionsWithIdName();
+        List<ActionDtoWithIdNameVoid> actions = actionService.getAllActionsWithIdName();
         return ResponseEntity.ok(actions);
+    }
+
+    @GetMapping("/compounds-actions/{id}")
+    public ResponseEntity<?> getAllCompoundActionsByCompoundId(@PathVariable("id") long id) {
+        List<CompoundActionWithActionIdAndPriority> compoundActions =
+                testScenarioService.getAllCompoundActionsByCompoundId(id);
+        return ResponseEntity.ok(compoundActions);
     }
 
     @PostMapping
@@ -54,9 +58,9 @@ public class TestScenarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> editTestScenario(@RequestBody TestScenario testScenario) {
-        testScenarioService.updateTestScenario(testScenario);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<?> editTestScenario(@RequestBody TestScenarioDtoWithIdNameArchived testScenario) {
+        boolean isUpdated = testScenarioService.updateTestScenario(testScenario);
+        return ResponseEntity.ok(isUpdated);
     }
 
     @GetMapping("/list/page")
