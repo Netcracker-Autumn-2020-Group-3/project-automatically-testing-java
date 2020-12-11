@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import ua.netcracker.group3.automaticallytesting.dao.UserDAO;
 import ua.netcracker.group3.automaticallytesting.mapper.UserMapper;
@@ -46,6 +47,8 @@ public class UserDAOImpl implements UserDAO {
     private String INSERT_USER;
     @Value("${get.user.email.by.id}")
     private String GET_USER_EMAIL_BY_ID;
+    @Value("${get.user.id.by.email}")
+    private String GET_USER_ID_BY_EMAIL;
 
     @Override
     public User findUserByEmail(String email) {
@@ -55,6 +58,11 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public String getEmail(Long id) {
         return jdbcTemplate.queryForObject(GET_USER_EMAIL_BY_ID, String.class, id);
+    }
+
+    @Override
+    public Long getUserIdByEmail(String email) {
+        return jdbcTemplate.queryForObject(GET_USER_ID_BY_EMAIL, Long.class, email);
     }
 
     @Override

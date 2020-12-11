@@ -48,6 +48,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Long getUserIdByEmail(String email) {
+        return userDAO.getUserIdByEmail(email);
+    }
+
+    @Override
     public List<User> getUsers(Pageable pageable, String name, String surname, String email, String role) {
         pageable = pagination.replaceNullsUserPage(pageable);
         pagination.validate(pageable, USER_TABLE_FIELDS);

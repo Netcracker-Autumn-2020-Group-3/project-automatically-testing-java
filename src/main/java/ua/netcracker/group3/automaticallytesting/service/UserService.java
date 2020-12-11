@@ -22,4 +22,6 @@ public interface UserService {
     Integer countPages(Integer pageSize);
 
     User getUserById(long id);
+
+    public Long getUserIdByEmail(String email);
 }

@@ -43,6 +43,9 @@ public class DataSetDAOImpl implements DataSetDAO {
     @Value("${delete.data.set}")
     private String DELETE_DATA_SET;
 
+    @Value("${create.data.set}")
+    private String CREATE_DATA_SET;
+
     @Autowired
     public DataSetDAOImpl(JdbcTemplate jdbcTemplate, DataSetMapper dataSetMapper){
         this.jdbcTemplate = jdbcTemplate;
@@ -52,9 +55,8 @@ public class DataSetDAOImpl implements DataSetDAO {
     @Override
     public long createDataSet(String name) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        String sql = "insert into data_set (name) values (?) returning id";
         jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = connection.prepareStatement(CREATE_DATA_SET, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, name);
             return ps;
             }, keyHolder);

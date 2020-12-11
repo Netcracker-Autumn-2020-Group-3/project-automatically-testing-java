@@ -70,7 +70,6 @@ public class TestCaseController {
         TestCaseDto testCaseDto =  testCaseService.getTestCase(id);
         System.out.println("testCaseDto  " + testCaseDto);
         testCaseExecutionService.executeTestCase(testCaseDto);
-
     }
 
     @GetMapping("/list/page")

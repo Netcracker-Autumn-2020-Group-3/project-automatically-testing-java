@@ -72,3 +72,4 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
         return variables.stream().collect(Collectors.toMap(VariableDto::getName, v -> v.getDataEntry().getValue()));
     }
 }
+

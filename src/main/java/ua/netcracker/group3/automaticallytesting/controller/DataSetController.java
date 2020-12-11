@@ -17,8 +17,8 @@ import java.util.List;
 @RestController
 public class DataSetController {
 
-    private DataSetService dataSetService;
-    private DataEntryService dataEntryService;
+    private final DataSetService dataSetService;
+    private final DataEntryService dataEntryService;
 
     @Autowired
     public DataSetController(DataSetService dataSetService,DataEntryService dataEntryService){
