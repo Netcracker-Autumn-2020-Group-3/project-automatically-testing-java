@@ -1,11 +1,7 @@
 package ua.netcracker.group3.automaticallytesting.util;
 
-import com.sun.org.apache.regexp.internal.RE;
 import io.jsonwebtoken.*;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import sun.misc.BASE64Encoder;
-import sun.security.util.SecurityConstants;
 import ua.netcracker.group3.automaticallytesting.model.User;
 
 import java.util.Base64;
