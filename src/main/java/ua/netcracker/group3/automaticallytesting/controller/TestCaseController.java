@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import ua.netcracker.group3.automaticallytesting.dto.CreateTestCaseDto;
+import ua.netcracker.group3.automaticallytesting.dto.CreateUpdateTestCaseDto;
 import ua.netcracker.group3.automaticallytesting.execution.TestCaseExecutionService;
 import ua.netcracker.group3.automaticallytesting.model.TestCaseUpd;
 import ua.netcracker.group3.automaticallytesting.dto.TestCaseDto;
@@ -31,12 +31,12 @@ public class TestCaseController {
     }
 
     @PostMapping("/create")
-    public void createTestCase(@RequestBody CreateTestCaseDto createTestCaseDto) {
-        log.info("Test case name: {}", createTestCaseDto.getTestCaseName());
-        log.info("Varval: {}", createTestCaseDto.getVariableValues());
+    public void createTestCase(@RequestBody CreateUpdateTestCaseDto createUpdateTestCaseDto) {
+        log.info("Test case name: {}", createUpdateTestCaseDto.getTestCaseName());
+        log.info("Varval: {}", createUpdateTestCaseDto.getVariableValues());
 
         Long userId = ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser().getId();
-        testCaseService.createTestCase(createTestCaseDto, userId);
+        testCaseService.createTestCase(createUpdateTestCaseDto, userId);
     }
 
 
@@ -49,9 +49,9 @@ public class TestCaseController {
 
 
     @PostMapping("/update")
-    public void update(@RequestBody TestCaseDto testCaseDto) {
-        log.info("Test case: {}", testCaseDto);
-        //TODO
+    public void update(@RequestBody CreateUpdateTestCaseDto createUpdateTestCaseDto) {
+        log.info("Test case: {}", createUpdateTestCaseDto);
+        testCaseService.updateTestCase(createUpdateTestCaseDto);
     }
 
     @GetMapping("/{id}")

@@ -82,7 +82,7 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
             });
         });
 
-        //river.close();
+        //driver.close();
         log.info("Test case execution finished");
 
         List<String> statusActionExecutionsResult = statusValuesForTestExecution(actionExecutions);

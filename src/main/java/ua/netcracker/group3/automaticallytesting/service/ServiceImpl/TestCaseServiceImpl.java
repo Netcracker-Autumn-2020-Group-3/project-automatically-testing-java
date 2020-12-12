@@ -7,10 +7,9 @@ import ua.netcracker.group3.automaticallytesting.dao.TestCaseDAO;
 import ua.netcracker.group3.automaticallytesting.dao.VariableValueDAO;
 import ua.netcracker.group3.automaticallytesting.dto.*;
 import ua.netcracker.group3.automaticallytesting.model.*;
-import ua.netcracker.group3.automaticallytesting.dto.CreateTestCaseDto;
+import ua.netcracker.group3.automaticallytesting.dto.CreateUpdateTestCaseDto;
 import ua.netcracker.group3.automaticallytesting.model.TestCase;
 import ua.netcracker.group3.automaticallytesting.model.TestCaseUpd;
-import ua.netcracker.group3.automaticallytesting.model.VariableValue;
 import ua.netcracker.group3.automaticallytesting.service.TestCaseService;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
 import ua.netcracker.group3.automaticallytesting.util.Pagination;
@@ -30,6 +29,7 @@ public class TestCaseServiceImpl implements TestCaseService {
     private final Pagination pagination;
 
     private final List<String> TEST_CASE_UPD_TABLE_FIELDS = Arrays.asList("id", "name");
+
     public TestCaseServiceImpl(TestCaseDAO testCaseDAO, VariableValueDAO variableValueDAO, ActionInstanceDAO actionInstanceDAO, Pagination pagination) {
         this.testCaseDAO = testCaseDAO;
         this.variableValueDAO = variableValueDAO;
@@ -37,22 +37,6 @@ public class TestCaseServiceImpl implements TestCaseService {
         this.pagination = pagination;
     }
 
-    @Override
-    @Transactional
-    public void createTestCase(CreateTestCaseDto createTestCaseDto, Long userId) {
-
-        TestCase testCase = TestCase.builder().name(createTestCaseDto.getTestCaseName())
-                .testScenarioId(createTestCaseDto.getTestScenarioId())
-                .dataSetId(createTestCaseDto.getDataSetId())
-                .projectId(createTestCaseDto.getProjectId())
-                .userId(userId)
-                .build();
-
-        Long testCaseId = testCaseDAO.insert(testCase);
-
-        variableValueDAO.insert(createTestCaseDto.getVariableValues(), testCaseId);
-
-    }
 
     private <T> Predicate<T> distinctBy(Function<? super T, ?> keyExtractor) {
         Set<Object> seen = ConcurrentHashMap.newKeySet();
@@ -64,7 +48,7 @@ public class TestCaseServiceImpl implements TestCaseService {
      */
     private Map<Long, Set<VariableDto>> getActionVariables(List<ActionInstanceJoined> actionInstanceJoinedList) {
         return actionInstanceJoinedList.stream()
-                .collect(Collectors.groupingBy(ai -> ai.getAction().getActionId(),
+                .collect(Collectors.groupingBy(ActionInstanceJoined::getId,
                         Collectors.mapping(ai -> VariableDto.builder()
                                 .id(ai.getVariable().getId())
                                 .name(ai.getVariable().getName())
@@ -72,12 +56,13 @@ public class TestCaseServiceImpl implements TestCaseService {
     }
 
     /**
-     * @return map with actionId as key and variableDto with dataEntry as value
+     * @return map with actionInstanceId as key and variableDto with dataEntry as value
      */
     private Map<Long, Set<VariableDto>> getActionVariablesWithDataEntries(List<TestCaseStep> testCaseSteps) {
         return testCaseSteps.stream()
-                .collect(Collectors.groupingBy(tcs -> tcs.getActionInstanceJoined().getAction().getActionId(),
+                .collect(Collectors.groupingBy(tcs -> tcs.getActionInstanceJoined().getId(),
                         Collectors.mapping(tcs -> VariableDto.builder()
+                                .variableValueId(tcs.getActionInstanceJoined().getVariableValueId())
                                 .id(tcs.getActionInstanceJoined().getVariable().getId())
                                 .name(tcs.getActionInstanceJoined().getVariable().getName())
                                 .dataEntry(tcs.getDataEntry())
@@ -90,7 +75,7 @@ public class TestCaseServiceImpl implements TestCaseService {
      * @return map with compound priority as a key and step as value
      */
     private List<ScenarioStepDto> getCompoundsByPriorities(List<ActionInstanceJoined> actionInstanceJoinedList,
-                                                          Map<Long, Set<VariableDto>> actionsVariables) {
+                                                           Map<Long, Set<VariableDto>> actionsVariables) {
         Map<Integer, List<ActionInstanceJoined>> priorityCompound = actionInstanceJoinedList.stream()
                 .filter(ai -> ai.getCompoundInstance() != null)
                 .collect(Collectors.groupingBy(ai -> ai.getCompoundInstance().getPriority(),
@@ -106,9 +91,9 @@ public class TestCaseServiceImpl implements TestCaseService {
                                 //sorting actions in compound by priorities in them
                                 .sorted(Comparator.comparingLong(ActionInstanceJoined::getPriority))
                                 .map(ai -> ActionDto.builder()
-                                        .id(ai.getId())
+                                        .actionInstanceId(ai.getId())
                                         .name(ai.getAction().getActionName())
-                                        .variables(new ArrayList<>(actionsVariables.getOrDefault(ai.getAction().getActionId(), new HashSet<>()))).build())
+                                        .variables(new ArrayList<>(actionsVariables.getOrDefault(ai.getId(), new HashSet<>()))).build())
                                 .collect(Collectors.toList()))
                         .build())
                 .collect(Collectors.toList());
@@ -120,15 +105,15 @@ public class TestCaseServiceImpl implements TestCaseService {
      * @return map with action priority as a key and step as value
      */
     private List<ScenarioStepDto> getActionsByPriorities(List<ActionInstanceJoined> actionInstanceJoinedList,
-                                                        Map<Long, Set<VariableDto>> actionsVariables) {
+                                                         Map<Long, Set<VariableDto>> actionsVariables) {
         return actionInstanceJoinedList.stream()
                 .filter(ai -> ai.getCompoundInstance() == null)
                 .map(ai -> ScenarioStepDto.builder()
                         .priority(ai.getPriority())
                         .actionDto(Collections.singletonList(ActionDto.builder()
-                                .id(ai.getId())
+                                .actionInstanceId(ai.getId())
                                 .name(ai.getAction().getActionName())
-                                .variables(new ArrayList<>(actionsVariables.getOrDefault(ai.getAction().getActionId(), new HashSet<>()))).build()))
+                                .variables(new ArrayList<>(actionsVariables.getOrDefault(ai.getId(), new HashSet<>()))).build()))
                         .build())
                 .filter(distinctBy(ScenarioStepDto::getPriority))
                 .collect(Collectors.toList());
@@ -146,6 +131,24 @@ public class TestCaseServiceImpl implements TestCaseService {
         scenarioSteps.addAll(priorityActionNotCompound);
         scenarioSteps.sort(Comparator.comparing(ScenarioStepDto::getPriority));
         return scenarioSteps;
+    }
+
+    @Override
+    @Transactional
+    public void createTestCase(CreateUpdateTestCaseDto createUpdateTestCaseDto, Long userId) {
+
+        TestCase testCase = TestCase.builder()
+                .name(createUpdateTestCaseDto.getTestCaseName())
+                .testScenarioId(createUpdateTestCaseDto.getTestScenarioId())
+                .dataSetId(createUpdateTestCaseDto.getDataSetId())
+                .projectId(createUpdateTestCaseDto.getProjectId())
+                .userId(userId)
+                .build();
+
+        Long testCaseId = testCaseDAO.insert(testCase);
+
+        variableValueDAO.insert(createUpdateTestCaseDto.getVariableValues(), testCaseId);
+
     }
 
     @Override
@@ -187,6 +190,10 @@ public class TestCaseServiceImpl implements TestCaseService {
         return testCaseDAO.getTestCases();
     }
 
+    @Override
+    public List<TestCaseTopSubscribed> getFiveTopSubscribedTestCases() {
+        return testCaseDAO.getTopFiveSubscribedTestCases();
+    }
 
     @Override
     public Integer countPages(Integer pageSize) {
@@ -194,13 +201,19 @@ public class TestCaseServiceImpl implements TestCaseService {
     }
 
 
-
     @Override
-    public List<TestCaseUpd> getTestCases (Pageable pageable, String name) {
+    public List<TestCaseUpd> getTestCases(Pageable pageable, String name) {
         pageable = pagination.replaceNullsUserPage(pageable);
-        pagination.validate(pageable,TEST_CASE_UPD_TABLE_FIELDS);
+        pagination.validate(pageable, TEST_CASE_UPD_TABLE_FIELDS);
         return testCaseDAO.getTestCasesPageSorted(pagination.formSqlPostgresPaginationPiece(pageable),
                 replaceNullsForSearch(name));
+    }
+
+    @Transactional
+    @Override
+    public void updateTestCase(CreateUpdateTestCaseDto createUpdateTestCaseDto) {
+        testCaseDAO.update(createUpdateTestCaseDto.getId(), createUpdateTestCaseDto.getTestCaseName());
+        variableValueDAO.updateDataEntry(createUpdateTestCaseDto.getVariableValues());
     }
 
     private String replaceNullsForSearch(String val) {

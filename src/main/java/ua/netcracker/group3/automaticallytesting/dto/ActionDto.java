@@ -14,7 +14,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @ToString
 public class ActionDto {
-    private Long id;
+    private Long actionInstanceId;
     private String name;
     private List<VariableDto> variables;
 
@@ -23,11 +23,11 @@ public class ActionDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ActionDto actionDto = (ActionDto) o;
-        return id.equals(actionDto.id);
+        return actionInstanceId.equals(actionDto.actionInstanceId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(actionInstanceId);
     }
 }
