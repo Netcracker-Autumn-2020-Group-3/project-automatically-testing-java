@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import ua.netcracker.group3.automaticallytesting.dto.DataSetDto;
 import ua.netcracker.group3.automaticallytesting.model.DataEntry;
 import ua.netcracker.group3.automaticallytesting.model.DataSet;
 import ua.netcracker.group3.automaticallytesting.service.DataEntryService;
@@ -16,8 +17,8 @@ import java.util.List;
 @RestController
 public class DataSetController {
 
-    private DataSetService dataSetService;
-    private DataEntryService dataEntryService;
+    private final DataSetService dataSetService;
+    private final DataEntryService dataEntryService;
 
     @Autowired
     public DataSetController(DataSetService dataSetService,DataEntryService dataEntryService){
@@ -58,12 +59,10 @@ public class DataSetController {
         return "ok";
     }
 
-
-    @PostMapping("/create-data-set/{name}")
-    public void createDataSet(@PathVariable("name") String name,
-                              @RequestBody List<DataEntry> dataSetValues) {
-        long id = dataSetService.createDataSet(name);
-        dataEntryService.createDataEntry(id, dataSetValues);
+    @PostMapping("/create-data-set")
+    public void createDataSet(@RequestBody DataSetDto dataSetValues) {
+        long id = dataSetService.createDataSet(dataSetValues.getDataSetName());
+        dataEntryService.createDataEntry(id, dataSetValues.getDataEntryValues());
     }
 
     @DeleteMapping("/delete-data-set/{id}")
