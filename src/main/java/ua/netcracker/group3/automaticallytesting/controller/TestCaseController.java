@@ -69,8 +69,7 @@ public class TestCaseController {
     public void execute(@PathVariable("id") Long id) {
         TestCaseDto testCaseDto =  testCaseService.getTestCase(id);
         System.out.println("testCaseDto  " + testCaseDto);
-        testCaseExecutionService.executeTestCase(testCaseDto,49L);
-
+        System.out.println(testCaseExecutionService.executeTestCase(testCaseDto,60L));
     }
 
     @GetMapping("/list/page")

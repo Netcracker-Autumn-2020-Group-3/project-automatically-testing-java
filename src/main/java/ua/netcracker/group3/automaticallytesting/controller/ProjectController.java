@@ -39,6 +39,7 @@ public class ProjectController {
 
     @GetMapping("/{id}")
     public Project getProject(@PathVariable("id") Long id){
+        System.out.println(id);
         return projectService.getProjectById(id);
 
     }
