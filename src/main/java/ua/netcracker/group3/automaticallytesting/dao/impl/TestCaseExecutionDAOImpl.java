@@ -21,7 +21,7 @@ import java.util.List;
 @PropertySource("classpath:queries/postgres.properties")
 public class TestCaseExecutionDAOImpl implements TestCaseExecutionDAO {
 
-    @Value("${get.all.test.case.execution.with.failed.action.number.v2}")
+    @Value("${get.all.test.case.execution.with.failed.action.number}")
     public String GET_ALL_TEST_CASE_WITH_FAILED_ACTION;
 
     private final JdbcTemplate jdbcTemplate;

@@ -67,11 +67,11 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
                         .forEach((contextVariable, status) -> {
                             actionExecutions.add(ActionExecution.builder()
                                     .testCaseExecutionId(testCaseExecutionId)
-                                    .actionInstanceId(actionDto.getId())
+                                    .actionInstanceId(actionDto.getActionInstanceId())
                                     .status(status)
                                     .build());
                             contextVariable.ifPresent(cv ->
-                                    contextVariables.put(actionDto.getId(), cv));
+                                    contextVariables.put(actionDto.getActionInstanceId(), cv));
                             log.info("action STATUS of {} is " + status, actionDto.getName());
                         });
                 try {
