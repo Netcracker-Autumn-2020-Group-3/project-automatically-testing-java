@@ -31,7 +31,8 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
     @Autowired
     public TestCaseExecutionServiceSelenium(ActionExecutionDAO actionExecutionDAO){
         this.actionExecutionDAO = actionExecutionDAO;
-        System.setProperty("webdriver.chrome.driver", "D:\\netcracker\\chrome-driver87\\chromedriver.exe");
+        //System.setProperty("webdriver.chrome.driver", "D:\\netcracker\\chrome-driver87\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "E:\\chromedriver.exe");
     }
 
 
@@ -43,9 +44,9 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
     }};
 
     public TestCaseExecutionServiceSelenium() {
-         System.setProperty("webdriver.chrome.driver", "D:\\netcracker\\chrome-driver87\\chromedriver.exe");
+         //System.setProperty("webdriver.chrome.driver", "D:\\netcracker\\chrome-driver87\\chromedriver.exe");
         // System.setProperty("webdriver.chrome.driver", "C:\\webdriver86\\chromedriver.exe");
-        // System.setProperty("webdriver.chrome.driver", "E:\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "E:\\chromedriver.exe");
     }
 
     @Override

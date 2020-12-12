@@ -21,7 +21,7 @@ public class ActionExecutionDAOImpl implements ActionExecutionDAO {
     @Value("${create.action.executions}")
     private String CREATE_ACTION_EXECUTIONS;
 
-    @Value("${get.list.of.action.executions}")
+    @Value("${get.list.of.action.executions.v2}")
     private String GET_ALL_ACTION_EXECUTIONS;
 
     public ActionExecutionDAOImpl(JdbcTemplate jdbcTemplate, ActionExecutionMapper actionExecutionMapper){
@@ -41,7 +41,7 @@ public class ActionExecutionDAOImpl implements ActionExecutionDAO {
 
     @Override
     public List<ActionExecutionDto> getAllActionExecution(Long testCaseExecutionId) {
-        return jdbcTemplate.queryForStream(GET_ALL_ACTION_EXECUTIONS,actionExecutionMapper,testCaseExecutionId)
+        return jdbcTemplate.queryForStream(GET_ALL_ACTION_EXECUTIONS,actionExecutionMapper,testCaseExecutionId,testCaseExecutionId)
                 .collect(Collectors.toList());
     }
 }

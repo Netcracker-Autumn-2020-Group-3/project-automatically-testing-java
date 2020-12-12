@@ -55,6 +55,7 @@ public class TestCaseExecutionController {
 
     public void executeTestCase(long testCaseId, long testCaseExecutionId) {
         TestCaseDto testCaseDto =  testCaseService.getTestCase(testCaseId);
+        System.out.println(testCaseDto);
         long errorNumber;
         List<String> status = testCaseExecutionService.executeTestCase(testCaseDto, testCaseExecutionId);
         System.out.println(status);
