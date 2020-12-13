@@ -25,4 +25,10 @@ public interface TestCaseService {
 
 
     void updateTestCase(CreateUpdateTestCaseDto createUpdateTestCaseDto);
+
+    void addSubscriber(Long testCaseId, Long userId);
+
+    Boolean isFollowedByUser(Long testCaseId, Long userId);
+
+    void removeSubscriber(Long testCaseId, Long userId);
 }

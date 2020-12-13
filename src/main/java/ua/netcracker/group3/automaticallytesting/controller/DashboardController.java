@@ -2,6 +2,9 @@ package ua.netcracker.group3.automaticallytesting.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import ua.netcracker.group3.automaticallytesting.dto.TestCaseExecutionsCountsByStartDatesDto;
+import ua.netcracker.group3.automaticallytesting.service.TestCaseExecService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,12 +22,11 @@ import java.util.List;
 public class DashboardController {
 
     private final TestCaseService testCaseService;
-    private final TestCaseExecService testCaseExecutionService;
+    private final TestCaseExecService testCaseExecService;
 
-    @Autowired
-    public DashboardController(TestCaseService testCaseService, TestCaseExecService testCaseExecutionService) {
+    public DashboardController(TestCaseService testCaseService, TestCaseExecService testCaseExecService) {
         this.testCaseService = testCaseService;
-        this.testCaseExecutionService = testCaseExecutionService;
+        this.testCaseExecService = testCaseExecService;
     }
 
     @GetMapping("/top-subscribed-test-cases")
@@ -32,8 +34,13 @@ public class DashboardController {
         return ResponseEntity.ok(testCaseService.getFiveTopSubscribedTestCases());
     }
 
+    @GetMapping("/test-case-executions-by-dates")
+    public List<TestCaseExecutionsCountsByStartDatesDto> testCaseExecutionsByDates(@RequestParam Integer numberOfDays){
+        return testCaseExecService.getExecutionsByDatesForLastDays(numberOfDays);
+    }
+
     @GetMapping("/test-case-execution/grouped-number")
     public List<GroupedTestCaseExecutionDto> getGroupedTestCaseExecutionNumber(){
-        return testCaseExecutionService.getGroupedTestCaseExecution();
+        return testCaseExecService.getGroupedTestCaseExecution();
     }
 }

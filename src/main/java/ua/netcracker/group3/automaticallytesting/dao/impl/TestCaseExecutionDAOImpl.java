@@ -10,12 +10,15 @@ import org.springframework.stereotype.Repository;
 import ua.netcracker.group3.automaticallytesting.dao.TestCaseExecutionDAO;
 import ua.netcracker.group3.automaticallytesting.dto.GroupedTestCaseExecutionDto;
 import ua.netcracker.group3.automaticallytesting.dto.TestCaseExecutionDto;
+import ua.netcracker.group3.automaticallytesting.dto.TestCaseExecutionsCountsByStartDatesDto;
 import ua.netcracker.group3.automaticallytesting.mapper.GroupedTestCaseExecutionMapper;
 import ua.netcracker.group3.automaticallytesting.mapper.TestCaseExecutionMapper;
 import ua.netcracker.group3.automaticallytesting.mapper.TestCaseExecutionWithActionFailedMapper;
+import ua.netcracker.group3.automaticallytesting.mapper.TestCaseExecutionsCountsByStartDatesMapper;
 import ua.netcracker.group3.automaticallytesting.model.TestCaseExecution;
 import ua.netcracker.group3.automaticallytesting.model.TestCaseExecutionStatus;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
@@ -28,22 +31,27 @@ public class TestCaseExecutionDAOImpl implements TestCaseExecutionDAO {
     @Value("${get.all.test.case.execution.with.failed.action.number}")
     public String GET_ALL_TEST_CASE_WITH_FAILED_ACTION;
 
+    @Value("${select.test.case.executions.group.by.creation.date}")
+    public String GET_EXECUTIONS_GROUP_BY_START_DATE;
+
     @Value("${dashboard.grouped.number.of.test.case.execution}")
     private String GET_GROUPED_TEST_CASE_EXECUTIONS;
 
     private final JdbcTemplate jdbcTemplate;
     private final TestCaseExecutionMapper testCaseExecutionMapper;
     private final TestCaseExecutionWithActionFailedMapper testCaseExecutionWithActionFailedMapper;
+    private final TestCaseExecutionsCountsByStartDatesMapper testCaseExecutionsCountsByStartDatesMapper;
     private final GroupedTestCaseExecutionMapper groupedTestCaseExecutionMapper;
 
-    @Autowired
     public TestCaseExecutionDAOImpl(JdbcTemplate jdbcTemplate,
                                     TestCaseExecutionMapper testCaseExecutionMapper,
                                     TestCaseExecutionWithActionFailedMapper testCaseExecutionWithActionFailedMapper,
+                                    TestCaseExecutionsCountsByStartDatesMapper testCaseExecutionsCountsByStartDatesMapper,
                                     GroupedTestCaseExecutionMapper groupedTestCaseExecutionMapper) {
         this.jdbcTemplate = jdbcTemplate;
         this.testCaseExecutionMapper = testCaseExecutionMapper;
         this.testCaseExecutionWithActionFailedMapper = testCaseExecutionWithActionFailedMapper;
+        this.testCaseExecutionsCountsByStartDatesMapper = testCaseExecutionsCountsByStartDatesMapper;
         this.groupedTestCaseExecutionMapper = groupedTestCaseExecutionMapper;
     }
 
@@ -77,6 +85,12 @@ public class TestCaseExecutionDAOImpl implements TestCaseExecutionDAO {
     public void updateTestCaseExecution(Enum status, long testCaseExecutionId) {
         String sql = "update test_case_execution set status = ?, end_date_time = now() where id = ?";
         jdbcTemplate.update(sql, String.valueOf(status), testCaseExecutionId);
+    }
+
+    @Override
+    public List<TestCaseExecutionsCountsByStartDatesDto> getExecutionsByStartDate(Date fromDate, Date tillDate){
+        return jdbcTemplate.queryForStream(GET_EXECUTIONS_GROUP_BY_START_DATE, testCaseExecutionsCountsByStartDatesMapper, fromDate, tillDate)
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -50,11 +50,19 @@ public class TestCaseDAOImpl implements TestCaseDAO {
     @Value("${update.test.case.name}")
     public String UPDATE_TEST_CASE_NAME;
 
+    @Value("${insert.subscription}")
+    public String INSERT_SUBSCRIBER;
+
+    @Value("${delete.subscription}")
+    public String DELETE_SUBSCRIBER;
+
+    @Value("${exist.subscription}")
+    public String SUBSCRIPTION_EXISTS;
 
     @Value("${dashboard.top.subscribed.test.cases}")
     public String GET_TOP_FIVE_SUBSCRIBED_TEST_CASES;
+
     /**
-     *
      * @return created test_case_id
      */
     @Override
@@ -74,13 +82,13 @@ public class TestCaseDAOImpl implements TestCaseDAO {
         return keyHolder.getKey().longValue();
     }
 
-    public List<TestCaseStep> getTestCaseSteps(Long testCaseId){
+    public List<TestCaseStep> getTestCaseSteps(Long testCaseId) {
         return jdbcTemplate.queryForStream(GET_TEST_CASE_STEPS, testCaseStepMapper, testCaseId).collect(Collectors.toList());
     }
 
     @Override
     public List<TestCaseUpd> getTestCases() {
-        return jdbcTemplate.queryForStream(GET_ALL,testCaseUpdMapper).collect(Collectors.toList());
+        return jdbcTemplate.queryForStream(GET_ALL, testCaseUpdMapper).collect(Collectors.toList());
     }
 
     @Override
@@ -103,5 +111,20 @@ public class TestCaseDAOImpl implements TestCaseDAO {
     @Override
     public void update(Long testCaseId, String newTestCaseName) {
         jdbcTemplate.update(UPDATE_TEST_CASE_NAME, newTestCaseName, testCaseId);
+    }
+
+    @Override
+    public void addSubscriber(Long testCaseId, Long userId) {
+        jdbcTemplate.update(INSERT_SUBSCRIBER, userId, testCaseId);
+    }
+
+    @Override
+    public Boolean isFollowedByUser(Long testCaseId, Long userId) {
+        return jdbcTemplate.queryForObject(SUBSCRIPTION_EXISTS, Boolean.class, testCaseId, userId);
+    }
+
+    @Override
+    public void removeSubscriber(Long testCaseId, Long userId) {
+        jdbcTemplate.update(DELETE_SUBSCRIBER, testCaseId, userId);
     }
 }

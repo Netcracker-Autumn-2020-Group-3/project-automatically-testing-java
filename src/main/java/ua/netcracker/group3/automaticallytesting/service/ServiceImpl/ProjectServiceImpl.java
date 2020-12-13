@@ -53,6 +53,11 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void archiveProject(Long projectId) {
-        projectDAO.archive(projectId);
+        projectDAO.updateIsArchivedField(projectId, true);
+    }
+
+    @Override
+    public void unarchiveProject(Long projectId) {
+        projectDAO.updateIsArchivedField(projectId, false);
     }
 }
