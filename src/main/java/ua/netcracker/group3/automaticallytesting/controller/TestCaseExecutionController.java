@@ -6,6 +6,7 @@ import ua.netcracker.group3.automaticallytesting.dto.TestCaseExecutionDto;
 import ua.netcracker.group3.automaticallytesting.execution.TestCaseExecutionService;
 import ua.netcracker.group3.automaticallytesting.model.TestCaseExecution;
 import ua.netcracker.group3.automaticallytesting.model.TestCaseExecutionStatus;
+import ua.netcracker.group3.automaticallytesting.service.NotificationService;
 import ua.netcracker.group3.automaticallytesting.service.TestCaseExecService;
 import ua.netcracker.group3.automaticallytesting.service.TestCaseService;
 import ua.netcracker.group3.automaticallytesting.service.UserService;
@@ -25,14 +26,17 @@ public class TestCaseExecutionController {
     private final TestCaseService testCaseService;
     private final TestCaseExecutionService testCaseExecutionService;
     private final UserService userService;
+    private final NotificationService notificationService;
 
 
     public TestCaseExecutionController(TestCaseExecService testCaseExecService,TestCaseService testCaseService,
-                                       TestCaseExecutionService testCaseExecutionService, UserService userService) {
+                                       TestCaseExecutionService testCaseExecutionService, UserService userService,
+                                       NotificationService notificationService) {
         this.testCaseExecService = testCaseExecService;
         this.testCaseService = testCaseService;
         this.testCaseExecutionService = testCaseExecutionService;
         this.userService = userService;
+        this.notificationService = notificationService;
     }
 
     @GetMapping("/get-all")
@@ -50,6 +54,7 @@ public class TestCaseExecutionController {
                                         @RequestBody String userEmail) {
         long userId = userService.getUserIdByEmail(userEmail);
         long testCaseExecutionId = testCaseExecService.createTestCaseExecution(testCaseId, userId);
+        notificationService.addNotifications(testCaseId, testCaseExecutionId);
         executeTestCase(testCaseId, testCaseExecutionId);
     }
 
