@@ -30,7 +30,7 @@ public class TestCaseController {
         this.testCaseExecutionService = testCaseExecutionService;
     }
 
-    @PostMapping("/create")
+    @PostMapping()
     public void createTestCase(@RequestBody CreateUpdateTestCaseDto createUpdateTestCaseDto) {
         log.info("Test case name: {}", createUpdateTestCaseDto.getTestCaseName());
         log.info("Varval: {}", createUpdateTestCaseDto.getVariableValues());
@@ -39,45 +39,42 @@ public class TestCaseController {
         testCaseService.createTestCase(createUpdateTestCaseDto, userId);
     }
 
-
     @GetMapping("/list")
     public List<TestCaseUpd> getAllTestCases() {
         return testCaseService.getAllTestCases();
 
     }
-
-
-
-    @PostMapping("/update")
-    public void update(@RequestBody CreateUpdateTestCaseDto createUpdateTestCaseDto) {
-        log.info("Test case: {}", createUpdateTestCaseDto);
-        testCaseService.updateTestCase(createUpdateTestCaseDto);
-    }
-
     @GetMapping("/{id}")
     public TestCaseDto getById(@PathVariable("id") Long testCaseId) {
         return testCaseService.getTestCase(testCaseId);
     }
 
-    @DeleteMapping("/{id}/delete")
-    public void delete(@PathVariable("id") Long testCaseId){
-        // TODO
-
+    @PutMapping("/{id}")
+    public void update(@PathVariable("id") Long testCaseId, @RequestBody CreateUpdateTestCaseDto createUpdateTestCaseDto) {
+        createUpdateTestCaseDto.setId(testCaseId);
+        log.info("Test case: {}", createUpdateTestCaseDto);
+        testCaseService.updateTestCase(createUpdateTestCaseDto);
     }
 
-    @PostMapping("/follow")
-    public void follow(@RequestBody Long testCaseId){
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable("id") Long testCaseId){
+        // TODO
+    }
+
+    @PatchMapping("/{id}/follow")
+    public void follow(@PathVariable("id") Long testCaseId){
         Long userId = ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser().getId();
         log.info("follow testcase: {}, userId: {}", testCaseId, userId);
         testCaseService.addSubscriber(testCaseId, userId);
     }
 
-    @PostMapping("/unfollow")
-    public void unfollow(@RequestBody Long testCaseId){
+    @PatchMapping("/{id}/unfollow")
+    public void unfollow(@PathVariable("id") Long testCaseId){
         Long userId = ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser().getId();
         log.info("unfollow testcase: {}, userId: {}", testCaseId, userId);
         testCaseService.removeSubscriber(testCaseId, userId);
     }
+    
     @GetMapping("/{id}/is-followed")
     public Boolean isFollowed(@PathVariable("id") Long testCaseId){
         Long userId = ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser().getId();
@@ -91,7 +88,6 @@ public class TestCaseController {
         TestCaseDto testCaseDto =  testCaseService.getTestCase(id);
         System.out.println("testCaseDto  " + testCaseDto);
         testCaseExecutionService.executeTestCase(testCaseDto);
-
     }
 
     @GetMapping("/list/page")
