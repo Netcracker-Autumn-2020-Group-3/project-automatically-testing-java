@@ -1,5 +1,6 @@
 package ua.netcracker.group3.automaticallytesting.dao;
 
+import ua.netcracker.group3.automaticallytesting.dto.GroupedTestCaseExecutionDto;
 import ua.netcracker.group3.automaticallytesting.dto.TestCaseExecutionDto;
 import ua.netcracker.group3.automaticallytesting.model.TestCaseExecution;
 
@@ -10,4 +11,6 @@ public interface TestCaseExecutionDAO {
     List<TestCaseExecutionDto> getAllTestCaseExecutionWithFailedActionNumber();
     Long createTestCaseExecution(long testCaseId, long userId);
     void updateTestCaseExecution(Enum status, long testCaseExecutionId);
+
+    List<GroupedTestCaseExecutionDto> getGroupedTestCaseExecution();
 }

@@ -2,6 +2,7 @@ package ua.netcracker.group3.automaticallytesting.service.ServiceImpl;
 
 import org.springframework.stereotype.Service;
 import ua.netcracker.group3.automaticallytesting.dao.TestCaseExecutionDAO;
+import ua.netcracker.group3.automaticallytesting.dto.GroupedTestCaseExecutionDto;
 import ua.netcracker.group3.automaticallytesting.dto.TestCaseExecutionDto;
 import ua.netcracker.group3.automaticallytesting.model.TestCaseExecution;
 import ua.netcracker.group3.automaticallytesting.service.TestCaseExecService;
@@ -35,5 +36,10 @@ public class TestCaseExecServiceImpl implements TestCaseExecService {
     @Override
     public void updateTestCaseExecution(Enum status, long testCaseExecutionId) {
         testCaseExecutionDAO.updateTestCaseExecution(status, testCaseExecutionId);
+    }
+
+    @Override
+    public List<GroupedTestCaseExecutionDto> getGroupedTestCaseExecution() {
+        return testCaseExecutionDAO.getGroupedTestCaseExecution();
     }
 }

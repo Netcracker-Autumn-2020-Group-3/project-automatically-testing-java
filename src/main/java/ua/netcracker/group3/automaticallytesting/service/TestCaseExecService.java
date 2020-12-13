@@ -1,5 +1,6 @@
 package ua.netcracker.group3.automaticallytesting.service;
 
+import ua.netcracker.group3.automaticallytesting.dto.GroupedTestCaseExecutionDto;
 import ua.netcracker.group3.automaticallytesting.dto.TestCaseExecutionDto;
 import ua.netcracker.group3.automaticallytesting.model.TestCaseExecution;
 
@@ -15,4 +16,5 @@ public interface TestCaseExecService {
 
     void updateTestCaseExecution(Enum status, long testCaseExecutionId);
 
+    List<GroupedTestCaseExecutionDto> getGroupedTestCaseExecution();
 }
