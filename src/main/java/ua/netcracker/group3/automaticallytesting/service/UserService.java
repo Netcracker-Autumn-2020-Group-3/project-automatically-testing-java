@@ -23,6 +23,8 @@ public interface UserService {
 
     User getUserById(long id);
 
+    public Long getUserIdByEmail(String email);
+
     void updateUserPasswordByToken(String token, String password) throws Exception;
 
     void updateUserSettings(User user);

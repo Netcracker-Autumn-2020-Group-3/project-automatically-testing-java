@@ -26,4 +26,6 @@ public interface UserDAO {
     void updateUserPassword(String email, String password);
 
     void updateUserSettings(User user);
+
+    Long getUserIdByEmail(String email);
 }
