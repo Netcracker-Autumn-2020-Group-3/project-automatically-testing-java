@@ -1,17 +1,11 @@
 package ua.netcracker.group3.automaticallytesting.controller;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.dto.CompoundDto;
-import ua.netcracker.group3.automaticallytesting.model.Action;
 import ua.netcracker.group3.automaticallytesting.model.Compound;
-import ua.netcracker.group3.automaticallytesting.model.CompoundAction;
 import ua.netcracker.group3.automaticallytesting.service.CompoundService;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
-
-import java.util.List;
-import java.util.Map;
 
 @CrossOrigin("*")
 @RestController
@@ -25,16 +19,21 @@ public class CompoundController {
     }
 
     @GetMapping
-    public ResponseEntity<?> compounds(@RequestParam Integer pageSize,
+    public ResponseEntity<?> getCompounds(@RequestParam Integer pageSize,
                                        @RequestParam Integer page,
-                                       //@RequestParam String sortOrder,
+                                       @RequestParam String search,
                                        @RequestParam String sortField) {
-
         Pageable pageable = new Pageable();
         pageable.setPageSize(pageSize);
         pageable.setSortField(sortField);
+        pageable.setSearch(search);
         pageable.setPage((page > 0 ? page - 1 : 0) * pageSize); // Будет исправлено
         return ResponseEntity.ok(compoundService.getAllCompounds(pageable));
+    }
+
+    @GetMapping("/quantity")
+    public ResponseEntity<?> getQuantityCompounds(@RequestParam String search) {
+        return ResponseEntity.ok(compoundService.getQuantityCompounds(search));
     }
 
     @RequestMapping(value = "/create/check/{name}",method = RequestMethod.GET)

@@ -1,6 +1,5 @@
 package ua.netcracker.group3.automaticallytesting.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,13 +11,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -27,32 +23,18 @@ import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.UserDetails
 )
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
 
+    private final JwtAuthEntryPoint unauthorizedHandler;
+    private final UserDetailsService userDetailsService;
 
-    @Autowired
-    private JwtAuthEntryPoint unauthorizedHandler;
-
-    /*@Autowired
-    private JwtAuthTokenFilter jwtAuthTokenFilter;
-*/  @Autowired
-    private AuthenticationSuccessHandler authenticationSuccessHandler;
-
-    @Autowired
-    private UserDetailsService userDetailsService;
+    public WebSecurityConfig(JwtAuthEntryPoint unauthorizedHandler, UserDetailsService userDetailsService) {
+        this.unauthorizedHandler = unauthorizedHandler;
+        this.userDetailsService = userDetailsService;
+    }
 
     @Bean
     public JwtAuthTokenFilter authenticationJwtTokenFilter() {
         return new JwtAuthTokenFilter();
     }
-
-
-    @Autowired
-    public WebSecurityConfig(AuthenticationSuccessHandler authenticationSuccessHandler,UserDetailsServiceImpl userDetailsService){
-        this.authenticationSuccessHandler = authenticationSuccessHandler;
-        this.userDetailsService = userDetailsService;
-    }
-
-
-
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -80,28 +62,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
-
-
     @Bean
     public PasswordEncoder passwordEncoder() {
-
-        return NoOpPasswordEncoder.getInstance();  //TODO realize Bcrypt(dont know how to implement cause authorization doesnt work with it)
+        return new BCryptPasswordEncoder();
     }
-   /*@Bean
-   public PasswordEncoder passwordEncoder() {
-       return new BCryptPasswordEncoder();
-   }*/
-
-    /*@Override
-    public void addCorsMappings(CorsRegistry corsRegistry) {
-        corsRegistry.addMapping( "/**" )
-                .allowedOrigins( "*" )
-                .allowedMethods( "GET", "POST", "DELETE" )
-                .allowedHeaders( "*" )
-                .allowCredentials( true )
-                .exposedHeaders( "Authorization" )
-                .maxAge( 3600 );
-    }*/
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {

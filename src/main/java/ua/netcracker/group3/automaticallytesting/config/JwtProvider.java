@@ -18,6 +18,8 @@ public class JwtProvider {
     @Value("${jwt.token.expired}")
     private int jwtExpiration;
 
+    private String JWT_SECRET = "jwtprodddjectng";
+
     public String generateJwtToken(Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         //Claims claims = Jwts.claims().setSubject(userPrincipal.getUsername());
@@ -49,10 +51,18 @@ public class JwtProvider {
         return null;
     }
 
+    public String resolveStringToken(String jwt){
+        if (jwt != null && jwt.startsWith("Bearer ")){
+            return jwt.replace("Bearer ", "");
+        }
+        return null;
+    }
+
+
 
     public String getUserNameFromJwtToken(String token) {
         return Jwts.parser()
-                .setSigningKey(jwtSecret)
+                .setSigningKey(JWT_SECRET)
                 .parseClaimsJws(token)
                 .getBody().getSubject();
     }

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import ua.netcracker.group3.automaticallytesting.dao.UserDAO;
 import ua.netcracker.group3.automaticallytesting.mapper.UserMapper;
@@ -46,6 +47,12 @@ public class UserDAOImpl implements UserDAO {
     private String INSERT_USER;
     @Value("${get.user.email.by.id}")
     private String GET_USER_EMAIL_BY_ID;
+    @Value("${update.user.password}")
+    private String UPDATE_USER_PASS;
+    @Value("${update.user.settings}")
+    private String UPDATE_SETTINGS;
+    @Value("${get.user.id.by.email}")
+    private String GET_USER_ID_BY_EMAIL;
 
     @Value("${count.users.by.role}")
     private String COUNT_BY_ROLE;
@@ -57,6 +64,11 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public String getEmail(Long id) {
         return jdbcTemplate.queryForObject(GET_USER_EMAIL_BY_ID, String.class, id);
+    }
+
+    @Override
+    public Long getUserIdByEmail(String email) {
+        return jdbcTemplate.queryForObject(GET_USER_ID_BY_EMAIL, Long.class, email);
     }
 
     @Override
@@ -96,6 +108,16 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public Integer countUsers() {
         return jdbcTemplate.queryForObject(COUNT_USERS, Integer.class);
+    }
+
+    @Override
+    public void updateUserPassword(String email, String password) {
+        jdbcTemplate.update(UPDATE_USER_PASS, password, email);
+    }
+
+    @Override
+    public void updateUserSettings(User user) {
+        jdbcTemplate.update(UPDATE_SETTINGS, user.getName(), user.getSurname(), user.getEmail());
     }
 
 

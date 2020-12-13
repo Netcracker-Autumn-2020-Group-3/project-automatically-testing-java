@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import ua.netcracker.group3.automaticallytesting.dto.CreateTestCaseDto;
+import ua.netcracker.group3.automaticallytesting.dto.CreateUpdateTestCaseDto;
 import ua.netcracker.group3.automaticallytesting.execution.TestCaseExecutionService;
 import ua.netcracker.group3.automaticallytesting.model.TestCaseUpd;
 import ua.netcracker.group3.automaticallytesting.dto.TestCaseDto;
@@ -30,47 +30,62 @@ public class TestCaseController {
         this.testCaseExecutionService = testCaseExecutionService;
     }
 
-    @PostMapping("/create")
-    public void createTestCase(@RequestBody CreateTestCaseDto createTestCaseDto) {
-        log.info("Test case name: {}", createTestCaseDto.getTestCaseName());
-        log.info("Varval: {}", createTestCaseDto.getVariableValues());
+    @PostMapping()
+    public void createTestCase(@RequestBody CreateUpdateTestCaseDto createUpdateTestCaseDto) {
+        log.info("Test case name: {}", createUpdateTestCaseDto.getTestCaseName());
+        log.info("Varval: {}", createUpdateTestCaseDto.getVariableValues());
 
         Long userId = ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser().getId();
-        testCaseService.createTestCase(createTestCaseDto, userId);
+        testCaseService.createTestCase(createUpdateTestCaseDto, userId);
     }
-
 
     @GetMapping("/list")
     public List<TestCaseUpd> getAllTestCases() {
         return testCaseService.getAllTestCases();
 
     }
-
-
-
-    @PostMapping("/update")
-    public void update(@RequestBody TestCaseDto testCaseDto) {
-        log.info("Test case: {}", testCaseDto);
-        //TODO
-    }
-
     @GetMapping("/{id}")
     public TestCaseDto getById(@PathVariable("id") Long testCaseId) {
         return testCaseService.getTestCase(testCaseId);
     }
 
-    @DeleteMapping("/{id}/delete")
-    public void delete(@PathVariable("id") Long testCaseId){
-        // TODO
-
+    @PutMapping("/{id}")
+    public void update(@PathVariable("id") Long testCaseId, @RequestBody CreateUpdateTestCaseDto createUpdateTestCaseDto) {
+        createUpdateTestCaseDto.setId(testCaseId);
+        log.info("Test case: {}", createUpdateTestCaseDto);
+        testCaseService.updateTestCase(createUpdateTestCaseDto);
     }
 
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable("id") Long testCaseId){
+        // TODO
+    }
+
+    @PatchMapping("/{id}/follow")
+    public void follow(@PathVariable("id") Long testCaseId){
+        Long userId = ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser().getId();
+        log.info("follow testcase: {}, userId: {}", testCaseId, userId);
+        testCaseService.addSubscriber(testCaseId, userId);
+    }
+    @PatchMapping("/{id}/unfollow")
+    public void unfollow(@PathVariable("id") Long testCaseId){
+        Long userId = ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser().getId();
+        log.info("unfollow testcase: {}, userId: {}", testCaseId, userId);
+        testCaseService.removeSubscriber(testCaseId, userId);
+    }
+
+    @GetMapping("/{id}/is-followed")
+    public Boolean isFollowed(@PathVariable("id") Long testCaseId) {
+        Long userId = ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser().getId();
+        boolean answer = testCaseService.isFollowedByUser(testCaseId, userId);
+        log.info("is followed testcase: {}, userId: {}, is followed: {}", testCaseId, userId, answer);
+        return answer;
+    }
     @GetMapping("/execute/{id}")
     public void execute(@PathVariable("id") Long id) {
         TestCaseDto testCaseDto =  testCaseService.getTestCase(id);
         System.out.println("testCaseDto  " + testCaseDto);
-        testCaseExecutionService.executeTestCase(testCaseDto);
-
+        System.out.println(testCaseExecutionService.executeTestCase(testCaseDto,60L));
     }
 
     @GetMapping("/list/page")

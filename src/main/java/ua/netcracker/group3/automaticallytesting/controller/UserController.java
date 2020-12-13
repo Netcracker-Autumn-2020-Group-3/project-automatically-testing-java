@@ -3,6 +3,7 @@ package ua.netcracker.group3.automaticallytesting.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import ua.netcracker.group3.automaticallytesting.dto.ResetPassDto;
 import ua.netcracker.group3.automaticallytesting.model.User;
 import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.EmailServiceImpl;
 import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.UserServiceImpl;
@@ -46,13 +47,23 @@ public class UserController {
     @PostMapping("/users/addUser")
     @PreAuthorize("hasRole('ADMIN')")
     public void addUser(@RequestBody User user){
-        emailService.sendCredentialsByEmail(user);
         userService.saveUser(user);
+        emailService.sendCredentialsByEmail(user);
     }
 
     @GetMapping("/users/pages/count")
     @PreAuthorize("hasRole('ADMIN')")
     public Integer countUserPages(Integer pageSize) {
         return userService.countPages(pageSize);
+    }
+
+//    @GetMapping("/users/resetpass")
+//    public String sendPasswordResetToken(@RequestParam String token){
+//        return token;
+//    }
+
+    @PutMapping("/users/resetpass")
+    public void resetPassword(@RequestBody ResetPassDto resetPassDto) throws Exception {
+        userService.updateUserPasswordByToken(resetPassDto.getToken(), resetPassDto.getPassword());
     }
 }

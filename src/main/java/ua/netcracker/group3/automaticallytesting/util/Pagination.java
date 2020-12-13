@@ -1,6 +1,5 @@
 package ua.netcracker.group3.automaticallytesting.util;
 
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;

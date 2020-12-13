@@ -6,6 +6,7 @@ import ua.netcracker.group3.automaticallytesting.dao.CompoundDAO;
 import ua.netcracker.group3.automaticallytesting.dao.CompoundInstanceDAO;
 import ua.netcracker.group3.automaticallytesting.dao.TestScenarioDAO;
 import ua.netcracker.group3.automaticallytesting.dto.TestScenarioDto;
+import ua.netcracker.group3.automaticallytesting.dto.TestScenarioDtoWithIdNameArchived;
 import ua.netcracker.group3.automaticallytesting.dto.TestScenarioItemDto;
 import ua.netcracker.group3.automaticallytesting.model.CompoundActionWithActionIdAndPriority;
 import ua.netcracker.group3.automaticallytesting.model.TestScenario;
@@ -41,8 +42,18 @@ public class TestScenarioServiceImpl implements TestScenarioService {
     }
 
     @Override
-    public void updateTestScenario(TestScenario testScenario) {
+    public boolean updateTestScenario(TestScenarioDtoWithIdNameArchived testScenarioDto) {
+        String testScenarioName = testScenarioDto.getName();
+        if(testScenarioDAO.checkExistTestScenarioByName(testScenarioName)) {
+            return false;
+        }
+        TestScenario testScenario = new TestScenario(
+                testScenarioDto.getId(),
+                testScenarioDto.getName(),
+                testScenarioDto.isArchived()
+        );
         testScenarioDAO.updateTestScenarioById(testScenario);
+        return true;
     }
 
     @Override
@@ -69,11 +80,7 @@ public class TestScenarioServiceImpl implements TestScenarioService {
 
             long compoundId = compoundInstanceDAO.saveCompoundInstanceAndGetGeneratedId(compound, testScenarioId);
 
-            List<CompoundActionWithActionIdAndPriority> compoundActions =
-                    compoundDAO.findAllCompoundActionsWithActionIdAndPriorityByCompoundId(compound.getId());
-
-            List<TestScenarioItemDto> actions =
-                    getTestScenarioItemDtoFromCompoundActions(compoundActions);
+            List<TestScenarioItemDto> actions = compound.getItems();
 
             actionInstanceDAO.saveActionInstancesWithCompoundInstanceId(
                     actions,
@@ -89,6 +96,11 @@ public class TestScenarioServiceImpl implements TestScenarioService {
     @Override
     public boolean checkTestScenarioExistsByName(String name) {
         return testScenarioDAO.checkExistTestScenarioByName(name);
+    }
+
+    @Override
+    public List<CompoundActionWithActionIdAndPriority> getAllCompoundActionsByCompoundId(long id) {
+        return compoundDAO.findAllCompoundActionsWithActionIdAndPriorityByCompoundId(id);
     }
 
     @Override
@@ -108,16 +120,6 @@ public class TestScenarioServiceImpl implements TestScenarioService {
                 .filter(i -> i.getType().equals(type))
                 .collect(Collectors.toList());
 
-    }
-
-    private List<TestScenarioItemDto> getTestScenarioItemDtoFromCompoundActions(
-            List<CompoundActionWithActionIdAndPriority> compoundActions
-    ) {
-        return compoundActions.stream()
-                .map(c -> new TestScenarioItemDto(
-                        c.getActionId(),
-                        c.getPriority()
-                )).collect(Collectors.toList());
     }
 
     @Override

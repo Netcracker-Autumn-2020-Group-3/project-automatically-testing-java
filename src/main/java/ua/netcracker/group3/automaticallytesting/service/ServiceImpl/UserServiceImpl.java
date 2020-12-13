@@ -8,6 +8,7 @@ import ua.netcracker.group3.automaticallytesting.model.User;
 import ua.netcracker.group3.automaticallytesting.service.UserService;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
 import ua.netcracker.group3.automaticallytesting.util.Pagination;
+import ua.netcracker.group3.automaticallytesting.util.PasswordResetToken;
 
 import java.util.Arrays;
 import java.util.List;
@@ -48,6 +49,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Long getUserIdByEmail(String email) {
+        return userDAO.getUserIdByEmail(email);
+    }
+
+    @Override
     public List<User> getUsers(Pageable pageable, String name, String surname, String email, String role) {
         pageable = pagination.replaceNullsUserPage(pageable);
         pagination.validate(pageable, USER_TABLE_FIELDS);
@@ -68,6 +74,26 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUserById(String email, String name, String surname, String role, boolean is_enabled, long id) {
         userDAO.updateUserById(email, name, surname, role, is_enabled, id);
+    }
+
+    @Override
+    public void updateUserPasswordByToken(String token, String password) throws Exception {
+        PasswordResetToken passwordResetToken = new PasswordResetToken();
+            String resolvedToken = passwordResetToken.resolveToken(token);
+            String email = passwordResetToken.getEmailFromResetToken(resolvedToken);
+            userDAO.updateUserPassword(email, password);
+    }
+
+    @Override
+    @Transactional
+    public void updateUserSettings(User user) {
+        userDAO.updateUserSettings(user);
+    }
+
+    @Override
+    @Transactional
+    public void updateUserPassword(User user) {
+        userDAO.updateUserPassword(user.getEmail(), user.getPassword());
     }
 
     private User buildUser(User user) {

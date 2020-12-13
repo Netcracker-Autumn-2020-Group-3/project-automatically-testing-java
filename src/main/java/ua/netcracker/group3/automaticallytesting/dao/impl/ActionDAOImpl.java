@@ -8,16 +8,14 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ua.netcracker.group3.automaticallytesting.dao.ActionDAO;
-import ua.netcracker.group3.automaticallytesting.dto.ActionDtoWithIdName;
+import ua.netcracker.group3.automaticallytesting.dto.ActionDtoWithIdNameVoid;
 import ua.netcracker.group3.automaticallytesting.mapper.ActionMapper;
-import ua.netcracker.group3.automaticallytesting.mapper.ActionMapperWithIdName;
+import ua.netcracker.group3.automaticallytesting.mapper.ActionWithIdNameVoidMapper;
 import ua.netcracker.group3.automaticallytesting.model.Action;
-import ua.netcracker.group3.automaticallytesting.util.Pageable;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Repository
@@ -57,8 +55,8 @@ public class ActionDAOImpl implements ActionDAO {
     }
 
     @Override
-    public List<ActionDtoWithIdName> findAllWithIdName() {
-        RowMapper<ActionDtoWithIdName> mapper = new ActionMapperWithIdName();
+    public List<ActionDtoWithIdNameVoid> findAllWithIdName() {
+        RowMapper<ActionDtoWithIdNameVoid> mapper = new ActionWithIdNameVoidMapper();
         return jdbcTemplate.query(FIND_ALL_WITH_ID_NAME, mapper);
     }
 

@@ -1,22 +1,17 @@
 package ua.netcracker.group3.automaticallytesting.service;
 
-import ua.netcracker.group3.automaticallytesting.model.TestCase;
 import org.springframework.transaction.annotation.Transactional;
-import ua.netcracker.group3.automaticallytesting.dto.CreateTestCaseDto;
+import ua.netcracker.group3.automaticallytesting.model.TestCaseTopSubscribed;
+import ua.netcracker.group3.automaticallytesting.dto.CreateUpdateTestCaseDto;
 import ua.netcracker.group3.automaticallytesting.model.TestCaseUpd;
-
 import java.util.List;
-
 import ua.netcracker.group3.automaticallytesting.dto.ScenarioStepDto;
 import ua.netcracker.group3.automaticallytesting.dto.TestCaseDto;
-import ua.netcracker.group3.automaticallytesting.model.TestScenario;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
-
-import java.util.List;
 
 public interface TestCaseService {
     @Transactional
-    void createTestCase(CreateTestCaseDto createTestCaseDto, Long userId);
+    void createTestCase(CreateUpdateTestCaseDto createUpdateTestCaseDto, Long userId);
 
     List<ScenarioStepDto> getTestScenarioStep(Long testCaseId);
 
@@ -26,5 +21,14 @@ public interface TestCaseService {
     List<TestCaseUpd> getAllTestCases();
     Integer countPages(Integer pageSize);
 
+    List<TestCaseTopSubscribed> getFiveTopSubscribedTestCases();
 
+
+    void updateTestCase(CreateUpdateTestCaseDto createUpdateTestCaseDto);
+
+    void addSubscriber(Long testCaseId, Long userId);
+
+    Boolean isFollowedByUser(Long testCaseId, Long userId);
+
+    void removeSubscriber(Long testCaseId, Long userId);
 }

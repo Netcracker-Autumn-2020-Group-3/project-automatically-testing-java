@@ -9,6 +9,7 @@ import lombok.*;
 @Builder
 @ToString
 public class VariableValue {
+    private Long id;
     private Long actionInstanceId;
     private Long variableId;
     private Long dataEntryId;

@@ -52,8 +52,12 @@ public class TestScenarioDAOImpl implements TestScenarioDAO {
 
     @Override
     public void updateTestScenarioById(TestScenario testScenario) {
-        String sql = String.format(UPDATE_TEST_SCENARIO_BY_ID, testScenario.getName(), testScenario.getId());
-        jdbcTemplate.update(sql);
+        jdbcTemplate.update(
+                UPDATE_TEST_SCENARIO_BY_ID,
+                testScenario.getName(),
+                testScenario.isArchived(),
+                testScenario.getId()
+        );
     }
 
     @Override
