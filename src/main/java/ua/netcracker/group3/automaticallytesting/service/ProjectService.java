@@ -20,4 +20,6 @@ public interface ProjectService {
     void updateProject(Project project);
 
     void archiveProject(Long projectId);
+
+    void unarchiveProject(Long projectId);
 }

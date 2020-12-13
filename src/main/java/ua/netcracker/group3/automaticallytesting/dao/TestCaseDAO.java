@@ -19,4 +19,10 @@ public interface TestCaseDAO {
 
 
     void update(Long testCaseId, String newTestCaseName);
+
+    void addSubscriber(Long testCaseId, Long userId);
+
+    Boolean isFollowedByUser(Long testCaseId, Long userId);
+
+    void removeSubscriber(Long testCaseId, Long userId);
 }
