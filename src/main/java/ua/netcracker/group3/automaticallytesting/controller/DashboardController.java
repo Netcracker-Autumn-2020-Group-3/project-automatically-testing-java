@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import ua.netcracker.group3.automaticallytesting.dto.GroupedTestCaseExecutionDto;
 import ua.netcracker.group3.automaticallytesting.execution.TestCaseExecutionService;
 import ua.netcracker.group3.automaticallytesting.service.TestCaseExecService;
+import org.springframework.web.bind.annotation.*;
+import ua.netcracker.group3.automaticallytesting.model.ActionExecutionPassedFailed;
+import ua.netcracker.group3.automaticallytesting.service.ActionExecutionService;
 import ua.netcracker.group3.automaticallytesting.service.TestCaseService;
 
 import java.util.List;
@@ -23,10 +26,12 @@ public class DashboardController {
 
     private final TestCaseService testCaseService;
     private final TestCaseExecService testCaseExecService;
+    private final ActionExecutionService actionExecutionService;
 
-    public DashboardController(TestCaseService testCaseService, TestCaseExecService testCaseExecService) {
+    public DashboardController(TestCaseService testCaseService, TestCaseExecService testCaseExecService, ActionExecutionService actionExecutionService) {
         this.testCaseService = testCaseService;
         this.testCaseExecService = testCaseExecService;
+        this.actionExecutionService = actionExecutionService;
     }
 
     @GetMapping("/top-subscribed-test-cases")
@@ -42,5 +47,10 @@ public class DashboardController {
     @GetMapping("/test-case-execution/grouped-number")
     public List<GroupedTestCaseExecutionDto> getGroupedTestCaseExecutionNumber(){
         return testCaseExecService.getGroupedTestCaseExecution();
+    }
+
+    @GetMapping("/action-execution/{status}")
+    public List<ActionExecutionPassedFailed> getActionExecutionPassedFailed(@PathVariable("status") String status) {
+        return actionExecutionService.getActionExecutionPassedFailed(status);
     }
 }

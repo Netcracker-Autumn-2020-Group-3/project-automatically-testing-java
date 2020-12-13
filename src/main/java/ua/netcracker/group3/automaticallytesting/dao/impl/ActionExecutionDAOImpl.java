@@ -6,7 +6,9 @@ import org.springframework.stereotype.Repository;
 import ua.netcracker.group3.automaticallytesting.dao.ActionExecutionDAO;
 import ua.netcracker.group3.automaticallytesting.dto.ActionExecutionDto;
 import ua.netcracker.group3.automaticallytesting.mapper.ActionExecutionMapper;
+import ua.netcracker.group3.automaticallytesting.mapper.ActionExecutionPassedFailedMapper;
 import ua.netcracker.group3.automaticallytesting.model.ActionExecution;
+import ua.netcracker.group3.automaticallytesting.model.ActionExecutionPassedFailed;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,6 +19,7 @@ public class ActionExecutionDAOImpl implements ActionExecutionDAO {
 
     private final JdbcTemplate jdbcTemplate;
     private final ActionExecutionMapper actionExecutionMapper;
+    private final ActionExecutionPassedFailedMapper actionExecutionPassedFailedMapper;
 
     @Value("${create.action.executions}")
     private String CREATE_ACTION_EXECUTIONS;
@@ -24,9 +27,13 @@ public class ActionExecutionDAOImpl implements ActionExecutionDAO {
     @Value("${get.list.of.action.executions}")
     private String GET_ALL_ACTION_EXECUTIONS;
 
-    public ActionExecutionDAOImpl(JdbcTemplate jdbcTemplate, ActionExecutionMapper actionExecutionMapper){
+    @Value("${get.number.of.failed.passed.action.executions}")
+    private String GET_NUMBER_ACTION_EXECUTION;
+
+    public ActionExecutionDAOImpl(JdbcTemplate jdbcTemplate, ActionExecutionMapper actionExecutionMapper, ActionExecutionPassedFailedMapper actionExecutionPassedFailedMapper){
         this.jdbcTemplate = jdbcTemplate;
         this.actionExecutionMapper = actionExecutionMapper;
+        this.actionExecutionPassedFailedMapper = actionExecutionPassedFailedMapper;
     }
 
     @Override
@@ -44,4 +51,10 @@ public class ActionExecutionDAOImpl implements ActionExecutionDAO {
         return jdbcTemplate.queryForStream(GET_ALL_ACTION_EXECUTIONS,actionExecutionMapper,testCaseExecutionId,testCaseExecutionId)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<ActionExecutionPassedFailed> getActionExecutionPassedFailed(String status) {
+        return jdbcTemplate.queryForStream(GET_NUMBER_ACTION_EXECUTION, actionExecutionPassedFailedMapper, status).collect(Collectors.toList());
+    }
+
 }
