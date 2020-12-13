@@ -216,6 +216,21 @@ public class TestCaseServiceImpl implements TestCaseService {
         variableValueDAO.updateDataEntry(createUpdateTestCaseDto.getVariableValues());
     }
 
+    @Override
+    public void addSubscriber(Long testCaseId, Long userId) {
+        testCaseDAO.addSubscriber(testCaseId, userId);
+    }
+
+    @Override
+    public Boolean isFollowedByUser(Long testCaseId, Long userId) {
+        return testCaseDAO.isFollowedByUser(testCaseId, userId);
+    }
+
+    @Override
+    public void removeSubscriber(Long testCaseId, Long userId) {
+        testCaseDAO.removeSubscriber(testCaseId, userId);
+    }
+
     private String replaceNullsForSearch(String val) {
         return val == null ? "%" : val;
     }

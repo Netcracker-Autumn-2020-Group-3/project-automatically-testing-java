@@ -19,5 +19,5 @@ public interface ProjectDAO {
 
     void insert(Project project);
 
-    void archive(Long projectId);
+    void updateIsArchivedField(Long projectId, boolean isArchived);
 }

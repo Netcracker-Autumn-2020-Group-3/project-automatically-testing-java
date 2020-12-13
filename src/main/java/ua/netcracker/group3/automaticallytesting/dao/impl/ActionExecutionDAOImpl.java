@@ -24,7 +24,7 @@ public class ActionExecutionDAOImpl implements ActionExecutionDAO {
     @Value("${create.action.executions}")
     private String CREATE_ACTION_EXECUTIONS;
 
-    @Value("${get.list.of.action.executions.v2}")
+    @Value("${get.list.of.action.executions}")
     private String GET_ALL_ACTION_EXECUTIONS;
 
     @Value("${get.number.of.failed.passed.action.executions}")

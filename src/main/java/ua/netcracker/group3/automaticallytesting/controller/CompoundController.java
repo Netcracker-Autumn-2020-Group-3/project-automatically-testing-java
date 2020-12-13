@@ -33,7 +33,6 @@ public class CompoundController {
 
     @GetMapping("/quantity")
     public ResponseEntity<?> getQuantityCompounds(@RequestParam String search) {
-        System.out.println(search);
         return ResponseEntity.ok(compoundService.getQuantityCompounds(search));
     }
 
