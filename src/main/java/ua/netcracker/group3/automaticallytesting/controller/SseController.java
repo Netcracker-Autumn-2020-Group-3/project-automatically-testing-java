@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import ua.netcracker.group3.automaticallytesting.config.JwtProvider;
 import ua.netcracker.group3.automaticallytesting.model.User;
+import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.SseService;
 import ua.netcracker.group3.automaticallytesting.service.UserService;
 
 import java.io.IOException;
@@ -18,10 +19,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @CrossOrigin("*")
 public class SseController {
 
-    private UserService userService;
+    private final UserService userService;
+    private final SseService sseService;
     @Autowired
-    public SseController(UserService userService) {
+    public SseController(UserService userService, SseService sseService) {
         this.userService = userService;
+        this.sseService = sseService;
     }
 
     //public static final List<SseEmitter> emitters = new CopyOnWriteArrayList<>();
@@ -48,20 +51,8 @@ public class SseController {
     }
 
     @PostMapping("/dispatchEvent")
-    public void dispatchEventToClient(@RequestParam String parameter, @RequestHeader("Authorization") String jwt){
-        JwtProvider jwtProvider = new JwtProvider();
-        String email = jwtProvider.getUserNameFromJwtToken(jwtProvider.resolveStringToken(jwt));
-        User user = userService.getUserByEmail(email);
-
-        SseEmitter emitter = emitters.get(user.getId());
-        if(emitter!=null){
-            try {
-                emitter.send(SseEmitter.event().name("message").data(parameter));
-            } catch (IOException e){
-                emitters.remove(emitter);
-            }
-
-        }
+    public void dispatchEventToClient(@RequestHeader("Authorization") String jwt) {
+        sseService.sendSseEventsToUi(jwt);
     }
 
 
