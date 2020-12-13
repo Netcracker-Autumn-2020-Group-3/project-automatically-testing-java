@@ -9,6 +9,7 @@ import ua.netcracker.group3.automaticallytesting.dto.CreateUpdateTestCaseDto;
 import ua.netcracker.group3.automaticallytesting.execution.TestCaseExecutionService;
 import ua.netcracker.group3.automaticallytesting.model.TestCaseUpd;
 import ua.netcracker.group3.automaticallytesting.dto.TestCaseDto;
+import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.SseService;
 import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.UserPrincipal;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
 import ua.netcracker.group3.automaticallytesting.service.TestCaseService;
@@ -23,11 +24,13 @@ public class TestCaseController {
 
     private final TestCaseService testCaseService;
     private final TestCaseExecutionService testCaseExecutionService;
+    private final SseService sseService;
 
     @Autowired
-    public TestCaseController(TestCaseService testCaseService, TestCaseExecutionService testCaseExecutionService) {
+    public TestCaseController(TestCaseService testCaseService, TestCaseExecutionService testCaseExecutionService, SseService sseService) {
         this.testCaseService = testCaseService;
         this.testCaseExecutionService = testCaseExecutionService;
+        this.sseService = sseService;
     }
 
     @PostMapping("/create")
@@ -66,8 +69,10 @@ public class TestCaseController {
     }
 
     @GetMapping("/execute/{id}")
-    public void execute(@PathVariable("id") Long id) {
+    public void execute(@PathVariable("id") Long id, @RequestHeader("Authorization") String jwt) {
+
         TestCaseDto testCaseDto =  testCaseService.getTestCase(id);
+        sseService.sendSseEventsToUi(jwt,testCaseDto);
         System.out.println("testCaseDto  " + testCaseDto);
         testCaseExecutionService.executeTestCase(testCaseDto);
 

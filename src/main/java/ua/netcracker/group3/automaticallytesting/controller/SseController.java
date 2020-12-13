@@ -1,0 +1,68 @@
+package ua.netcracker.group3.automaticallytesting.controller;
+
+
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+import ua.netcracker.group3.automaticallytesting.config.JwtProvider;
+import ua.netcracker.group3.automaticallytesting.model.User;
+import ua.netcracker.group3.automaticallytesting.service.UserService;
+
+import java.io.IOException;
+import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+@RestController
+@CrossOrigin("*")
+public class SseController {
+
+    private UserService userService;
+    @Autowired
+    public SseController(UserService userService) {
+        this.userService = userService;
+    }
+
+    //public static final List<SseEmitter> emitters = new CopyOnWriteArrayList<>();
+    public static final Map<Long,SseEmitter> emitters = new HashMap<>();
+
+    @GetMapping(value = "/subscribe/{userId}")
+    public SseEmitter subscribe(@PathVariable ("userId")long userId) throws IOException {
+        SseEmitter emitter = new SseEmitter(Long.MAX_VALUE);
+
+        emitter.send(SseEmitter.event().name("INIT"));
+        emitter.onCompletion(() -> emitters.remove(emitter));
+//        emitter.onTimeout(() -> emitters.remove(emitter));
+//        emitter.onError((e) -> emitters.remove(emitter));
+
+        emitters.put(userId, emitter);
+        return emitter;
+    }
+    @GetMapping("/notification")
+    public User notification(@RequestHeader("Authorization") String jwt){
+        JwtProvider jwtProvider = new JwtProvider();
+        String email = jwtProvider.getUserNameFromJwtToken(jwtProvider.resolveStringToken(jwt));
+        User user = userService.getUserByEmail(email);
+        return user;
+    }
+
+    @PostMapping("/dispatchEvent")
+    public void dispatchEventToClient(@RequestParam String parameter, @RequestHeader("Authorization") String jwt){
+        JwtProvider jwtProvider = new JwtProvider();
+        String email = jwtProvider.getUserNameFromJwtToken(jwtProvider.resolveStringToken(jwt));
+        User user = userService.getUserByEmail(email);
+
+        SseEmitter emitter = emitters.get(user.getId());
+        if(emitter!=null){
+            try {
+                emitter.send(SseEmitter.event().name("message").data(parameter));
+            } catch (IOException e){
+                emitters.remove(emitter);
+            }
+
+        }
+    }
+
+
+}
