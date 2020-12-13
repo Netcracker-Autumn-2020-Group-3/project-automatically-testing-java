@@ -3,7 +3,7 @@ package ua.netcracker.group3.automaticallytesting.model;
 import lombok.*;
 
 @Getter
-@Data
+@Data  // почитать
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

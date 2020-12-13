@@ -28,4 +28,7 @@ public interface UserDAO {
     void updateUserSettings(User user);
 
     Long getUserIdByEmail(String email);
+
+    Integer countUsers(String role);
+
 }
