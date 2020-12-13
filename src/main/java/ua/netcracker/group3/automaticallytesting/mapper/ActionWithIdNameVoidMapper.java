@@ -6,7 +6,7 @@ import ua.netcracker.group3.automaticallytesting.dto.ActionDtoWithIdNameVoid;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ActionMapperWithIdNameVoid implements RowMapper<ActionDtoWithIdNameVoid> {
+public class ActionWithIdNameVoidMapper implements RowMapper<ActionDtoWithIdNameVoid> {
     @Override
     public ActionDtoWithIdNameVoid mapRow(ResultSet rs, int i) throws SQLException {
         return new ActionDtoWithIdNameVoid(

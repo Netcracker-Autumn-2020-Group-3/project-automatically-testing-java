@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public interface CompoundDAO {
 
-    long getQuantityCompounds();
+    long getQuantityCompounds(String search);
 
     List<Compound> findAll(Pageable pageable);
 

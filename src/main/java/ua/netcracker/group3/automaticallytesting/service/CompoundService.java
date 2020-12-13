@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface CompoundService {
 
-    long getQuantityCompounds();
+    long getQuantityCompounds(String search);
 
     List<Compound> getAllCompounds(Pageable pageable);
 

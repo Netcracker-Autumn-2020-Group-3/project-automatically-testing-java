@@ -38,8 +38,8 @@ public class ProjectDAOImpl implements ProjectDAO {
     @Value("${update.project}")
     private String UPDATE;
 
-    @Value("${archive.project}")
-    private String ARCHIVE;
+    @Value("${update.archive.project}")
+    private String UPDATE_IS_ARCHIVED;
 
 
     public ProjectDAOImpl(JdbcTemplate jdbcTemplate, ProjectMapper mapper,  ProjectDtoMapper projectDtoMapper) {
@@ -84,7 +84,7 @@ public class ProjectDAOImpl implements ProjectDAO {
     }
 
     @Override
-    public void archive(Long projectId) {
-        jdbcTemplate.update(ARCHIVE, projectId);
+    public void updateIsArchivedField(Long projectId, boolean isArchived) {
+        jdbcTemplate.update(UPDATE_IS_ARCHIVED, isArchived, projectId);
     }
 }
