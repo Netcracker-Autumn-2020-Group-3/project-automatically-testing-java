@@ -33,6 +33,7 @@ public class SseController {
     @GetMapping(value = "/subscribe/{userId}")
     public SseEmitter subscribe(@PathVariable ("userId")long userId) throws IOException {
         SseEmitter emitter = new SseEmitter(Long.MAX_VALUE);
+        sseService.deleteNotificatedTestCaseExec(userId);
 
         emitter.send(SseEmitter.event().name("INIT"));
         emitter.onCompletion(() -> emitters.remove(emitter));
@@ -52,7 +53,7 @@ public class SseController {
 
     @PostMapping("/dispatchEvent")
     public void dispatchEventToClient(@RequestHeader("Authorization") String jwt) {
-        sseService.sendSseEventsToUi(jwt);
+        //sseService.sendSseEventsToUi(jwt);
     }
 
 

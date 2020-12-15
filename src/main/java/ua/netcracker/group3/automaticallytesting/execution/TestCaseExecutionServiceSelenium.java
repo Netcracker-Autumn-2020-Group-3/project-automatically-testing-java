@@ -14,6 +14,7 @@ import ua.netcracker.group3.automaticallytesting.execution.action.ContextVariabl
 import ua.netcracker.group3.automaticallytesting.execution.action.impl.ClickActionExecutable;
 import ua.netcracker.group3.automaticallytesting.execution.action.impl.TypeActionExecutable;
 import ua.netcracker.group3.automaticallytesting.model.ActionExecution;
+import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.SseService;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -24,13 +25,15 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
 
     private ActionExecutionDAO actionExecutionDAO;
     private List<ActionExecution> actionExecutions;
+    private SseService sseService;
 
 
     @Autowired
-    public TestCaseExecutionServiceSelenium(ActionExecutionDAO actionExecutionDAO){
+    public TestCaseExecutionServiceSelenium(ActionExecutionDAO actionExecutionDAO, SseService sseService){
         this.actionExecutionDAO = actionExecutionDAO;
+        this.sseService = sseService;
         //System.setProperty("webdriver.chrome.driver", "D:\\netcracker\\chrome-driver87\\chromedriver.exe");
-        System.setProperty("webdriver.chrome.driver", "E:\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "F:\\netcracker\\chromedriver.exe");
     }
 
 
@@ -42,7 +45,7 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
     }};
 
     public TestCaseExecutionServiceSelenium() {
-         System.setProperty("webdriver.chrome.driver", "D:\\netcracker\\chrome-driver87\\chromedriver.exe");
+         System.setProperty("webdriver.chrome.driver", "F:\\netcracker\\chromedriver.exe");
         // System.setProperty("webdriver.chrome.driver", "C:\\webdriver86\\chromedriver.exe");
         //System.setProperty("webdriver.chrome.driver", "E:\\chromedriver.exe");
     }
@@ -56,6 +59,8 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
         List<ScenarioStepDto> scenarioStepDtoList = testCaseDto.getScenarioStepsWithData();
 
         log.info("Test case execution started");
+
+       // sseService.sendSseEventsToUi(testCaseExecutionId);
 
         driver.get(testCaseDto.getProjectLink());
         driver.manage().window().maximize();

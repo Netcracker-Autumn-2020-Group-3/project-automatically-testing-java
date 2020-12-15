@@ -54,7 +54,7 @@ public class CompoundServiceImpl implements CompoundService {
     }
 
     @Override
-    @Transactional
+   // @Transactional
     public void updateCompound(Compound compound, long id) {
         compound.setId(id);
         compoundDAO.updateCompound(compound);

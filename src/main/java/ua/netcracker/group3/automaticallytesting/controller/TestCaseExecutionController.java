@@ -7,6 +7,7 @@ import ua.netcracker.group3.automaticallytesting.execution.TestCaseExecutionServ
 import ua.netcracker.group3.automaticallytesting.model.TestCaseExecution;
 import ua.netcracker.group3.automaticallytesting.model.TestCaseExecutionStatus;
 import ua.netcracker.group3.automaticallytesting.service.NotificationService;
+import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.SseService;
 import ua.netcracker.group3.automaticallytesting.service.TestCaseExecService;
 import ua.netcracker.group3.automaticallytesting.service.TestCaseService;
 import ua.netcracker.group3.automaticallytesting.service.UserService;
@@ -27,16 +28,18 @@ public class TestCaseExecutionController {
     private final TestCaseExecutionService testCaseExecutionService;
     private final UserService userService;
     private final NotificationService notificationService;
+    private final SseService sseService;
 
 
     public TestCaseExecutionController(TestCaseExecService testCaseExecService,TestCaseService testCaseService,
                                        TestCaseExecutionService testCaseExecutionService, UserService userService,
-                                       NotificationService notificationService) {
+                                       NotificationService notificationService, SseService sseService) {
         this.testCaseExecService = testCaseExecService;
         this.testCaseService = testCaseService;
         this.testCaseExecutionService = testCaseExecutionService;
         this.userService = userService;
         this.notificationService = notificationService;
+        this.sseService = sseService;
     }
 
     @GetMapping("/get-all")
@@ -55,6 +58,7 @@ public class TestCaseExecutionController {
         long userId = userService.getUserIdByEmail(userEmail);
         long testCaseExecutionId = testCaseExecService.createTestCaseExecution(testCaseId, userId);
         notificationService.addNotifications(testCaseId, testCaseExecutionId);
+
         executeTestCase(testCaseId, testCaseExecutionId);
     }
 
@@ -62,6 +66,7 @@ public class TestCaseExecutionController {
         TestCaseDto testCaseDto =  testCaseService.getTestCase(testCaseId);
         System.out.println(testCaseDto);
         long errorNumber;
+        sseService.sendSseEventsToUi(testCaseExecutionId);
         List<String> status = testCaseExecutionService.executeTestCase(testCaseDto, testCaseExecutionId);
         System.out.println(status);
         errorNumber = status.stream().filter(el -> el.equals("FAILED")).count();

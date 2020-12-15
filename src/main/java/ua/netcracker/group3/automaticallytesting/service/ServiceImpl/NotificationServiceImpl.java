@@ -14,7 +14,7 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    @Transactional
+   // @Transactional
     public void addNotifications(long testCaseId, long testCaseExecutionId) {
         notificationDAO.insertNotifications(testCaseId, testCaseExecutionId);
 
