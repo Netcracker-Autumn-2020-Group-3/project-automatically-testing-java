@@ -2,8 +2,10 @@ package ua.netcracker.group3.automaticallytesting.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import ua.netcracker.group3.automaticallytesting.dto.ActionVariableDto;
 import ua.netcracker.group3.automaticallytesting.model.Action;
 import ua.netcracker.group3.automaticallytesting.service.ActionService;
 import ua.netcracker.group3.automaticallytesting.service.VariableService;
@@ -54,8 +56,18 @@ public class ActionsController {
     }
 
     @GetMapping("/library/actions/get/all")
-    public  List<Action> getAllActions(){
+    public List<Action> getAllActions(){
         return actionService.getAllActions();
+    }
+
+    @GetMapping("/action/view-edit/{id}")
+    public List<ActionVariableDto> getActionVariableById(@PathVariable Long id){
+        return actionService.getActionVariableById(id);
+    }
+
+    @PutMapping("/action/view-edit/update/{id}")
+    public void updateActionDescriptionById(@PathVariable Long id, @RequestBody Action action){
+        actionService.updateActionDescription(id,action);
     }
 
 }

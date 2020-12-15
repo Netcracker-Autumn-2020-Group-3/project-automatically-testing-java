@@ -6,7 +6,6 @@ import lombok.ToString;
 
 @Data
 @Builder
-@ToString
 public class ActionExecution {
     private Integer id;
     private Long testCaseExecutionId;

@@ -6,12 +6,18 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import ua.netcracker.group3.automaticallytesting.dao.UserDAO;
 import ua.netcracker.group3.automaticallytesting.mapper.UserMapper;
 import ua.netcracker.group3.automaticallytesting.mapper.UserMapperWithoutPassword;
 import ua.netcracker.group3.automaticallytesting.model.User;
 
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -56,8 +62,10 @@ public class UserDAOImpl implements UserDAO {
 
     @Value("${count.users.by.role}")
     private String COUNT_BY_ROLE;
+
     @Override
     public User findUserByEmail(String email) {
+
         return jdbcTemplate.queryForObject(FIND_USER_BY_EMAIL_WITH_PASSWORD, mapper, email);
     }
 

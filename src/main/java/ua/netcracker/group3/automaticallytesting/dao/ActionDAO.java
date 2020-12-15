@@ -1,6 +1,7 @@
 package ua.netcracker.group3.automaticallytesting.dao;
 
 import ua.netcracker.group3.automaticallytesting.dto.ActionDtoWithIdNameVoid;
+import ua.netcracker.group3.automaticallytesting.dto.ActionVariableDto;
 import ua.netcracker.group3.automaticallytesting.model.Action;
 
 import java.util.List;
@@ -18,4 +19,8 @@ public interface ActionDAO {
     long createAction(String name, String description);
 
     List<Action> getAllActions();
+
+    List<ActionVariableDto> getActionVariable(Long id);
+
+    void updateActionDescription(Long id, Action action);
 }

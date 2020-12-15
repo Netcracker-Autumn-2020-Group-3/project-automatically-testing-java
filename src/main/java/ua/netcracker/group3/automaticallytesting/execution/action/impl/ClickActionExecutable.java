@@ -17,8 +17,8 @@ import java.util.Optional;
 public class ClickActionExecutable implements ActionExecutable {
 
     private final String BUTTON = "button xpath";
-    private final Map<Optional<ContextVariable>, String> resultActionExecution = new HashMap<>();
-    private String actionExecution;
+    private final Map<Optional<ContextVariable>, Status> resultActionExecution = new HashMap<>();
+    private Status actionExecution;
 
     public ClickActionExecutable(){
     }
@@ -34,13 +34,13 @@ public class ClickActionExecutable implements ActionExecutable {
     }
 
     @Override
-    public Map<Optional<ContextVariable>, String> executeAction(WebDriver driver, Map<String, String> variableValues) {
+    public Map<Optional<ContextVariable>, Status> executeAction(WebDriver driver, Map<String, String> variableValues) {
         try {
             driver.findElement(By.xpath(variableValues.get(BUTTON))).click();
-            actionExecution = Status.PASSED.name();
+            actionExecution = Status.PASSED;
         }catch (NoSuchElementException exception){
             log.error("No such element like {} ",variableValues.get(BUTTON));
-            actionExecution = Status.FAILED.name();
+            actionExecution = Status.FAILED;
         }
 
         resultActionExecution.put(Optional.empty(),actionExecution);
