@@ -55,7 +55,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getUsers(Pageable pageable, String name, String surname, String email, String role) {
-        pageable = pagination.replaceNullsUserPage(pageable);
         pagination.validate(pageable, USER_TABLE_FIELDS);
         return userDAO.getUsersPageSorted(pagination.formSqlPostgresPaginationPiece(pageable),
                 replaceNullsForSearch(name), replaceNullsForSearch(surname), replaceNullsForSearch(email), replaceNullsForSearch(role));
