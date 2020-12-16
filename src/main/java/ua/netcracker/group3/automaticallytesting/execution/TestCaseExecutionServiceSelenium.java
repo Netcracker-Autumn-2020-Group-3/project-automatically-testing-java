@@ -12,6 +12,7 @@ import ua.netcracker.group3.automaticallytesting.dto.VariableDto;
 import ua.netcracker.group3.automaticallytesting.execution.action.ActionExecutable;
 import ua.netcracker.group3.automaticallytesting.execution.action.ContextVariable;
 import ua.netcracker.group3.automaticallytesting.execution.action.impl.ClickActionExecutable;
+import ua.netcracker.group3.automaticallytesting.execution.action.impl.DropDownActionExecutable;
 import ua.netcracker.group3.automaticallytesting.execution.action.impl.TypeActionExecutable;
 import ua.netcracker.group3.automaticallytesting.model.ActionExecution;
 
@@ -25,7 +26,6 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
     private ActionExecutionDAO actionExecutionDAO;
     private List<ActionExecution> actionExecutions;
 
-
     @Autowired
     public TestCaseExecutionServiceSelenium(ActionExecutionDAO actionExecutionDAO){
         this.actionExecutionDAO = actionExecutionDAO;
@@ -33,12 +33,12 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
         System.setProperty("webdriver.chrome.driver", "E:\\chromedriver.exe");
     }
 
-
     private final Map<String, ActionExecutable> actions = new HashMap<String, ActionExecutable>() {{
         put("click sign in", new ClickActionExecutable());
         put("click login", new ClickActionExecutable());
         put("enter login", new TypeActionExecutable());
         put("enter password", new TypeActionExecutable());
+        put("click on drop down menu element", new DropDownActionExecutable());
     }};
 
     public TestCaseExecutionServiceSelenium() {

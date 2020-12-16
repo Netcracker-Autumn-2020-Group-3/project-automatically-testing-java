@@ -22,6 +22,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Repository
@@ -36,6 +37,15 @@ public class TestCaseExecutionDAOImpl implements TestCaseExecutionDAO {
 
     @Value("${dashboard.grouped.number.of.test.case.execution}")
     private String GET_GROUPED_TEST_CASE_EXECUTIONS;
+
+    @Value("${get.all.test.case.execution}")
+    private String GET_ALL_TEST_CASE_EXECUTION;
+
+    @Value("${create.test.case.execution}")
+    private String CREATE_TEST_CASE_EXECUTION;
+
+    @Value("${update.test.case.execution}")
+    private String UPDATE_TEST_CASE_EXECUTION;
 
     private final JdbcTemplate jdbcTemplate;
     private final TestCaseExecutionMapper testCaseExecutionMapper;
@@ -57,8 +67,7 @@ public class TestCaseExecutionDAOImpl implements TestCaseExecutionDAO {
 
     @Override
     public List<TestCaseExecution> getAllTestCaseExecutions() {
-        String sql = "select id,test_case_id,status, to_char(start_date_time, 'dd.MM.yyyy HH24:MI:SS'), to_char(end_date_time, 'dd.MM.yyyy HH24:MI:SS'), user_id from test_case_execution";
-        return jdbcTemplate.query(sql, testCaseExecutionMapper);
+        return jdbcTemplate.query(GET_ALL_TEST_CASE_EXECUTION, testCaseExecutionMapper);
     }
 
     @Override
@@ -69,22 +78,19 @@ public class TestCaseExecutionDAOImpl implements TestCaseExecutionDAO {
     @Override
     public Long createTestCaseExecution(long testCaseId, long userId) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        String sql = "insert into test_case_execution (test_case_id, status, start_date_time,"+
-                "end_date_time, user_id) values (?, ?, now(), null, ?) returning id";
         jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = connection.prepareStatement(CREATE_TEST_CASE_EXECUTION, Statement.RETURN_GENERATED_KEYS);
             ps.setLong(1,testCaseId);
             ps.setString(2, String.valueOf(TestCaseExecutionStatus.IN_PROGRESS));
             ps.setLong(3,userId);
             return ps;
         }, keyHolder);
-        return keyHolder.getKey().longValue();
+        return Objects.requireNonNull(keyHolder.getKey()).longValue();
     }
 
     @Override
     public void updateTestCaseExecution(Enum status, long testCaseExecutionId) {
-        String sql = "update test_case_execution set status = ?, end_date_time = now() where id = ?";
-        jdbcTemplate.update(sql, String.valueOf(status), testCaseExecutionId);
+        jdbcTemplate.update(UPDATE_TEST_CASE_EXECUTION, String.valueOf(status), testCaseExecutionId);
     }
 
     @Override

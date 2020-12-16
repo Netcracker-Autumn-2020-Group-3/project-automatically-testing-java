@@ -53,14 +53,11 @@ public class TestCaseExecutionController {
         executeTestCase(testCaseId, testCaseExecutionId);
     }
 
-    public void executeTestCase(long testCaseId, long testCaseExecutionId) {
+    private void executeTestCase(long testCaseId, long testCaseExecutionId) {
         TestCaseDto testCaseDto =  testCaseService.getTestCase(testCaseId);
-        System.out.println(testCaseDto);
         long errorNumber;
         List<String> status = testCaseExecutionService.executeTestCase(testCaseDto, testCaseExecutionId);
-        System.out.println(status);
         errorNumber = status.stream().filter(el -> el.equals("FAILED")).count();
-        System.out.println(errorNumber);
         testCaseExecService.updateTestCaseExecution(FINISHED, testCaseExecutionId);
     }
 }
