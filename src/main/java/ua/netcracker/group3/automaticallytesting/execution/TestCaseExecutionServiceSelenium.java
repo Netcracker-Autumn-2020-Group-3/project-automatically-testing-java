@@ -29,8 +29,8 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
     @Autowired
     public TestCaseExecutionServiceSelenium(ActionExecutionDAO actionExecutionDAO){
         this.actionExecutionDAO = actionExecutionDAO;
-        //System.setProperty("webdriver.chrome.driver", "D:\\netcracker\\chrome-driver87\\chromedriver.exe");
-        System.setProperty("webdriver.chrome.driver", "E:\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "D:\\netcracker\\chrome-driver87\\chromedriver.exe");
+        //System.setProperty("webdriver.chrome.driver", "E:\\chromedriver.exe");
     }
 
     private final Map<String, ActionExecutable> actions = new HashMap<String, ActionExecutable>() {{
@@ -38,6 +38,9 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
         put("click login", new ClickActionExecutable());
         put("enter login", new TypeActionExecutable());
         put("enter password", new TypeActionExecutable());
+        // main actions
+        put("click", new ClickActionExecutable());
+        put("input", new TypeActionExecutable());
         put("click on drop down menu element", new DropDownActionExecutable());
     }};
 

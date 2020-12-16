@@ -18,10 +18,8 @@ import java.util.Optional;
 @Slf4j
 public class DropDownActionExecutable implements ActionExecutable {
 
-   // private final String MENU = "menu xpath";
-    private final String MENU = "/html/body/div[1]/header/div[7]/details/details-menu";
-    //private final String MENU_ELEMENT = "menu element xpath";
-    private final String MENU_ELEMENT = "/html/body/div[1]/header/div[7]/details/details-menu/a[1]";
+    private final String MENU = "menu xpath";
+    private final String MENU_ELEMENT = "menu element xpath";
     private final Map<Optional<ContextVariable>, String> resultActionExecution = new HashMap<>();
     private String actionExecution;
 
@@ -37,13 +35,14 @@ public class DropDownActionExecutable implements ActionExecutable {
     public Map<Optional<ContextVariable>, String> executeAction(WebDriver driver, Map<String, String> variableValues) {
         try {
             Actions actions = new Actions(driver);
-            actions.moveToElement(driver.findElement(By.xpath(MENU)));
+            actions.moveToElement(driver.findElement(By.xpath(variableValues.get(MENU))));
             Action moveTo = actions.build();
             moveTo.perform();
-            driver.findElement(By.xpath(MENU_ELEMENT)).click();
-        }catch (NoSuchElementException exception){
-            log.error("No such element like {} ",variableValues.get(MENU));
-            actionExecution = Status.FAILED.name();
+            driver.findElement(By.xpath(variableValues.get(MENU_ELEMENT))).click();
+            actionExecution = Status.PASSED.name();
+       }catch (NoSuchElementException exception){
+           log.error("No such element like {} ",variableValues.get(MENU));
+           actionExecution = Status.FAILED.name();
         }
 
         resultActionExecution.put(Optional.empty(),actionExecution);
