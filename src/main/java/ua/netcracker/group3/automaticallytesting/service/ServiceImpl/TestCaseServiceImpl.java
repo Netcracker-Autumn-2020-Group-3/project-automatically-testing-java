@@ -146,7 +146,7 @@ public class TestCaseServiceImpl implements TestCaseService {
                 .build();
 
         Long testCaseId = testCaseDAO.insert(testCase);
-
+        System.out.println(createUpdateTestCaseDto.getVariableValues());
         variableValueDAO.insert(createUpdateTestCaseDto.getVariableValues(), testCaseId);
 
     }
