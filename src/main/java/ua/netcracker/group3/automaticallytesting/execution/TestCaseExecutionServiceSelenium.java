@@ -3,6 +3,10 @@ package ua.netcracker.group3.automaticallytesting.execution;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.netcracker.group3.automaticallytesting.dao.ActionExecutionDAO;
@@ -13,9 +17,11 @@ import ua.netcracker.group3.automaticallytesting.dto.VariableDto;
 import ua.netcracker.group3.automaticallytesting.execution.action.ActionExecutable;
 import ua.netcracker.group3.automaticallytesting.execution.action.ContextVariable;
 import ua.netcracker.group3.automaticallytesting.execution.action.impl.ClickActionExecutable;
+import ua.netcracker.group3.automaticallytesting.execution.action.impl.DropDownActionExecutable;
 import ua.netcracker.group3.automaticallytesting.execution.action.impl.TypeActionExecutable;
 import ua.netcracker.group3.automaticallytesting.model.ActionExecution;
 import ua.netcracker.group3.automaticallytesting.model.Status;
+
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -29,27 +35,45 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
     private List<ActionExecution> actionExecutions;
     private Status actionStatus = Status.PASSED;
 
-
     @Autowired
     public TestCaseExecutionServiceSelenium(ActionExecutionDAO actionExecutionDAO){
         this.actionExecutionDAO = actionExecutionDAO;
         //System.setProperty("webdriver.chrome.driver", "D:\\netcracker\\chrome-driver87\\chromedriver.exe");
-        System.setProperty("webdriver.chrome.driver", "E:\\chromedriver.exe");
+        //System.setProperty("webdriver.chrome.driver", "E:\\chromedriver.exe");
+        //System.setProperty("webdriver.chrome.driver", "chrome-driver87\\chromedriver.exe");
+        //System.setProperty("webdriver.chrome.driver", "chromedriver_linux64/chromedriver");
+        //System.setProperty("webdriver.geckodriver.driver", "/app/vendor/geckodriver/geckodriver");
+        //System.setProperty("webdriver.gecko.driver", "/app/vendor/geckodriver/geckodriver");
     }
-
 
     private final Map<String, ActionExecutable> actions = new HashMap<String, ActionExecutable>() {{
         put("click sign in", new ClickActionExecutable());
         put("click login", new ClickActionExecutable());
         put("enter login", new TypeActionExecutable());
         put("enter password", new TypeActionExecutable());
+        // main actions
+        put("click", new ClickActionExecutable());
+        put("input", new TypeActionExecutable());
+        put("click on drop down menu element", new DropDownActionExecutable());
     }};
 
     @Override
     public List<String> executeTestCase(TestCaseDto testCaseDto,Long testCaseExecutionId) {
 
         actionExecutions = new ArrayList<>();
-        WebDriver driver = new ChromeDriver();
+
+        //FirefoxOptions options = new FirefoxOptions();
+        ChromeOptions options = new ChromeOptions();
+        // options = new ChromeOptions();
+       /* options.setBinary("/app/vendor/firefox/firefox");
+        options.addArguments("--enable-javascript");*/
+        options.addArguments("--disable-gpu");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--headless");
+
+        WebDriver driver = new ChromeDriver(options);
+        //WebDriver driver = new PhantomJSDriver();
 
         Map<Long, ContextVariable> contextVariables = new HashMap<>();
         List<ScenarioStepDto> scenarioStepDtoList = testCaseDto.getScenarioStepsWithData();
@@ -57,7 +81,7 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
         log.info("Test case execution started");
 
         driver.get(testCaseDto.getProjectLink());
-        driver.manage().window().maximize();
+        //driver.manage().window().maximize();
 
         scenarioStepDtoList.forEach(step -> {
             step.getActionDto().forEach(actionDto -> {
@@ -74,7 +98,7 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
             });
         });
 
-        //driver.close();
+        driver.close();
         log.info("Test case execution finished");
 
         List<String> statusActionExecutionsResult = statusValuesForTestExecution(actionExecutions);

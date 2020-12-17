@@ -9,12 +9,10 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ua.netcracker.group3.automaticallytesting.dao.CompoundDAO;
+import ua.netcracker.group3.automaticallytesting.dto.ActionDtoWithIdNameVoid;
 import ua.netcracker.group3.automaticallytesting.dto.CompoundDto;
 import ua.netcracker.group3.automaticallytesting.dto.CompoundDtoWithIdName;
-import ua.netcracker.group3.automaticallytesting.mapper.CompoundActionListMapper;
-import ua.netcracker.group3.automaticallytesting.mapper.CompoundActionWithActionIdAndPriorityMapper;
-import ua.netcracker.group3.automaticallytesting.mapper.CompoundMapper;
-import ua.netcracker.group3.automaticallytesting.mapper.CompoundWithIdNameMapper;
+import ua.netcracker.group3.automaticallytesting.mapper.*;
 import ua.netcracker.group3.automaticallytesting.model.Compound;
 import ua.netcracker.group3.automaticallytesting.model.CompoundActionWithActionIdAndPriority;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
@@ -52,6 +50,12 @@ public class CompoundDAOImpl implements CompoundDAO {
 
     @Value("${get.compound.action.with.action.id.and.priority}")
     private String FIND_COMPOUND_ACTION_WITH_ACTION_ID_AND_PRIORITY_BY_COMPOUND_ID;
+
+    @Value("${get.compound.actions.with.id.name.void.by.compound.id}")
+    private String FIND_ALL_COMPOUND_ACTION_WITH_ID_NAME_VOID_BY_COMPOUND_ID;
+
+    @Value("${update.compound.archive}")
+    private String UPDATE_COMPOUND_ARCHIVE;
 
     @Value("${check.if.compound.name.exist}")
     private String CHECK_IF_COMPOUND_NAME_EXIST;
@@ -109,6 +113,23 @@ public class CompoundDAOImpl implements CompoundDAO {
                 compoundId
         );
     }
+
+    @Override
+    public void archiveCompoundById(long id) {
+        jdbcTemplate.update(UPDATE_COMPOUND_ARCHIVE, id);
+    }
+
+    @Override
+    public List<ActionDtoWithIdNameVoid> findAllCompoundActionsByCompoundId(long compoundId) {
+        RowMapper<ActionDtoWithIdNameVoid> mapper = new ActionWithIdNameVoidMapper();
+        return jdbcTemplate.query(
+                FIND_ALL_COMPOUND_ACTION_WITH_ID_NAME_VOID_BY_COMPOUND_ID,
+                mapper,
+                compoundId
+        );
+    }
+
+
 
     @Override
     public boolean checkIfNameExist(String name) {

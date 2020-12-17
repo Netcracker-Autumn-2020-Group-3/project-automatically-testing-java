@@ -26,15 +26,8 @@ public class ClickActionExecutable implements ActionExecutable {
 
 
     @Override
-    public Optional<ContextVariable> execute(WebDriver driver, Map<String, String> variableValues) {
-        System.out.println("click xpath " + variableValues.get(BUTTON));
-
-        driver.findElement(By.xpath(variableValues.get(BUTTON))).click();
-        return Optional.empty();
-    }
-
-    @Override
     public Map<Optional<ContextVariable>, Status> executeAction(WebDriver driver, Map<String, String> variableValues) {
+         log.info("fine!");
         try {
             driver.findElement(By.xpath(variableValues.get(BUTTON))).click();
             actionExecution = Status.PASSED;
