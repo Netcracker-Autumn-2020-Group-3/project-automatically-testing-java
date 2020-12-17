@@ -60,10 +60,10 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
         ChromeOptions options = new ChromeOptions();
         //options.setBinary("/app/vendor/firefox/firefox");
         options.addArguments("--enable-javascript");
-
         options.addArguments("--disable-gpu");
         options.addArguments("--no-sandbox");
-
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--example-flag");
         options.addArguments("--headless");
 
         //WebDriver driver = new FirefoxDriver(options);
