@@ -18,6 +18,7 @@ public interface TestScenarioService {
 
     List<CompoundActionWithActionIdAndPriority> getAllCompoundActionsByCompoundId(long id);
 
+    List<TestScenario> getTestScenarioById(long id);
 
     boolean checkTestScenarioExistsByName(String name);
     List<TestScenario> getAll();

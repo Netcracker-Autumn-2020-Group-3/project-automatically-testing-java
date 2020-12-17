@@ -32,6 +32,11 @@ public class TestScenarioController {
         this.actionService = actionService;
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getTestScenarioById(@PathVariable("id") long id) {
+        return ResponseEntity.ok(testScenarioService.getTestScenarioById(id));
+    }
+
     @GetMapping("/compounds")
     public ResponseEntity<?> getAllCompoundsWithIdName() {
         List<CompoundDtoWithIdName> compounds = compoundService.getAllCompoundsWithIdName();
