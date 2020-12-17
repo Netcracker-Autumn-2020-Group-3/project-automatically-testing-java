@@ -6,6 +6,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.netcracker.group3.automaticallytesting.dao.ActionExecutionDAO;
@@ -18,6 +19,7 @@ import ua.netcracker.group3.automaticallytesting.execution.action.impl.ClickActi
 import ua.netcracker.group3.automaticallytesting.execution.action.impl.DropDownActionExecutable;
 import ua.netcracker.group3.automaticallytesting.execution.action.impl.TypeActionExecutable;
 import ua.netcracker.group3.automaticallytesting.model.ActionExecution;
+
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -57,16 +59,17 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
         actionExecutions = new ArrayList<>();
 
         //FirefoxOptions options = new FirefoxOptions();
-        ChromeOptions options = new ChromeOptions();
+        //ChromeOptions options = new ChromeOptions();
+        // options = new ChromeOptions();
         //options.setBinary("/app/vendor/firefox/firefox");
-        options.addArguments("--enable-javascript");
-        options.addArguments("--disable-gpu");
-        options.addArguments("--no-sandbox");
+        //options.addArguments("--enable-javascript");
+        //options.addArguments("--disable-gpu");
+        /*options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--headless");
+        options.addArguments("--headless");*/
 
         //WebDriver driver = new FirefoxDriver(options);
-        WebDriver driver = new ChromeDriver(options);
+        WebDriver driver = new PhantomJSDriver();
 
         Map<Long, ContextVariable> contextVariables = new HashMap<>();
         List<ScenarioStepDto> scenarioStepDtoList = testCaseDto.getScenarioStepsWithData();
@@ -74,7 +77,7 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
         log.info("Test case execution started");
 
         driver.get(testCaseDto.getProjectLink());
-        driver.manage().window().maximize();
+        //driver.manage().window().maximize();
 
         scenarioStepDtoList.forEach(step -> {
             step.getActionDto().forEach(actionDto -> {
