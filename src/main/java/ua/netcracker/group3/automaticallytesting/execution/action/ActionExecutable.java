@@ -8,7 +8,5 @@ import java.util.Optional;
 
 public interface ActionExecutable {
 
-    Optional<ContextVariable> execute(WebDriver driver, Map<String, String> variableValues);
-
     Map<Optional<ContextVariable>,String> executeAction(WebDriver driver, Map<String, String> variableValues);
 }
