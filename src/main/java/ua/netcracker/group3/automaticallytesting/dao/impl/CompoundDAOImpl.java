@@ -115,12 +115,12 @@ public class CompoundDAOImpl implements CompoundDAO {
     }
 
     @Override
-    public void archiveCompoundById(int id) {
+    public void archiveCompoundById(long id) {
         jdbcTemplate.update(UPDATE_COMPOUND_ARCHIVE, id);
     }
 
     @Override
-    public List<ActionDtoWithIdNameVoid> findAllCompoundActionsByCompoundId(int compoundId) {
+    public List<ActionDtoWithIdNameVoid> findAllCompoundActionsByCompoundId(long compoundId) {
         RowMapper<ActionDtoWithIdNameVoid> mapper = new ActionWithIdNameVoidMapper();
         return jdbcTemplate.query(
                 FIND_ALL_COMPOUND_ACTION_WITH_ID_NAME_VOID_BY_COMPOUND_ID,

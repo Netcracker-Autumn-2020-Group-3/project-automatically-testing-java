@@ -21,9 +21,9 @@ public interface CompoundDAO {
 
     List<CompoundActionWithActionIdAndPriority> findAllCompoundActionsWithActionIdAndPriorityByCompoundId(long compoundId);
 
-    List<ActionDtoWithIdNameVoid> findAllCompoundActionsByCompoundId(int compoundId);
+    List<ActionDtoWithIdNameVoid> findAllCompoundActionsByCompoundId(long compoundId);
 
-    void archiveCompoundById(int id);
+    void archiveCompoundById(long id);
 
     boolean checkIfNameExist(String name);
 

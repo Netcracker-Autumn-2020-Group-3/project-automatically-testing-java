@@ -40,19 +40,19 @@ public class CompoundController {
     }
 
     @GetMapping("/{id}/actions")
-    public ResponseEntity<?> getAllActionsOfCompoundByCompoundId(@PathVariable("id") int compoundId) {
+    public ResponseEntity<?> getAllActionsOfCompoundByCompoundId(@PathVariable("id") long compoundId) {
         List<ActionDtoWithIdNameVoid> actions =
                 compoundService.getAllCompoundActionsByCompoundId(compoundId);
         return ResponseEntity.ok(actions);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getCompoundById(@PathVariable int id) throws Exception {
+    public ResponseEntity<?> getCompoundWithById(@PathVariable long id) throws Exception {
         return ResponseEntity.ok(compoundService.getCompoundById(id));
     }
 
     @PutMapping("/{id}")
-    public void archiveCompoundById(@PathVariable int id) {
+    public void archiveCompoundById(@PathVariable long id) {
         compoundService.archiveCompoundById(id);
     }
 

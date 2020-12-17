@@ -17,9 +17,9 @@ public interface CompoundService {
 
     List<CompoundDtoWithIdName> getAllCompoundsWithIdName();
 
-    List<ActionDtoWithIdNameVoid> getAllCompoundActionsByCompoundId(int compoundId);
+    List<ActionDtoWithIdNameVoid> getAllCompoundActionsByCompoundId(long compoundId);
 
-    void archiveCompoundById(int id);
+    void archiveCompoundById(long id);
 
     boolean checkIfNameExist(String name);
 

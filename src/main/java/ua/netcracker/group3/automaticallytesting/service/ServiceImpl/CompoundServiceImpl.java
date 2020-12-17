@@ -38,12 +38,12 @@ public class CompoundServiceImpl implements CompoundService {
     }
 
     @Override
-    public List<ActionDtoWithIdNameVoid> getAllCompoundActionsByCompoundId(int id) {
+    public List<ActionDtoWithIdNameVoid> getAllCompoundActionsByCompoundId(long id) {
         return compoundDAO.findAllCompoundActionsByCompoundId(id);
     }
 
     @Override
-    public void archiveCompoundById(int id) {
+    public void archiveCompoundById(long id) {
         compoundDAO.archiveCompoundById(id);
     }
 
