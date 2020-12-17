@@ -32,7 +32,7 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
         //System.setProperty("webdriver.chrome.driver", "D:\\netcracker\\chrome-driver87\\chromedriver.exe");
         //System.setProperty("webdriver.chrome.driver", "E:\\chromedriver.exe");
         //System.setProperty("webdriver.chrome.driver", "chrome-driver87\\chromedriver.exe");
-        System.setProperty("webdriver.chrome.driver", "chromedriver_linux64\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "chromedriver_linux64/chromedriver.exe");
     }
 
     private final Map<String, ActionExecutable> actions = new HashMap<String, ActionExecutable>() {{
