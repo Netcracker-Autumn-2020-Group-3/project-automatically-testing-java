@@ -9,7 +9,9 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ua.netcracker.group3.automaticallytesting.dao.ActionDAO;
 import ua.netcracker.group3.automaticallytesting.dto.ActionDtoWithIdNameVoid;
+import ua.netcracker.group3.automaticallytesting.dto.ActionVariableDto;
 import ua.netcracker.group3.automaticallytesting.mapper.ActionMapper;
+import ua.netcracker.group3.automaticallytesting.mapper.ActionVariableMapper;
 import ua.netcracker.group3.automaticallytesting.mapper.ActionWithIdNameVoidMapper;
 import ua.netcracker.group3.automaticallytesting.model.Action;
 
@@ -22,10 +24,14 @@ import java.util.stream.Collectors;
 public class ActionDAOImpl implements ActionDAO {
 
     private final JdbcTemplate jdbcTemplate;
-    private ActionMapper actionMapper;
+    private final ActionMapper actionMapper;
+    private final ActionVariableMapper actionVariableMapper;
 
     @Value("${get.all.actions}")
     private String GET_ALL_ACTIONS;
+
+    @Value("${get.action.variable.by.action.id}")
+    private String GET_ACTION_VARIABLE_BY_ID;
 
     @Value("${find.actions.by.name}")
     private String FIND_ACTIONS_BY_NAME;
@@ -36,10 +42,14 @@ public class ActionDAOImpl implements ActionDAO {
     @Value("${find.action.all.with.id.name}")
     private String FIND_ALL_WITH_ID_NAME;
 
+    @Value("${update.action.description}")
+    private String UPDATE_ACTION_DESCRIPTION;
+
     @Autowired
-    public ActionDAOImpl(JdbcTemplate jdbcTemplate,ActionMapper actionMapper) {
+    public ActionDAOImpl(JdbcTemplate jdbcTemplate,ActionMapper actionMapper, ActionVariableMapper actionVariableMapper) {
         this.jdbcTemplate = jdbcTemplate;
         this.actionMapper = actionMapper;
+        this.actionVariableMapper = actionVariableMapper;
     }
 
 
@@ -81,5 +91,15 @@ public class ActionDAOImpl implements ActionDAO {
     @Override
     public List<Action> getAllActions() {
         return jdbcTemplate.query(GET_ALL_ACTIONS,actionMapper);
+    }
+
+    @Override
+    public List<ActionVariableDto>  getActionVariable(Long id) {
+        return jdbcTemplate.queryForStream(GET_ACTION_VARIABLE_BY_ID,actionVariableMapper,id).collect(Collectors.toList());
+    }
+
+    @Override
+    public void updateActionDescription(Long id, Action action) {
+        jdbcTemplate.update(UPDATE_ACTION_DESCRIPTION,action.getActionDescription(),id);
     }
 }

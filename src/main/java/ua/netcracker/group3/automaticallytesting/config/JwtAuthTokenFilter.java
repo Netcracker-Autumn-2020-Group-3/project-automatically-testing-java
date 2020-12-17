@@ -5,6 +5,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.filter.OncePerRequestFilter;
 import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.UserDetailsServiceImpl;
 
@@ -23,7 +25,6 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter  {
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
-
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain)

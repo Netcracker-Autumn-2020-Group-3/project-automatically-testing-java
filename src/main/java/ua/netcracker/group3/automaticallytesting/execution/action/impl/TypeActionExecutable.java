@@ -17,32 +17,22 @@ public class TypeActionExecutable implements ActionExecutable {
 
     private final String INPUT_ELEMENT = "input xpath";
     private final String TEXT = "text";
-    private final Map<Optional<ContextVariable>, String> resultActionExecution = new HashMap<>();
-    private String actionExecution;
+    private final Map<Optional<ContextVariable>, Status> resultActionExecution = new HashMap<>();
+    private Status actionExecution;
 
     public TypeActionExecutable(){
     }
 
 
-
     @Override
-    public Optional<ContextVariable> execute(WebDriver driver, Map<String, String> variableValues) {
-        System.out.println("input xpath " + variableValues.get(INPUT_ELEMENT));
-        System.out.println("text " + variableValues.get(TEXT));
-        driver.findElement(By.xpath(variableValues.get(INPUT_ELEMENT)))
-                .sendKeys(variableValues.get(TEXT));
-        return Optional.empty();
-    }
-
-    @Override
-    public Map<Optional<ContextVariable>, String> executeAction(WebDriver driver, Map<String, String> variableValues) {
+    public Map<Optional<ContextVariable>, Status> executeAction(WebDriver driver, Map<String, String> variableValues) {
         try {
             driver.findElement(By.xpath(variableValues.get(INPUT_ELEMENT)))
                     .sendKeys(variableValues.get(TEXT));
-            actionExecution = Status.PASSED.name();
+            actionExecution = Status.PASSED;
         }catch (NoSuchElementException exception){
             log.error("No such element like {} ",variableValues.get(INPUT_ELEMENT));
-            actionExecution = Status.FAILED.name();
+            actionExecution = Status.FAILED;
         }
         resultActionExecution.put(Optional.empty(),actionExecution);
         return resultActionExecution;

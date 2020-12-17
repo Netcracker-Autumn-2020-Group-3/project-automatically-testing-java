@@ -1,5 +1,6 @@
 package ua.netcracker.group3.automaticallytesting.service;
 
+import ua.netcracker.group3.automaticallytesting.dto.ActionDtoWithIdNameVoid;
 import ua.netcracker.group3.automaticallytesting.dto.CompoundDto;
 import ua.netcracker.group3.automaticallytesting.dto.CompoundDtoWithIdName;
 import ua.netcracker.group3.automaticallytesting.model.Action;
@@ -15,6 +16,10 @@ public interface CompoundService {
     List<Compound> getAllCompounds(Pageable pageable);
 
     List<CompoundDtoWithIdName> getAllCompoundsWithIdName();
+
+    List<ActionDtoWithIdNameVoid> getAllCompoundActionsByCompoundId(long compoundId);
+
+    void archiveCompoundById(long id);
 
     boolean checkIfNameExist(String name);
 

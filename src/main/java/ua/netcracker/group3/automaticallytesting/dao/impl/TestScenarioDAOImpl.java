@@ -4,12 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ua.netcracker.group3.automaticallytesting.dao.TestScenarioDAO;
 import ua.netcracker.group3.automaticallytesting.dto.TestScenarioDto;
 import ua.netcracker.group3.automaticallytesting.mapper.TestScenarioMapper;
+import ua.netcracker.group3.automaticallytesting.mapper.TestScenarioWithIdNameArchivedMapper;
 import ua.netcracker.group3.automaticallytesting.model.TestScenario;
 
 import java.sql.PreparedStatement;
@@ -33,6 +35,9 @@ public class TestScenarioDAOImpl implements TestScenarioDAO {
 
     @Value("${get.test.scenarios}")
     private String GET_ALL;
+
+    @Value("${get.test.scenario.by.id}")
+    private String GET_TEST_SCENARIO_BY_ID;
 
     @Value("${get.test.scenario.page}")
     private String GET_PAGE;
@@ -79,6 +84,13 @@ public class TestScenarioDAOImpl implements TestScenarioDAO {
     @Override
     public List<TestScenario> getAll() {
         return jdbcTemplate.queryForStream(GET_ALL, testScenarioMapper).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TestScenario> getTestScenarioById(long id) {
+        RowMapper<TestScenario> mapper =
+                new TestScenarioWithIdNameArchivedMapper();
+        return jdbcTemplate.query(GET_TEST_SCENARIO_BY_ID, mapper, id);
     }
 
     @Override

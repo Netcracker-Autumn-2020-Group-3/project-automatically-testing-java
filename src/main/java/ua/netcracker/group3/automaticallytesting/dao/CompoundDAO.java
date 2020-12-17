@@ -1,5 +1,6 @@
 package ua.netcracker.group3.automaticallytesting.dao;
 
+import ua.netcracker.group3.automaticallytesting.dto.ActionDtoWithIdNameVoid;
 import ua.netcracker.group3.automaticallytesting.model.Action;
 import ua.netcracker.group3.automaticallytesting.dto.CompoundDto;
 import ua.netcracker.group3.automaticallytesting.dto.CompoundDtoWithIdName;
@@ -19,6 +20,10 @@ public interface CompoundDAO {
     List<CompoundDtoWithIdName> findAllWithIdName();
 
     List<CompoundActionWithActionIdAndPriority> findAllCompoundActionsWithActionIdAndPriorityByCompoundId(long compoundId);
+
+    List<ActionDtoWithIdNameVoid> findAllCompoundActionsByCompoundId(long compoundId);
+
+    void archiveCompoundById(long id);
 
     boolean checkIfNameExist(String name);
 

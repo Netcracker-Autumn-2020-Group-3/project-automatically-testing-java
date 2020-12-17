@@ -4,6 +4,7 @@ package ua.netcracker.group3.automaticallytesting.dao;
 import ua.netcracker.group3.automaticallytesting.model.User;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
