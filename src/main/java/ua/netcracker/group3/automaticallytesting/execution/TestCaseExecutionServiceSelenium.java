@@ -3,6 +3,7 @@ package ua.netcracker.group3.automaticallytesting.execution;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.netcracker.group3.automaticallytesting.dao.ActionExecutionDAO;
@@ -32,7 +33,7 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
         //System.setProperty("webdriver.chrome.driver", "D:\\netcracker\\chrome-driver87\\chromedriver.exe");
         //System.setProperty("webdriver.chrome.driver", "E:\\chromedriver.exe");
         //System.setProperty("webdriver.chrome.driver", "chrome-driver87\\chromedriver.exe");
-        System.setProperty("webdriver.chrome.driver", "chromedriver_linux64/chromedriver");
+        //System.setProperty("webdriver.chrome.driver", "chromedriver_linux64/chromedriver");
     }
 
     private final Map<String, ActionExecutable> actions = new HashMap<String, ActionExecutable>() {{
@@ -50,7 +51,16 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
     public List<String> executeTestCase(TestCaseDto testCaseDto,Long testCaseExecutionId) {
 
         actionExecutions = new ArrayList<>();
-        WebDriver driver = new ChromeDriver();
+
+        ChromeOptions options = new ChromeOptions();
+        options.setBinary("/app/.apt/usr/bin/google-chrome");
+        options.addArguments("--enable-javascript");
+        options.addArguments("--headless");
+        options.addArguments("--disable-gpu");
+        options.addArguments("--no-sandbox");
+
+        WebDriver driver = new ChromeDriver(options);
+
         Map<Long, ContextVariable> contextVariables = new HashMap<>();
         List<ScenarioStepDto> scenarioStepDtoList = testCaseDto.getScenarioStepsWithData();
 
