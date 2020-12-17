@@ -3,6 +3,7 @@ package ua.netcracker.group3.automaticallytesting.controller;
 import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.dto.TestCaseDto;
 import ua.netcracker.group3.automaticallytesting.dto.TestCaseExecutionDto;
+import ua.netcracker.group3.automaticallytesting.dto.TestCaseExecutionListDto;
 import ua.netcracker.group3.automaticallytesting.execution.TestCaseExecutionService;
 import ua.netcracker.group3.automaticallytesting.model.TestCaseExecution;
 import ua.netcracker.group3.automaticallytesting.model.TestCaseExecutionStatus;
@@ -40,12 +41,13 @@ public class TestCaseExecutionController {
         return testCaseExecService.getAllTestCaseExecutions();
     }
 
-    @GetMapping("/get-all-with-failed-action-number/{limit}/{offset}")
+    @GetMapping("/get-all-with-failed-action-number/{limit}/{offset}/{orderBy}/{orderByClause}")
     public List<TestCaseExecutionDto> getAllTestCaseExecutionWithFailedActionNumber(@PathVariable("limit") long limit,
-                                                                                    @PathVariable("offset") long offset) {
-        System.out.println(limit);
-        System.out.println(offset);
-        return  testCaseExecService.getAllTestCaseExecutionWithFailedActionNumber(limit, offset);
+                                                                                    @PathVariable("offset") long offset,
+                                                                                    @PathVariable("orderBy") String orderBy,
+                                                                                    @PathVariable("orderByClause") String orderByClause) {
+
+        return  testCaseExecService.getAllTestCaseExecutionWithFailedActionNumber(limit, offset, orderBy, orderByClause);
     }
 
     @GetMapping("/count")

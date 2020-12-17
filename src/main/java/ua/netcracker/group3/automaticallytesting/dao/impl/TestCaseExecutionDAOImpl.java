@@ -79,8 +79,9 @@ public class TestCaseExecutionDAOImpl implements TestCaseExecutionDAO {
     }
 
     @Override
-    public List<TestCaseExecutionDto> getAllTestCaseExecutionWithFailedActionNumber(long limit, long offset) {
-        return jdbcTemplate.query(GET_PAGE_TEST_CASE_EXECUTION, testCaseExecutionWithActionFailedMapper, limit, offset);
+    public List<TestCaseExecutionDto> getAllTestCaseExecutionWithFailedActionNumber(long limit, long offset, String orderBy, String orderByClause) {
+        String sql = GET_PAGE_TEST_CASE_EXECUTION + " order by " + orderBy + " " + orderByClause + " limit " + limit + " offset " + offset;
+        return jdbcTemplate.query(sql, testCaseExecutionWithActionFailedMapper);
     }
 
     @Override

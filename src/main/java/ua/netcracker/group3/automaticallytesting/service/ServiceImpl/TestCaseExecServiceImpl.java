@@ -32,8 +32,8 @@ public class TestCaseExecServiceImpl implements TestCaseExecService {
     };
 
     @Override
-    public List<TestCaseExecutionDto> getAllTestCaseExecutionWithFailedActionNumber(long limit, long offset) {
-        return testCaseExecutionDAO.getAllTestCaseExecutionWithFailedActionNumber(limit, offset);
+    public List<TestCaseExecutionDto> getAllTestCaseExecutionWithFailedActionNumber(long limit, long offset, String orderBy, String orderByClause) {
+        return testCaseExecutionDAO.getAllTestCaseExecutionWithFailedActionNumber(limit, offset, orderBy, orderByClause);
     }
 
     @Override

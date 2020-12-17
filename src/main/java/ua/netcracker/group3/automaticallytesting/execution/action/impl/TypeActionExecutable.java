@@ -24,16 +24,6 @@ public class TypeActionExecutable implements ActionExecutable {
     }
 
 
-
-    @Override
-    public Optional<ContextVariable> execute(WebDriver driver, Map<String, String> variableValues) {
-        System.out.println("input xpath " + variableValues.get(INPUT_ELEMENT));
-        System.out.println("text " + variableValues.get(TEXT));
-        driver.findElement(By.xpath(variableValues.get(INPUT_ELEMENT)))
-                .sendKeys(variableValues.get(TEXT));
-        return Optional.empty();
-    }
-
     @Override
     public Map<Optional<ContextVariable>, String> executeAction(WebDriver driver, Map<String, String> variableValues) {
         try {

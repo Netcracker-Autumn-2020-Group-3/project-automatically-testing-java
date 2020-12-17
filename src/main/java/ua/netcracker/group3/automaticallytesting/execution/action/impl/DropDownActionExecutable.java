@@ -20,10 +20,6 @@ public class DropDownActionExecutable implements ActionExecutable {
 
     private final Map<Optional<ContextVariable>, String> resultActionExecution = new HashMap<>();
 
-    @Override
-    public Optional<ContextVariable> execute(WebDriver driver, Map<String, String> variableValues) {
-        return Optional.empty();
-    }
 
     @Override
     public Map<Optional<ContextVariable>, String> executeAction(WebDriver driver, Map<String, String> variableValues) {

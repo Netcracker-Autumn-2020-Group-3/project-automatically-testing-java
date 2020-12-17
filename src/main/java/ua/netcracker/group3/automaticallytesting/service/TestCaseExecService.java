@@ -13,7 +13,7 @@ public interface TestCaseExecService {
 
     Integer countTestCaseExecutions();
 
-    List<TestCaseExecutionDto> getAllTestCaseExecutionWithFailedActionNumber(long limit,long offset);
+    List<TestCaseExecutionDto> getAllTestCaseExecutionWithFailedActionNumber(long limit,long offset, String orderBy, String orderByClause);
 
     Long createTestCaseExecution(Long testCaseId, long userId);
 
