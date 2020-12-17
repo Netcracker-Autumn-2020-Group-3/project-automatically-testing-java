@@ -17,24 +17,20 @@ public class CheckBoxCheckActionExecutable implements ActionExecutable {
 
     private final String CHECKBOX = "checkbox xpath";
 
-    @Override
-    public Optional<ContextVariable> execute(WebDriver driver, Map<String, String> variableValues) {
-        return Optional.empty();
-    }
 
     @Override
-    public Map<Optional<ContextVariable>, String> executeAction(WebDriver driver, Map<String, String> variableValues) {
+    public Map<Optional<ContextVariable>, Status> executeAction(WebDriver driver, Map<String, String> variableValues) {
         try {
             if (!driver.findElement(By.xpath(CHECKBOX)).isSelected()) {
                 driver.findElement(By.xpath(CHECKBOX)).click();
             }
-            return new HashMap<Optional<ContextVariable>, String>() {{
-                put(Optional.empty(), Status.PASSED.name());
+            return new HashMap<Optional<ContextVariable>, Status>() {{
+                put(Optional.empty(), Status.PASSED);
             }};
         } catch (NoSuchElementException exception) {
             log.error("No such element like {} ", variableValues.get(CHECKBOX));
-            return new HashMap<Optional<ContextVariable>, String>() {{
-                put(Optional.empty(), Status.FAILED.name());
+            return new HashMap<Optional<ContextVariable>, Status>() {{
+                put(Optional.empty(), Status.FAILED);
             }};
         }
 
