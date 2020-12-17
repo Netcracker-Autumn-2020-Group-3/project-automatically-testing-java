@@ -59,17 +59,17 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
         actionExecutions = new ArrayList<>();
 
         //FirefoxOptions options = new FirefoxOptions();
-        //ChromeOptions options = new ChromeOptions();
+        ChromeOptions options = new ChromeOptions();
         // options = new ChromeOptions();
-        //options.setBinary("/app/vendor/firefox/firefox");
-        //options.addArguments("--enable-javascript");
-        //options.addArguments("--disable-gpu");
-        /*options.addArguments("--no-sandbox");
+       /* options.setBinary("/app/vendor/firefox/firefox");
+        options.addArguments("--enable-javascript");*/
+        options.addArguments("--disable-gpu");
+        options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--headless");*/
+        options.addArguments("--headless");
 
-        //WebDriver driver = new FirefoxDriver(options);
-        WebDriver driver = new PhantomJSDriver();
+        WebDriver driver = new ChromeDriver(options);
+        //WebDriver driver = new PhantomJSDriver();
 
         Map<Long, ContextVariable> contextVariables = new HashMap<>();
         List<ScenarioStepDto> scenarioStepDtoList = testCaseDto.getScenarioStepsWithData();
@@ -101,7 +101,7 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
             });
         });
 
-        //driver.close();
+        driver.close();
         log.info("Test case execution finished");
 
         List<String> statusActionExecutionsResult = statusValuesForTestExecution(actionExecutions);
