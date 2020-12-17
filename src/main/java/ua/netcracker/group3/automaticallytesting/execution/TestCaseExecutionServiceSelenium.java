@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.netcracker.group3.automaticallytesting.dao.ActionExecutionDAO;
@@ -52,14 +54,16 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
 
         actionExecutions = new ArrayList<>();
 
-        ChromeOptions options = new ChromeOptions();
-        options.setBinary("/app/.apt/usr/bin/google-chrome");
-        options.addArguments("--enable-javascript");
-        options.addArguments("--headless");
-        options.addArguments("--disable-gpu");
-        options.addArguments("--no-sandbox");
+        FirefoxOptions options = new FirefoxOptions();
+        options.setBinary("/app/vendor/firefox/firefox");
+       /* options.addArguments("--enable-javascript");
 
-        WebDriver driver = new ChromeDriver(options);
+        options.addArguments("--disable-gpu");
+        options.addArguments("--no-sandbox");*/
+
+        options.addArguments("--headless");
+
+        WebDriver driver = new FirefoxDriver(options);
 
         Map<Long, ContextVariable> contextVariables = new HashMap<>();
         List<ScenarioStepDto> scenarioStepDtoList = testCaseDto.getScenarioStepsWithData();
