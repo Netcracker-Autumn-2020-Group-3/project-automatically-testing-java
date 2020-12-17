@@ -26,9 +26,9 @@ import java.util.stream.Collectors;
 @Repository
 public class UserDAOImpl implements UserDAO {
 
-    private JdbcTemplate jdbcTemplate;
-    private UserMapper mapper;
-    private UserMapperWithoutPassword mapperWithoutPassword;
+    private final JdbcTemplate jdbcTemplate;
+    private final UserMapper mapper;
+    private final UserMapperWithoutPassword mapperWithoutPassword;
 
     @Autowired
     public UserDAOImpl(JdbcTemplate jdbcTemplate, UserMapper mapper, UserMapperWithoutPassword mapperWithoutPassword) {
@@ -49,6 +49,8 @@ public class UserDAOImpl implements UserDAO {
     private String COUNT_USERS;
     @Value("${get.users}")
     private String GET_USERS;
+    @Value("${count.users.search}")
+    private String COUNT_USERS_SEARCH;
     @Value("${insert.user}")
     private String INSERT_USER;
     @Value("${get.user.email.by.id}")
@@ -100,12 +102,16 @@ public class UserDAOImpl implements UserDAO {
         }
     }
 
+    @Override
+    public List<User> getUsersPageSorted(String orderByLimitOffsetWithValues, String isEnabledFiltering, String name, String surname, String email, String roles) {
+        return jdbcTemplate.queryForStream(GET_USERS + isEnabledFiltering + orderByLimitOffsetWithValues,
+                mapperWithoutPassword, name, surname, email, roles)
+                .collect(Collectors.toList());
+    }
 
     @Override
-    public List<User> getUsersPageSorted(String orderByLimitOffsetWithValues, String name, String surname, String email, String role) {
-        return jdbcTemplate.queryForStream(GET_USERS + orderByLimitOffsetWithValues,
-                mapperWithoutPassword, name, surname, email, role)
-                .collect(Collectors.toList());
+    public Integer countUsersSearch(String enabledSql, String name, String surname, String email, String roles) {
+        return jdbcTemplate.queryForObject(COUNT_USERS_SEARCH + enabledSql, Integer.class, name, surname, email, roles);
     }
 
     @Override

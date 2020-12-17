@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.netcracker.group3.automaticallytesting.dao.UserDAO;
+import ua.netcracker.group3.automaticallytesting.dto.UserSearchDto;
+import ua.netcracker.group3.automaticallytesting.model.Role;
 import ua.netcracker.group3.automaticallytesting.dao.impl.UserDAOImpl;
 import ua.netcracker.group3.automaticallytesting.model.User;
 import ua.netcracker.group3.automaticallytesting.service.UserService;
@@ -21,10 +23,6 @@ public class UserServiceImpl implements UserService {
     UserDAO userDAO;
     Pagination pagination;
     private final List<String> USER_TABLE_FIELDS = Arrays.asList("id", "name", "surname", "role", "email", "is_enabled");
-
-    private String replaceNullsForSearch(String val) {
-        return val == null ? "%" : val;
-    }
 
     @Autowired
     public UserServiceImpl(Pagination pagination, UserDAO userDAO) {
@@ -55,11 +53,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getUsers(Pageable pageable, String name, String surname, String email, String role) {
-        pageable = pagination.replaceNullsUserPage(pageable);
+    public List<User> getUsers(UserSearchDto userSearchDto, Pageable pageable) {
         pagination.validate(pageable, USER_TABLE_FIELDS);
         return userDAO.getUsersPageSorted(pagination.formSqlPostgresPaginationPiece(pageable),
-                replaceNullsForSearch(name), replaceNullsForSearch(surname), replaceNullsForSearch(email), replaceNullsForSearch(role));
+                userSearchDto.getOnlyEnabled() ? " and is_enabled=true " : "",
+                userSearchDto.getName(),
+                userSearchDto.getSurname(),
+                userSearchDto.getEmail(),
+                formFilter(userSearchDto.getRoles()));
+    }
+
+    private String formFilter(List<String> roles) {
+        if (roles.isEmpty()) {
+            return "%";
+        }
+        StringBuilder sb = new StringBuilder("(");
+        roles.forEach(r -> sb.append(r).append("|"));
+        return sb.deleteCharAt(sb.length() - 1).append(")").toString();
     }
 
     @Override
@@ -95,6 +105,16 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void updateUserPassword(User user) {
         userDAO.updateUserPassword(user.getEmail(), user.getPassword());
+    }
+
+    @Override
+    public Integer countPagesSearch(UserSearchDto userSearchDto, Integer pageSize) {
+        return pagination.countPages(userDAO.countUsersSearch(
+                userSearchDto.getOnlyEnabled() ? " and is_enabled=true" : "",
+                userSearchDto.getName(),
+                userSearchDto.getSurname(),
+                userSearchDto.getEmail(),
+                formFilter(userSearchDto.getRoles())), pageSize);
     }
 
     private User buildUser(User user) {

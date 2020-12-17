@@ -18,9 +18,9 @@ public interface UserDAO {
 
     Optional<User> findUserById(long id);
 
-    List<User> getUsersPageSorted(String orderByLimitOffsetWithValues,  String name, String surname, String email, String role);
+    List<User> getUsersPageSorted(String orderByLimitOffsetWithValues, String isEnabledFiltering, String name, String surname, String email, String role);
 
-    void updateUserById(String email, String name,String surname,String role,boolean is_enabled, long id);
+    void updateUserById(String email, String name, String surname, String role, boolean is_enabled, long id);
 
     Integer countUsers();
 
@@ -32,4 +32,5 @@ public interface UserDAO {
 
     Integer countUsers(String role);
 
+    Integer countUsersSearch(String enabledSql, String name, String surname, String email, String formFilter);
 }

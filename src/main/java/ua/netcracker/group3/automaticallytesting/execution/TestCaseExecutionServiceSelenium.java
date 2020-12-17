@@ -3,11 +3,7 @@ package ua.netcracker.group3.automaticallytesting.execution;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.phantomjs.PhantomJSDriver;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.openqa.selenium.chrome.ChromeOptions;import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.netcracker.group3.automaticallytesting.dao.ActionExecutionDAO;
 import ua.netcracker.group3.automaticallytesting.dto.ActionDto;
@@ -16,6 +12,8 @@ import ua.netcracker.group3.automaticallytesting.dto.TestCaseDto;
 import ua.netcracker.group3.automaticallytesting.dto.VariableDto;
 import ua.netcracker.group3.automaticallytesting.execution.action.ActionExecutable;
 import ua.netcracker.group3.automaticallytesting.execution.action.ContextVariable;
+import ua.netcracker.group3.automaticallytesting.execution.action.impl.CheckBoxCheckActionExecutable;
+import ua.netcracker.group3.automaticallytesting.execution.action.impl.CheckBoxUncheckActionExecutable;
 import ua.netcracker.group3.automaticallytesting.execution.action.impl.ClickActionExecutable;
 import ua.netcracker.group3.automaticallytesting.execution.action.impl.DropDownActionExecutable;
 import ua.netcracker.group3.automaticallytesting.execution.action.impl.TypeActionExecutable;
@@ -55,6 +53,8 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
         put("click", new ClickActionExecutable());
         put("input", new TypeActionExecutable());
         put("click on drop down menu element", new DropDownActionExecutable());
+        put("check checkbox", new CheckBoxCheckActionExecutable());
+        put("uncheck checkbox", new CheckBoxUncheckActionExecutable());
     }};
 
     @Override
