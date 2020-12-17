@@ -37,6 +37,7 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
         //System.setProperty("webdriver.chrome.driver", "chrome-driver87\\chromedriver.exe");
         //System.setProperty("webdriver.chrome.driver", "chromedriver_linux64/chromedriver");
         //System.setProperty("webdriver.geckodriver.driver", "/app/vendor/geckodriver/geckodriver");
+        //System.setProperty("webdriver.gecko.driver", "/app/vendor/geckodriver/geckodriver");
     }
 
     private final Map<String, ActionExecutable> actions = new HashMap<String, ActionExecutable>() {{
@@ -56,17 +57,17 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
         actionExecutions = new ArrayList<>();
 
         //FirefoxOptions options = new FirefoxOptions();
-       // ChromeOptions options = new ChromeOptions();
+        ChromeOptions options = new ChromeOptions();
         //options.setBinary("/app/vendor/firefox/firefox");
-       /* options.addArguments("--enable-javascript");
+        options.addArguments("--enable-javascript");
 
         options.addArguments("--disable-gpu");
-        options.addArguments("--no-sandbox");*/
+        options.addArguments("--no-sandbox");
 
-        //options.addArguments("--headless");
+        options.addArguments("--headless");
 
         //WebDriver driver = new FirefoxDriver(options);
-        WebDriver driver = new ChromeDriver();
+        WebDriver driver = new ChromeDriver(options);
 
         Map<Long, ContextVariable> contextVariables = new HashMap<>();
         List<ScenarioStepDto> scenarioStepDtoList = testCaseDto.getScenarioStepsWithData();
