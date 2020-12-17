@@ -40,9 +40,17 @@ public class TestCaseExecutionController {
         return testCaseExecService.getAllTestCaseExecutions();
     }
 
-    @GetMapping("/get-all-with-failed-action-number")
-    public List<TestCaseExecutionDto> getAllTestCaseExecutionWithFailedActionNumber() {
-        return  testCaseExecService.getAllTestCaseExecutionWithFailedActionNumber();
+    @GetMapping("/get-all-with-failed-action-number/{limit}/{offset}")
+    public List<TestCaseExecutionDto> getAllTestCaseExecutionWithFailedActionNumber(@PathVariable("limit") long limit,
+                                                                                    @PathVariable("offset") long offset) {
+        System.out.println(limit);
+        System.out.println(offset);
+        return  testCaseExecService.getAllTestCaseExecutionWithFailedActionNumber(limit, offset);
+    }
+
+    @GetMapping("/count")
+    public Integer countTestCaseExecutions() {
+        return testCaseExecService.countTestCaseExecutions();
     }
 
     @PostMapping("/execute/{testCaseId}")

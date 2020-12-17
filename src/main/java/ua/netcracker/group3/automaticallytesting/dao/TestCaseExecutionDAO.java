@@ -10,11 +10,13 @@ import java.util.List;
 
 public interface TestCaseExecutionDAO {
     List<TestCaseExecution> getAllTestCaseExecutions();
-    List<TestCaseExecutionDto> getAllTestCaseExecutionWithFailedActionNumber();
+    List<TestCaseExecutionDto> getAllTestCaseExecutionWithFailedActionNumber(long limit, long offset);
     Long createTestCaseExecution(long testCaseId, long userId);
     void updateTestCaseExecution(Enum status, long testCaseExecutionId);
 
     List<TestCaseExecutionsCountsByStartDatesDto> getExecutionsByStartDate(Date fromDate, Date tillDate);
 
     List<GroupedTestCaseExecutionDto> getGroupedTestCaseExecution();
+
+    Integer countTestCaseExecutions();
 }

@@ -19,7 +19,8 @@ public class TestCaseExecutionWithActionFailedMapper implements RowMapper<TestCa
                 rs.getLong(5),
                 rs.getString(6),
                 rs.getString(7),
-                rs.getLong(8)
+                rs.getLong(8),
+                rs.getLong(9)
         );
     }
 }

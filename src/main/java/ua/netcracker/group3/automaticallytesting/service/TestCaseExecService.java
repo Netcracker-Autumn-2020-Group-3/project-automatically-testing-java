@@ -11,12 +11,15 @@ public interface TestCaseExecService {
 
     List<TestCaseExecution> getAllTestCaseExecutions();
 
-    List<TestCaseExecutionDto> getAllTestCaseExecutionWithFailedActionNumber();
+    Integer countTestCaseExecutions();
+
+    List<TestCaseExecutionDto> getAllTestCaseExecutionWithFailedActionNumber(long limit,long offset);
 
     Long createTestCaseExecution(Long testCaseId, long userId);
 
     void updateTestCaseExecution(Enum status, long testCaseExecutionId);
 
     List<TestCaseExecutionsCountsByStartDatesDto> getExecutionsByDatesForLastDays(Integer daysFromToday);
+
     List<GroupedTestCaseExecutionDto> getGroupedTestCaseExecution();
 }

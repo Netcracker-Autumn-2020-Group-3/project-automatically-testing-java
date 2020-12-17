@@ -13,5 +13,6 @@ public class TestCaseExecutionDto {
     long userId;
     String testCaseName;
     String projectName;
-    long numberOfFailedAction;
+    long allActions;
+    long passedActions;
 }

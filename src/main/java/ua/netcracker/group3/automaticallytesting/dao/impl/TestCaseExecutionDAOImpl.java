@@ -29,8 +29,11 @@ import java.util.stream.Collectors;
 @PropertySource("classpath:queries/postgres.properties")
 public class TestCaseExecutionDAOImpl implements TestCaseExecutionDAO {
 
-    @Value("${get.all.test.case.execution.with.failed.action.number}")
-    public String GET_ALL_TEST_CASE_WITH_FAILED_ACTION;
+    @Value("${get.page.test.case.executions}")
+    public String GET_PAGE_TEST_CASE_EXECUTION;
+
+    @Value("${count.test.case.executions}")
+    public String COUNT_TEST_CASE_EXECUTIONS;
 
     @Value("${select.test.case.executions.group.by.creation.date}")
     public String GET_EXECUTIONS_GROUP_BY_START_DATE;
@@ -71,8 +74,13 @@ public class TestCaseExecutionDAOImpl implements TestCaseExecutionDAO {
     }
 
     @Override
-    public List<TestCaseExecutionDto> getAllTestCaseExecutionWithFailedActionNumber() {
-        return jdbcTemplate.query(GET_ALL_TEST_CASE_WITH_FAILED_ACTION, testCaseExecutionWithActionFailedMapper);
+    public Integer countTestCaseExecutions() {
+        return jdbcTemplate.queryForObject(COUNT_TEST_CASE_EXECUTIONS, Integer.class);
+    }
+
+    @Override
+    public List<TestCaseExecutionDto> getAllTestCaseExecutionWithFailedActionNumber(long limit, long offset) {
+        return jdbcTemplate.query(GET_PAGE_TEST_CASE_EXECUTION, testCaseExecutionWithActionFailedMapper, limit, offset);
     }
 
     @Override

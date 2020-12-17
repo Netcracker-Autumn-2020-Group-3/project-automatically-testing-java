@@ -18,13 +18,7 @@ import java.util.Optional;
 @Slf4j
 public class DropDownActionExecutable implements ActionExecutable {
 
-    private final String MENU = "menu xpath";
-    private final String MENU_ELEMENT = "menu element xpath";
     private final Map<Optional<ContextVariable>, String> resultActionExecution = new HashMap<>();
-    private String actionExecution;
-
-    public DropDownActionExecutable() {
-    }
 
     @Override
     public Optional<ContextVariable> execute(WebDriver driver, Map<String, String> variableValues) {
@@ -33,6 +27,9 @@ public class DropDownActionExecutable implements ActionExecutable {
 
     @Override
     public Map<Optional<ContextVariable>, String> executeAction(WebDriver driver, Map<String, String> variableValues) {
+        final String MENU = "menu xpath";
+        final String MENU_ELEMENT = "menu element xpath";
+        String actionExecution;
         try {
             Actions actions = new Actions(driver);
             actions.moveToElement(driver.findElement(By.xpath(variableValues.get(MENU))));
