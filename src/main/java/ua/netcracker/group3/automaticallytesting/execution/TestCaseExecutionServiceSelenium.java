@@ -11,6 +11,8 @@ import ua.netcracker.group3.automaticallytesting.dto.TestCaseDto;
 import ua.netcracker.group3.automaticallytesting.dto.VariableDto;
 import ua.netcracker.group3.automaticallytesting.execution.action.ActionExecutable;
 import ua.netcracker.group3.automaticallytesting.execution.action.ContextVariable;
+import ua.netcracker.group3.automaticallytesting.execution.action.impl.CheckBoxCheckActionExecutable;
+import ua.netcracker.group3.automaticallytesting.execution.action.impl.CheckBoxUncheckActionExecutable;
 import ua.netcracker.group3.automaticallytesting.execution.action.impl.ClickActionExecutable;
 import ua.netcracker.group3.automaticallytesting.execution.action.impl.TypeActionExecutable;
 import ua.netcracker.group3.automaticallytesting.model.ActionExecution;
@@ -39,6 +41,8 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
         put("click login", new ClickActionExecutable());
         put("enter login", new TypeActionExecutable());
         put("enter password", new TypeActionExecutable());
+        put("check checkbox", new CheckBoxCheckActionExecutable());
+        put("uncheck checkbox", new CheckBoxUncheckActionExecutable());
     }};
 
     public TestCaseExecutionServiceSelenium() {

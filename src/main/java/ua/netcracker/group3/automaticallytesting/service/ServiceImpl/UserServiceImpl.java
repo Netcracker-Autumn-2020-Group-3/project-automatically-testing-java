@@ -107,7 +107,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public Integer countPagesSearch(UserSearchDto userSearchDto, Integer pageSize) {
         return pagination.countPages(userDAO.countUsersSearch(
                 userSearchDto.getOnlyEnabled() ? " and is_enabled=true" : "",
