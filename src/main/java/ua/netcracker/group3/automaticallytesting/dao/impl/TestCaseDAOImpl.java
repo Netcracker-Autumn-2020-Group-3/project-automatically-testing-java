@@ -100,7 +100,8 @@ public class TestCaseDAOImpl implements TestCaseDAO {
 
     @Override
     public List<TestCaseTopSubscribed> getTopFiveSubscribedTestCases() {
-        return jdbcTemplate.query(GET_TOP_FIVE_SUBSCRIBED_TEST_CASES, testCaseTopSubscribedMapper);
+        return jdbcTemplate.query(GET_TOP_FIVE_SUBSCRIBED_TEST_CASES,
+                testCaseTopSubscribedMapper);
     }
 
     @Override
