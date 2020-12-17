@@ -18,24 +18,24 @@ import java.util.Optional;
 @Slf4j
 public class DropDownActionExecutable implements ActionExecutable {
 
-    private final Map<Optional<ContextVariable>, String> resultActionExecution = new HashMap<>();
+    private final Map<Optional<ContextVariable>, Status> resultActionExecution = new HashMap<>();
 
 
     @Override
-    public Map<Optional<ContextVariable>, String> executeAction(WebDriver driver, Map<String, String> variableValues) {
+    public Map<Optional<ContextVariable>, Status> executeAction(WebDriver driver, Map<String, String> variableValues) {
         final String MENU = "menu xpath";
         final String MENU_ELEMENT = "menu element xpath";
-        String actionExecution;
+        Status actionExecution;
         try {
             Actions actions = new Actions(driver);
             actions.moveToElement(driver.findElement(By.xpath(variableValues.get(MENU))));
             Action moveTo = actions.build();
             moveTo.perform();
             driver.findElement(By.xpath(variableValues.get(MENU_ELEMENT))).click();
-            actionExecution = Status.PASSED.name();
+            actionExecution = Status.PASSED;
        }catch (NoSuchElementException exception){
            log.error("No such element like {} ",variableValues.get(MENU));
-           actionExecution = Status.FAILED.name();
+           actionExecution = Status.FAILED;
         }
 
         resultActionExecution.put(Optional.empty(),actionExecution);

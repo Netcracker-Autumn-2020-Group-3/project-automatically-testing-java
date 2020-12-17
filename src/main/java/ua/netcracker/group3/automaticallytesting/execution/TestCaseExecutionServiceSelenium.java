@@ -39,7 +39,7 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
     public TestCaseExecutionServiceSelenium(ActionExecutionDAO actionExecutionDAO){
         this.actionExecutionDAO = actionExecutionDAO;
         //System.setProperty("webdriver.chrome.driver", "D:\\netcracker\\chrome-driver87\\chromedriver.exe");
-        //System.setProperty("webdriver.chrome.driver", "E:\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "E:\\chromedriver.exe");
         //System.setProperty("webdriver.chrome.driver", "chrome-driver87\\chromedriver.exe");
         //System.setProperty("webdriver.chrome.driver", "chromedriver_linux64/chromedriver");
         //System.setProperty("webdriver.geckodriver.driver", "/app/vendor/geckodriver/geckodriver");
@@ -62,18 +62,19 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
 
         actionExecutions = new ArrayList<>();
 
-        //FirefoxOptions options = new FirefoxOptions();
-        ChromeOptions options = new ChromeOptions();
+
+       /* ChromeOptions options = new ChromeOptions();
         // options = new ChromeOptions();
-       /* options.setBinary("/app/vendor/firefox/firefox");
-        options.addArguments("--enable-javascript");*/
+       *//* options.setBinary("/app/vendor/firefox/firefox");
+        options.addArguments("--enable-javascript");*//*
         options.addArguments("--disable-gpu");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--headless");
 
-        WebDriver driver = new ChromeDriver(options);
-        //WebDriver driver = new PhantomJSDriver();
+        WebDriver driver = new ChromeDriver(options);*/
+
+        WebDriver driver = new ChromeDriver();
 
         Map<Long, ContextVariable> contextVariables = new HashMap<>();
         List<ScenarioStepDto> scenarioStepDtoList = testCaseDto.getScenarioStepsWithData();
@@ -81,7 +82,7 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
         log.info("Test case execution started");
 
         driver.get(testCaseDto.getProjectLink());
-        //driver.manage().window().maximize();
+        driver.manage().window().maximize();
 
         scenarioStepDtoList.forEach(step -> {
             step.getActionDto().forEach(actionDto -> {
