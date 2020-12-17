@@ -55,16 +55,18 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
 
         actionExecutions = new ArrayList<>();
 
-        FirefoxOptions options = new FirefoxOptions();
-        options.setBinary("/app/vendor/firefox/firefox");
+        //FirefoxOptions options = new FirefoxOptions();
+       // ChromeOptions options = new ChromeOptions();
+        //options.setBinary("/app/vendor/firefox/firefox");
        /* options.addArguments("--enable-javascript");
 
         options.addArguments("--disable-gpu");
         options.addArguments("--no-sandbox");*/
 
-        options.addArguments("--headless");
+        //options.addArguments("--headless");
 
-        WebDriver driver = new FirefoxDriver(options);
+        //WebDriver driver = new FirefoxDriver(options);
+        WebDriver driver = new ChromeDriver();
 
         Map<Long, ContextVariable> contextVariables = new HashMap<>();
         List<ScenarioStepDto> scenarioStepDtoList = testCaseDto.getScenarioStepsWithData();
