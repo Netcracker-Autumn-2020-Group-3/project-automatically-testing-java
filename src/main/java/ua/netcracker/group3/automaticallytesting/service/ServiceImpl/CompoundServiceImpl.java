@@ -3,6 +3,7 @@ package ua.netcracker.group3.automaticallytesting.service.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.netcracker.group3.automaticallytesting.dao.CompoundDAO;
+import ua.netcracker.group3.automaticallytesting.dto.ActionDtoWithIdNameVoid;
 import ua.netcracker.group3.automaticallytesting.model.Action;
 import ua.netcracker.group3.automaticallytesting.dto.CompoundDto;
 import ua.netcracker.group3.automaticallytesting.dto.CompoundDtoWithIdName;
@@ -34,6 +35,16 @@ public class CompoundServiceImpl implements CompoundService {
     @Override
     public List<CompoundDtoWithIdName> getAllCompoundsWithIdName() {
         return compoundDAO.findAllWithIdName();
+    }
+
+    @Override
+    public List<ActionDtoWithIdNameVoid> getAllCompoundActionsByCompoundId(long id) {
+        return compoundDAO.findAllCompoundActionsByCompoundId(id);
+    }
+
+    @Override
+    public void archiveCompoundById(long id) {
+        compoundDAO.archiveCompoundById(id);
     }
 
     @Override
