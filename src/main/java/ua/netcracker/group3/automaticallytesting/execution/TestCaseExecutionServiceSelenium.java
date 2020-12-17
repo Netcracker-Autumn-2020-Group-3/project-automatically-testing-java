@@ -29,8 +29,10 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
     @Autowired
     public TestCaseExecutionServiceSelenium(ActionExecutionDAO actionExecutionDAO){
         this.actionExecutionDAO = actionExecutionDAO;
-        System.setProperty("webdriver.chrome.driver", "D:\\netcracker\\chrome-driver87\\chromedriver.exe");
+        //System.setProperty("webdriver.chrome.driver", "D:\\netcracker\\chrome-driver87\\chromedriver.exe");
         //System.setProperty("webdriver.chrome.driver", "E:\\chromedriver.exe");
+        //System.setProperty("webdriver.chrome.driver", "chrome-driver87\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "chromedriver_linux64\\chromedriver.exe");
     }
 
     private final Map<String, ActionExecutable> actions = new HashMap<String, ActionExecutable>() {{
@@ -43,13 +45,6 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
         put("input", new TypeActionExecutable());
         put("click on drop down menu element", new DropDownActionExecutable());
     }};
-
-    public TestCaseExecutionServiceSelenium() {
-         //System.setProperty("webdriver.chrome.driver", "chrome-driver87\\chromedriver.exe");
-        // System.setProperty("webdriver.chrome.driver", "C:\\webdriver86\\chromedriver.exe");
-        //System.setProperty("webdriver.chrome.driver", "E:\\chromedriver.exe");
-        System.setProperty("webdriver.chrome.driver", "chromedriver_linux64\\chromedriver.exe");
-    }
 
     @Override
     public List<String> executeTestCase(TestCaseDto testCaseDto,Long testCaseExecutionId) {
