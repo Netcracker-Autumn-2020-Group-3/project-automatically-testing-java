@@ -88,11 +88,11 @@ public class TestCaseController {
         System.out.println(testCaseExecutionService.executeTestCase(testCaseDto,60L));
     }
 
-    @GetMapping("/list/page")
-    public List<TestCaseUpd> getPageTestScenarios(Integer pageSize, Integer page, String sortOrder, String sortField,
+    @GetMapping("/{projectID}/list/page")
+    public List<TestCaseUpd> getPageTestScenarios(@PathVariable("projectID") Long projectID, Integer pageSize, Integer page, String sortOrder, String sortField,
                                                    String name) {
         Pageable pageable = Pageable.builder().page(page).pageSize(pageSize).sortField(sortField).sortOrder(sortOrder).build();
-        return testCaseService.getTestCases (pageable, name);
+        return testCaseService.getTestCases (projectID, pageable, name);
     }
 
     @GetMapping("/pages/count")
@@ -100,4 +100,6 @@ public class TestCaseController {
     public Integer countTestCasePages(Integer pageSize) {
         return testCaseService.countPages(pageSize);
     }
+
+
 }

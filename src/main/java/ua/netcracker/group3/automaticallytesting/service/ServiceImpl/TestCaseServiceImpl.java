@@ -202,10 +202,10 @@ public class TestCaseServiceImpl implements TestCaseService {
 
 
     @Override
-    public List<TestCaseUpd> getTestCases(Pageable pageable, String name) {
+    public List<TestCaseUpd> getTestCases(Long projectID, Pageable pageable, String name) {
         pageable = pagination.replaceNullsUserPage(pageable);
         pagination.validate(pageable, TEST_CASE_UPD_TABLE_FIELDS);
-        return testCaseDAO.getTestCasesPageSorted(pagination.formSqlPostgresPaginationPiece(pageable),
+        return testCaseDAO.getTestCasesPageSorted(projectID, pagination.formSqlPostgresPaginationPiece(pageable),
                 replaceNullsForSearch(name));
     }
 
