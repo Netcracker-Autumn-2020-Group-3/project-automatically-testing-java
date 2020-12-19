@@ -66,12 +66,12 @@ public class TestCaseExecutionController {
         TestCaseDto testCaseDto =  testCaseService.getTestCase(testCaseId);
         System.out.println(testCaseDto);
         long errorNumber;
-        sseService.sendSseEventsToUi(testCaseExecutionId);
         List<String> status = testCaseExecutionService.executeTestCase(testCaseDto, testCaseExecutionId);
         System.out.println(status);
         errorNumber = status.stream().filter(el -> el.equals("FAILED")).count();
         System.out.println(errorNumber);
         testCaseExecService.updateTestCaseExecution(FINISHED, testCaseExecutionId);
+        sseService.sendRecentNotifications(testCaseDto.getTestCase().getId(), testCaseExecutionId);
     }
 }
 

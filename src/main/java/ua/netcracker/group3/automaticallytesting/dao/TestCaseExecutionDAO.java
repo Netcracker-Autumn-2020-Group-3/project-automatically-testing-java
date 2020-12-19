@@ -17,4 +17,6 @@ public interface TestCaseExecutionDAO {
     List<TestCaseExecutionsCountsByStartDatesDto> getExecutionsByStartDate(Date fromDate, Date tillDate);
 
     List<GroupedTestCaseExecutionDto> getGroupedTestCaseExecution();
+
+    TestCaseExecution getTestCaseExecutionById(long testCaseExecutionId);
 }

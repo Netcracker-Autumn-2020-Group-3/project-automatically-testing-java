@@ -85,10 +85,9 @@ public class TestCaseController {
         return answer;
     }
     @GetMapping("/execute/{id}")
-    public void execute(@PathVariable("id") Long id, @RequestHeader("Authorization") String jwt) {
+    public void execute(@PathVariable("id") Long id) {
 
         TestCaseDto testCaseDto =  testCaseService.getTestCase(id);
-        //sseService.sendSseEventsToUi(jwt,testCaseDto);
         System.out.println("testCaseDto  " + testCaseDto);
         System.out.println(testCaseExecutionService.executeTestCase(testCaseDto,60L));
     }
