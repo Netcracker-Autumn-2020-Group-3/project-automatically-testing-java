@@ -17,9 +17,9 @@ public interface TestCaseService {
 
     TestCaseDto getTestCase(Long testCaseId);
 
-    List<TestCaseUpd> getTestCases(Pageable pageable, String name);
+    List<TestCaseUpd> getTestCases(Long projectID, Pageable pageable, String name);
     List<TestCaseUpd> getAllTestCases();
-    Integer countPages(Integer pageSize);
+    Integer countTestCasesByProject(Integer pageSize, Long projectId);
 
     List<TestCaseTopSubscribed> getFiveTopSubscribedTestCases();
 

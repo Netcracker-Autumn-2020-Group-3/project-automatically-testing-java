@@ -12,8 +12,8 @@ public interface TestCaseDAO {
     long insert(TestCase testCase);
     List<TestCaseStep> getTestCaseSteps(Long testCaseId);
     List<TestCaseUpd> getTestCases();
-    List<TestCaseUpd> getTestCasesPageSorted(String orderByLimitOffsetWithValues, String name);
-    Integer countUsers();
+    List<TestCaseUpd> getTestCasesPageSorted(Long projectID, String orderByLimitOffsetWithValues, String name);
+    Integer countTestCasesByProject(Long projectId);
 
     List<TestCaseTopSubscribed> getTopFiveSubscribedTestCases();
 
