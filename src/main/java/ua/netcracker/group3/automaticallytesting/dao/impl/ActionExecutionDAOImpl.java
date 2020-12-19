@@ -30,6 +30,16 @@ public class ActionExecutionDAOImpl implements ActionExecutionDAO {
     @Value("${get.number.of.failed.passed.action.executions}")
     private String GET_NUMBER_ACTION_EXECUTION;
 
+    @Value("${get.count.action.executions}")
+    private String GET_COUNT_ACTION_EXECUTIONS;
+
+    @Value("${action.execution.search.name.sql}")
+    private String ACTION_EXECUTION_SEARCH_NAME;
+
+    @Value("${action.execution.count.search.name.sql}")
+    private String ACTION_EXECUTION_COUNT_SEARCH_NAME;
+
+
     public ActionExecutionDAOImpl(JdbcTemplate jdbcTemplate, ActionExecutionMapper actionExecutionMapper, ActionExecutionPassedFailedMapper actionExecutionPassedFailedMapper){
         this.jdbcTemplate = jdbcTemplate;
         this.actionExecutionMapper = actionExecutionMapper;
@@ -47,14 +57,23 @@ public class ActionExecutionDAOImpl implements ActionExecutionDAO {
     }
 
     @Override
-    public List<ActionExecutionDto> getAllActionExecution(Long testCaseExecutionId) {
-        return jdbcTemplate.queryForStream(GET_ALL_ACTION_EXECUTIONS,actionExecutionMapper,testCaseExecutionId,testCaseExecutionId)
+    public List<ActionExecutionDto> getAllActionExecution(Long testCaseExecutionId, String pagination,String searchName) {
+        String searchNameSql = searchName == null || searchName.equals("") ? "" :
+                String.format(ACTION_EXECUTION_SEARCH_NAME,searchName);
+        return jdbcTemplate.queryForStream(GET_ALL_ACTION_EXECUTIONS + searchNameSql + pagination,actionExecutionMapper,testCaseExecutionId,testCaseExecutionId)
                 .collect(Collectors.toList());
     }
 
     @Override
     public List<ActionExecutionPassedFailed> getActionExecutionPassedFailed(String status) {
         return jdbcTemplate.queryForStream(GET_NUMBER_ACTION_EXECUTION, actionExecutionPassedFailedMapper, status).collect(Collectors.toList());
+    }
+
+    @Override
+    public Integer getQuantityActionsExecutions(Long testCaseExecutionId,String searchName) {
+        String searchNameSql = searchName == null || searchName.equals("") ? "" :
+                String.format(ACTION_EXECUTION_COUNT_SEARCH_NAME,searchName);
+        return jdbcTemplate.queryForObject(GET_COUNT_ACTION_EXECUTIONS + searchNameSql,Integer.class,testCaseExecutionId);
     }
 
 }

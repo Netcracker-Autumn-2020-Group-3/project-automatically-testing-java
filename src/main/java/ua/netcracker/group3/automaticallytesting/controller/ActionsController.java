@@ -1,6 +1,7 @@
 package ua.netcracker.group3.automaticallytesting.controller;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,9 +16,10 @@ import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
+@Slf4j
 public class ActionsController {
 
-    private ActionService actionService;
+    private final ActionService actionService;
     private final VariableService variableService;
 
     @Autowired
@@ -29,15 +31,17 @@ public class ActionsController {
 
     @RequestMapping(value = "/library/actions",method = RequestMethod.GET)
     @PreAuthorize("hasAnyRole('ADMIN','MANAGER','ENGINEER')")
-    public List<Action> getPageActions(Integer page,String orderSearch,Integer pageSize){
-        Pageable pageable = Pageable.builder().page(page).pageSize(pageSize).sortField(orderSearch).build();
+    public List<Action> getPageActions(Integer page,String orderSearch,String orderSort,Integer pageSize){
+        Pageable pageable = Pageable.builder().page(page).pageSize(pageSize).sortField(orderSearch).sortOrder(orderSort).build();
+        log.info("pageable : {}", pageable);
         return actionService.getAllActions(pageable);
     }
 
     @RequestMapping(value = "/library/actions/{actionName}",method = RequestMethod.GET)
     @PreAuthorize("hasAnyRole('ADMIN','MANAGER','ENGINEER')")
-    public List<Action> findActionsByName(@PathVariable String actionName,String orderSearch,Integer page,Integer pageSize){
-        Pageable pageable = Pageable.builder().page(page).pageSize(pageSize).sortField(orderSearch).build();
+    public List<Action> findActionsByName(@PathVariable String actionName,String orderSearch,String orderSort,Integer page,Integer pageSize){
+        Pageable pageable = Pageable.builder().page(page).pageSize(pageSize).sortField(orderSearch).sortOrder(orderSort).build();
+        log.info("pageable : {}", pageable);
         return actionService.findActionsByName(actionName,pageable);
     }
 

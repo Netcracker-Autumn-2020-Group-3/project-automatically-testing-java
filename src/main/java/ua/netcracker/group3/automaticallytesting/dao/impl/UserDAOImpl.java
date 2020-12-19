@@ -65,6 +65,17 @@ public class UserDAOImpl implements UserDAO {
     @Value("${count.users.by.role}")
     private String COUNT_BY_ROLE;
 
+
+//    select * from
+//            (select count(*) as total_number from "user") TOTAL
+//    CROSS JOIN
+//            (select count(*) as admin_number from "user" where role = 'ROLE_ADMIN') ADMIN
+//    CROSS JOIN
+//            (select count(*) as manager_number from "user" where role = 'ROLE_MANAGER') MANAGER
+//    CROSS JOIN
+//            (select count(*) as engineer_number from "user" where role = 'ROLE_ENGINEER') ENGINEER
+
+
     @Override
     public User findUserByEmail(String email) {
 

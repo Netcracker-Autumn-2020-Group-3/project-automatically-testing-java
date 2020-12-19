@@ -1,6 +1,7 @@
 package ua.netcracker.group3.automaticallytesting.service.ServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ua.netcracker.group3.automaticallytesting.config.JwtProvider;
 import ua.netcracker.group3.automaticallytesting.dao.ReportDAO;
@@ -24,8 +25,8 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public void sendReportToUser(List<ActionExecutionDto> actionExecutionList, List<SubscribedUserTestCaseDto> subscribedUsers) {
-        emailService.sendReportToUser(actionExecutionList,subscribedUsers);
+    public ResponseEntity<?> sendReportToUser(List<ActionExecutionDto> actionExecutionList, List<SubscribedUserTestCaseDto> subscribedUsers) {
+        return emailService.sendReportToUser(actionExecutionList,subscribedUsers);
     }
 
     @Override
