@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
+    //@Transactional
     public void saveUser(User userRequest) {
         User user = buildUser(userRequest);
         userDAO.saveUser(user);
@@ -96,13 +96,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
+    //@Transactional
     public void updateUserSettings(User user) {
         userDAO.updateUserSettings(user);
     }
 
     @Override
-    @Transactional
+    //@Transactional
     public void updateUserPassword(User user) {
         userDAO.updateUserPassword(user.getEmail(), user.getPassword());
     }

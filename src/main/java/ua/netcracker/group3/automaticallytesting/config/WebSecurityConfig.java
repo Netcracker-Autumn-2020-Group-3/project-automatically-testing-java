@@ -52,7 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/login").permitAll()
+                .antMatchers("/login", "/subscribe/**").permitAll()
                 .antMatchers("/users/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()

@@ -20,6 +20,7 @@ import ua.netcracker.group3.automaticallytesting.execution.action.impl.TypeActio
 import ua.netcracker.group3.automaticallytesting.model.ActionExecution;
 import ua.netcracker.group3.automaticallytesting.model.Status;
 
+import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.SseService;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -31,17 +32,21 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
 
     private ActionExecutionDAO actionExecutionDAO;
     private List<ActionExecution> actionExecutions;
+    private SseService sseService;
+
     private Status actionStatus = Status.PASSED;
 
     @Autowired
-    public TestCaseExecutionServiceSelenium(ActionExecutionDAO actionExecutionDAO){
+    public TestCaseExecutionServiceSelenium(ActionExecutionDAO actionExecutionDAO, SseService sseService){
         this.actionExecutionDAO = actionExecutionDAO;
+        this.sseService = sseService;
         //System.setProperty("webdriver.chrome.driver", "D:\\netcracker\\chrome-driver87\\chromedriver.exe");
         //System.setProperty("webdriver.chrome.driver", "E:\\chromedriver.exe");
         //System.setProperty("webdriver.chrome.driver", "chrome-driver87\\chromedriver.exe");
         //System.setProperty("webdriver.chrome.driver", "chromedriver_linux64/chromedriver");
         //System.setProperty("webdriver.geckodriver.driver", "/app/vendor/geckodriver/geckodriver");
         //System.setProperty("webdriver.gecko.driver", "/app/vendor/geckodriver/geckodriver");
+        //System.setProperty("webdriver.chrome.driver", "F:\\netcracker\\chromedriver.exe");
     }
 
     private final Map<String, ActionExecutable> actions = new HashMap<String, ActionExecutable>() {{
@@ -62,14 +67,15 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
 
         actionExecutions = new ArrayList<>();
 
-       /* ChromeOptions options = new ChromeOptions();
+        ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-gpu");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--headless");
+        options.addArguments("--lang=en");
 
-        WebDriver driver = new ChromeDriver(options);*/
-        WebDriver driver = new ChromeDriver();
+        WebDriver driver = new ChromeDriver(options);
+        //WebDriver driver = new ChromeDriver();
 
         Map<Long, ContextVariable> contextVariables = new HashMap<>();
         List<ScenarioStepDto> scenarioStepDtoList = testCaseDto.getScenarioStepsWithData();

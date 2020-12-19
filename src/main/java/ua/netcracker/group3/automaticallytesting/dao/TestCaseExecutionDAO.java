@@ -18,5 +18,7 @@ public interface TestCaseExecutionDAO {
 
     List<GroupedTestCaseExecutionDto> getGroupedTestCaseExecution();
 
+    TestCaseExecution getTestCaseExecutionById(long testCaseExecutionId);
+
     Integer countTestCaseExecutions();
 }

@@ -7,6 +7,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ua.netcracker.group3.automaticallytesting.dao.TestCaseDAO;
+import ua.netcracker.group3.automaticallytesting.mapper.TestCaseNameMapper;
 import ua.netcracker.group3.automaticallytesting.mapper.TestCaseStepMapper;
 import ua.netcracker.group3.automaticallytesting.mapper.TestCaseTopSubscribedMapper;
 import ua.netcracker.group3.automaticallytesting.mapper.TestCaseUpdMapper;
@@ -24,12 +25,16 @@ public class TestCaseDAOImpl implements TestCaseDAO {
     private final TestCaseStepMapper testCaseStepMapper;
     private final TestCaseTopSubscribedMapper testCaseTopSubscribedMapper;
     private final TestCaseUpdMapper testCaseUpdMapper;
+    private final TestCaseNameMapper testCaseNameMapper;
 
-    public TestCaseDAOImpl(JdbcTemplate jdbcTemplate, TestCaseStepMapper testCaseStepMapper, TestCaseTopSubscribedMapper testCaseTopSubscribedMapper, TestCaseUpdMapper testCaseUpdMapper) {
+    public TestCaseDAOImpl(JdbcTemplate jdbcTemplate, TestCaseStepMapper testCaseStepMapper, TestCaseTopSubscribedMapper testCaseTopSubscribedMapper,
+                           TestCaseUpdMapper testCaseUpdMapper,
+                           TestCaseNameMapper testCaseNameMapper) {
         this.jdbcTemplate = jdbcTemplate;
         this.testCaseStepMapper = testCaseStepMapper;
         this.testCaseTopSubscribedMapper = testCaseTopSubscribedMapper;
         this.testCaseUpdMapper = testCaseUpdMapper;
+        this.testCaseNameMapper = testCaseNameMapper;
     }
 
     @Value("${insert.test.case}")
@@ -61,6 +66,9 @@ public class TestCaseDAOImpl implements TestCaseDAO {
 
     @Value("${dashboard.top.subscribed.test.cases}")
     public String GET_TOP_FIVE_SUBSCRIBED_TEST_CASES;
+
+    @Value("${get.test.case.by.id}")
+    private String GET_TEST_CASE_BY_ID;
 
     /**
      * @return created test_case_id
@@ -127,5 +135,10 @@ public class TestCaseDAOImpl implements TestCaseDAO {
     @Override
     public void removeSubscriber(Long testCaseId, Long userId) {
         jdbcTemplate.update(DELETE_SUBSCRIBER, testCaseId, userId);
+    }
+
+    @Override
+    public TestCase getTestCaseById(long testCaseId) {
+        return jdbcTemplate.queryForObject(GET_TEST_CASE_BY_ID, testCaseNameMapper, testCaseId);
     }
 }

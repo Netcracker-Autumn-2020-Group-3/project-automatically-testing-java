@@ -25,4 +25,6 @@ public interface TestCaseDAO {
     Boolean isFollowedByUser(Long testCaseId, Long userId);
 
     void removeSubscriber(Long testCaseId, Long userId);
+
+    TestCase getTestCaseById(long testCaseId);
 }
