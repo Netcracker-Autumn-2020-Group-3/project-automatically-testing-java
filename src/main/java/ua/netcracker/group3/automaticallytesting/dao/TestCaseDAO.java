@@ -13,7 +13,7 @@ public interface TestCaseDAO {
     List<TestCaseStep> getTestCaseSteps(Long testCaseId);
     List<TestCaseUpd> getTestCases();
     List<TestCaseUpd> getTestCasesPageSorted(Long projectID, String orderByLimitOffsetWithValues, String name);
-    Integer countUsers();
+    Integer countTestCasesByProject(Long projectId);
 
     List<TestCaseTopSubscribed> getTopFiveSubscribedTestCases();
 

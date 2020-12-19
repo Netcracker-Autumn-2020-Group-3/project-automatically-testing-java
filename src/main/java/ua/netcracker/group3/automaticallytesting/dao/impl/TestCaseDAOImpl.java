@@ -105,8 +105,8 @@ public class TestCaseDAOImpl implements TestCaseDAO {
     }
 
     @Override
-    public Integer countUsers() {
-        return jdbcTemplate.queryForObject(COUNT_TEST_CASES, Integer.class);
+    public Integer countTestCasesByProject(Long projectId) {
+        return jdbcTemplate.queryForObject(COUNT_TEST_CASES, Integer.class, projectId);
     }
 
     @Override

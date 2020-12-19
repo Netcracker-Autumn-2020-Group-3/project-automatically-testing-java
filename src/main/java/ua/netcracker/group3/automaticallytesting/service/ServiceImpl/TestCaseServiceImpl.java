@@ -196,8 +196,8 @@ public class TestCaseServiceImpl implements TestCaseService {
     }
 
     @Override
-    public Integer countPages(Integer pageSize) {
-        return pagination.countPages(testCaseDAO.countUsers(), pageSize);
+    public Integer countTestCasesByProject(Integer pageSize, Long projectId) {
+        return pagination.countPages(testCaseDAO.countTestCasesByProject(projectId), pageSize);
     }
 
 

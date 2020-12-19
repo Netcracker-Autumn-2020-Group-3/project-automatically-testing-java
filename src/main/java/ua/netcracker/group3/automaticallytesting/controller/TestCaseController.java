@@ -95,10 +95,10 @@ public class TestCaseController {
         return testCaseService.getTestCases (projectID, pageable, name);
     }
 
-    @GetMapping("/pages/count")
-    @PreAuthorize("hasRole('ADMIN')")
-    public Integer countTestCasePages(Integer pageSize) {
-        return testCaseService.countPages(pageSize);
+    @GetMapping("/{projectID}/pages/count")
+    //@PreAuthorize("hasRole('ADMIN')")
+    public Integer countTestCasePages(Integer pageSize, @PathVariable("projectID") Long projectId) {
+        return testCaseService.countTestCasesByProject(pageSize, projectId  );
     }
 
 
