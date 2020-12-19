@@ -1,9 +1,11 @@
 package ua.netcracker.group3.automaticallytesting.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.dto.ResetPassDto;
+import ua.netcracker.group3.automaticallytesting.dto.UserSearchDto;
 import ua.netcracker.group3.automaticallytesting.model.User;
 import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.EmailServiceImpl;
 import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.UserServiceImpl;
@@ -13,10 +15,12 @@ import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
+@RequestMapping("/users")
+@Slf4j
 public class UserController {
 
     private final UserServiceImpl userService;
-    private EmailServiceImpl emailService;
+    private final EmailServiceImpl emailService;
 
     @Autowired
     public UserController(UserServiceImpl userService, EmailServiceImpl emailService) {
@@ -24,37 +28,43 @@ public class UserController {
         this.emailService = emailService;
     }
 
-    @GetMapping("/users/list")
+    @GetMapping()
     @PreAuthorize("hasRole('ADMIN')")
-    public List<User> getPageUsers(Integer pageSize, Integer page, String sortOrder, String sortField,
-                                   String name, String surname, String email, String role) {
-        Pageable pageable = Pageable.builder().page(page).pageSize(pageSize).sortField(sortField).sortOrder(sortOrder).build();
-        return userService.getUsers(pageable, name, surname, email, role);
+    public List<User> getPageUsers(UserSearchDto userSearchDto, Pageable pageable) {
+        log.info("userSearchDto : {}", userSearchDto);
+        log.info("pageable : {}", pageable);
+        return userService.getUsers(userSearchDto, pageable);
     }
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public User getUserById(@PathVariable("id") long id) {
         return userService.getUserById(id);
     }
 
-    @PostMapping("/users/updateUser")
+    @PostMapping("/updateUser")
     @PreAuthorize("hasRole('ADMIN')")
     public void updateUserById(@RequestBody User user) {
         userService.updateUserById(user.getEmail(), user.getName(), user.getSurname(), user.getRole(), user.isEnabled(), user.getId());
     }
 
-    @PostMapping("/users/addUser")
+    @PostMapping("/addUser")
     @PreAuthorize("hasRole('ADMIN')")
     public void addUser(@RequestBody User user){
         userService.saveUser(user);
         emailService.sendCredentialsByEmail(user);
     }
 
-    @GetMapping("/users/pages/count")
+    @GetMapping("/pages/count")
     @PreAuthorize("hasRole('ADMIN')")
     public Integer countUserPages(Integer pageSize) {
         return userService.countPages(pageSize);
+    }
+
+    @GetMapping("/pages/count-search")
+    @PreAuthorize("hasRole('ADMIN')")
+    public Integer countUserPagesSearch(UserSearchDto userSearchDto, Integer pageSize) {
+        return userService.countPagesSearch(userSearchDto, pageSize);
     }
 
 //    @GetMapping("/users/resetpass")
@@ -62,7 +72,7 @@ public class UserController {
 //        return token;
 //    }
 
-    @PutMapping("/users/resetpass")
+    @PutMapping("/resetpass")
     public void resetPassword(@RequestBody ResetPassDto resetPassDto) throws Exception {
         userService.updateUserPasswordByToken(resetPassDto.getToken(), resetPassDto.getPassword());
     }

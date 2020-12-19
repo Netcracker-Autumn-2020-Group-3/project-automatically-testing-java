@@ -33,7 +33,7 @@ public class DataSetController {
 
     @RequestMapping(value = "/dataset/edit/{id}",method = RequestMethod.GET)
     @PreAuthorize("hasAnyRole('ADMIN','MANAGER','ENGINEER')")
-    public DataSet getDataSetByIdForEdit(@PathVariable Integer id){
+    public DataSet getDataSetById(@PathVariable Integer id){
         return dataSetService.getDataSetById(id);
     }
 

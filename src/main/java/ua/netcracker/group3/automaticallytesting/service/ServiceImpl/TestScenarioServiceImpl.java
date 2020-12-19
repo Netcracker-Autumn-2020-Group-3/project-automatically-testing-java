@@ -42,6 +42,11 @@ public class TestScenarioServiceImpl implements TestScenarioService {
     }
 
     @Override
+    public List<TestScenario> getTestScenarioById(long id) {
+        return testScenarioDAO.getTestScenarioById(id);
+    }
+
+    @Override
     public boolean updateTestScenario(TestScenarioDtoWithIdNameArchived testScenarioDto) {
         String testScenarioName = testScenarioDto.getName();
         if(testScenarioDAO.checkExistTestScenarioByName(testScenarioName)) {

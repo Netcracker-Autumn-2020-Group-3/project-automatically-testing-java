@@ -20,6 +20,8 @@ public class Pagination {
     private String defaultPageUserSortField;
     @Value("${page.user.sort.order}")
     private String defaultPageUserSortOrder;
+    @Value("${pagination.sql}")
+    private String PAGINATION_SQL;
 
     public Pageable replaceNullsUserPage(Pageable pageable) {
         return Pageable.builder().pageSize(pageable.getPageSize() == null ? defaultPageSize : pageable.getPageSize())
@@ -45,14 +47,13 @@ public class Pagination {
     }
 
     public String formSqlPostgresPaginationPiece(Pageable pageable) {
-        return " order by " + pageable.getSortField() + " " + pageable.getSortOrder() +
-                " limit " + pageable.getPageSize() + " offset " + countOffset(pageable);
+        return  String.format(PAGINATION_SQL, pageable.getSortField(), pageable.getSortOrder(), pageable.getPageSize(), countOffset(pageable));
     }
 
-    public String formSqlPostgresPaginationAction(Pageable pageable) {
+   /* public String formSqlPostgresPaginationAction(Pageable pageable) {
         return " order by " + pageable.getSortField() +
                 " limit " + pageable.getPageSize() + " offset " + countOffset(pageable);
-    }
+    }*/
 
     public Pageable setDefaultOrderValue(Pageable pageable){
 
@@ -60,6 +61,7 @@ public class Pagination {
                 .page(pageable.getPage())
                 .pageSize(pageable.getPageSize())
                 .sortField(pageable.getSortField().equals("") ? "id" : pageable.getSortField())
+                .sortOrder(pageable.getSortOrder())
                 .build();
     }
 

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.netcracker.group3.automaticallytesting.dao.ActionDAO;
 import ua.netcracker.group3.automaticallytesting.dto.ActionDtoWithIdNameVoid;
+import ua.netcracker.group3.automaticallytesting.dto.ActionVariableDto;
 import ua.netcracker.group3.automaticallytesting.model.Action;
 import ua.netcracker.group3.automaticallytesting.service.ActionService;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
@@ -27,7 +28,7 @@ public class ActionServiceImpl implements ActionService {
     @Override
     public List<Action> getAllActions(Pageable pageable) {
         pageable = pagination.setDefaultOrderValue(pageable);
-        return actionDAO.getPageActions(pagination.formSqlPostgresPaginationAction(pageable));
+        return actionDAO.getPageActions(pagination.formSqlPostgresPaginationPiece(pageable));
     }
 
     @Override
@@ -38,7 +39,7 @@ public class ActionServiceImpl implements ActionService {
     @Override
     public List<Action> findActionsByName(String name,Pageable pageable) {
         pageable = pagination.setDefaultOrderValue(pageable);
-        return actionDAO.findActionsByName(pagination.formSqlPostgresPaginationAction(pageable),name);
+        return actionDAO.findActionsByName(pagination.formSqlPostgresPaginationPiece(pageable),name);
     }
 
     @Override
@@ -54,5 +55,15 @@ public class ActionServiceImpl implements ActionService {
     @Override
     public long createAction(String name, String description) {
         return actionDAO.createAction(name, description);
+    }
+
+    @Override
+    public List<ActionVariableDto> getActionVariableById(Long id) {
+        return actionDAO.getActionVariable(id);
+    }
+
+    @Override
+    public void updateActionDescription(Long id, Action action) {
+        actionDAO.updateActionDescription(id,action);
     }
 }

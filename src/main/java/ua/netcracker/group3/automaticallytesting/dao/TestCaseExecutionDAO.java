@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface TestCaseExecutionDAO {
     List<TestCaseExecution> getAllTestCaseExecutions();
-    List<TestCaseExecutionDto> getAllTestCaseExecutionWithFailedActionNumber();
+    List<TestCaseExecutionDto> getAllTestCaseExecutionWithFailedActionNumber(long limit, long offset, String orderBy, String orderByClause, String testCaseName, String projectName, String status);
     Long createTestCaseExecution(long testCaseId, long userId);
     void updateTestCaseExecution(Enum status, long testCaseExecutionId);
 
@@ -19,4 +19,6 @@ public interface TestCaseExecutionDAO {
     List<GroupedTestCaseExecutionDto> getGroupedTestCaseExecution();
 
     TestCaseExecution getTestCaseExecutionById(long testCaseExecutionId);
+
+    Integer countTestCaseExecutions();
 }

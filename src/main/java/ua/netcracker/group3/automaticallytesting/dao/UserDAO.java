@@ -4,6 +4,7 @@ package ua.netcracker.group3.automaticallytesting.dao;
 import ua.netcracker.group3.automaticallytesting.model.User;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -17,9 +18,9 @@ public interface UserDAO {
 
     Optional<User> findUserById(long id);
 
-    List<User> getUsersPageSorted(String orderByLimitOffsetWithValues,  String name, String surname, String email, String role);
+    List<User> getUsersPageSorted(String orderByLimitOffsetWithValues, String isEnabledFiltering, String name, String surname, String email, String role);
 
-    void updateUserById(String email, String name,String surname,String role,boolean is_enabled, long id);
+    void updateUserById(String email, String name, String surname, String role, boolean is_enabled, long id);
 
     Integer countUsers();
 
@@ -31,4 +32,5 @@ public interface UserDAO {
 
     Integer countUsers(String role);
 
+    Integer countUsersSearch(String enabledSql, String name, String surname, String email, String formFilter);
 }

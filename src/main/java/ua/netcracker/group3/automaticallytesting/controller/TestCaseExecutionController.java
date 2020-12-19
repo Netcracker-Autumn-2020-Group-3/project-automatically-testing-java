@@ -3,6 +3,7 @@ package ua.netcracker.group3.automaticallytesting.controller;
 import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.dto.TestCaseDto;
 import ua.netcracker.group3.automaticallytesting.dto.TestCaseExecutionDto;
+import ua.netcracker.group3.automaticallytesting.dto.TestCaseExecutionListDto;
 import ua.netcracker.group3.automaticallytesting.execution.TestCaseExecutionService;
 import ua.netcracker.group3.automaticallytesting.model.TestCaseExecution;
 import ua.netcracker.group3.automaticallytesting.model.TestCaseExecutionStatus;
@@ -47,9 +48,21 @@ public class TestCaseExecutionController {
         return testCaseExecService.getAllTestCaseExecutions();
     }
 
-    @GetMapping("/get-all-with-failed-action-number")
-    public List<TestCaseExecutionDto> getAllTestCaseExecutionWithFailedActionNumber() {
-        return  testCaseExecService.getAllTestCaseExecutionWithFailedActionNumber();
+    @GetMapping("/get-all-with-failed-action-number/{limit}/{offset}/{orderBy}/{orderByClause}/{testCaseName}/{projectName}/{status}")
+    public List<TestCaseExecutionDto> getAllTestCaseExecutionWithFailedActionNumber(@PathVariable("limit") long limit,
+                                                                                    @PathVariable("offset") long offset,
+                                                                                    @PathVariable("orderBy") String orderBy,
+                                                                                    @PathVariable("orderByClause") String orderByClause,
+                                                                                    @PathVariable("testCaseName") String testCaseName,
+                                                                                    @PathVariable("projectName") String projectName,
+                                                                                    @PathVariable("status") String status) {
+        System.out.println(status);
+        return  testCaseExecService.getAllTestCaseExecutionWithFailedActionNumber(limit, offset, orderBy, orderByClause, testCaseName, projectName, status);
+    }
+
+    @GetMapping("/count")
+    public Integer countTestCaseExecutions() {
+        return testCaseExecService.countTestCaseExecutions();
     }
 
     @PostMapping("/execute/{testCaseId}")
@@ -62,14 +75,11 @@ public class TestCaseExecutionController {
         executeTestCase(testCaseId, testCaseExecutionId);
     }
 
-    public void executeTestCase(long testCaseId, long testCaseExecutionId) {
+    private void executeTestCase(long testCaseId, long testCaseExecutionId) {
         TestCaseDto testCaseDto =  testCaseService.getTestCase(testCaseId);
-        System.out.println(testCaseDto);
         long errorNumber;
         List<String> status = testCaseExecutionService.executeTestCase(testCaseDto, testCaseExecutionId);
-        System.out.println(status);
         errorNumber = status.stream().filter(el -> el.equals("FAILED")).count();
-        System.out.println(errorNumber);
         testCaseExecService.updateTestCaseExecution(FINISHED, testCaseExecutionId);
         sseService.sendRecentNotifications(testCaseDto.getTestCase().getId(), testCaseExecutionId);
     }

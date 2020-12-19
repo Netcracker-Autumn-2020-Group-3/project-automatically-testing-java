@@ -16,6 +16,8 @@ public interface TestScenarioDAO {
 
     List<TestScenario> getAll();
 
+    List<TestScenario> getTestScenarioById(long id);
+
     List<TestScenario> getTestScenariosPageSorted(String orderByLimitOffsetWithValues, String name);
 
     Integer countUsers();

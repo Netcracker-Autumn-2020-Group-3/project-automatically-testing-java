@@ -6,12 +6,18 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import ua.netcracker.group3.automaticallytesting.dao.UserDAO;
 import ua.netcracker.group3.automaticallytesting.mapper.UserMapper;
 import ua.netcracker.group3.automaticallytesting.mapper.UserMapperWithoutPassword;
 import ua.netcracker.group3.automaticallytesting.model.User;
 
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,9 +26,9 @@ import java.util.stream.Collectors;
 @Repository
 public class UserDAOImpl implements UserDAO {
 
-    private JdbcTemplate jdbcTemplate;
-    private UserMapper mapper;
-    private UserMapperWithoutPassword mapperWithoutPassword;
+    private final JdbcTemplate jdbcTemplate;
+    private final UserMapper mapper;
+    private final UserMapperWithoutPassword mapperWithoutPassword;
 
     @Autowired
     public UserDAOImpl(JdbcTemplate jdbcTemplate, UserMapper mapper, UserMapperWithoutPassword mapperWithoutPassword) {
@@ -43,6 +49,8 @@ public class UserDAOImpl implements UserDAO {
     private String COUNT_USERS;
     @Value("${get.users}")
     private String GET_USERS;
+    @Value("${count.users.search}")
+    private String COUNT_USERS_SEARCH;
     @Value("${insert.user}")
     private String INSERT_USER;
     @Value("${get.user.email.by.id}")
@@ -56,8 +64,21 @@ public class UserDAOImpl implements UserDAO {
 
     @Value("${count.users.by.role}")
     private String COUNT_BY_ROLE;
+
+
+//    select * from
+//            (select count(*) as total_number from "user") TOTAL
+//    CROSS JOIN
+//            (select count(*) as admin_number from "user" where role = 'ROLE_ADMIN') ADMIN
+//    CROSS JOIN
+//            (select count(*) as manager_number from "user" where role = 'ROLE_MANAGER') MANAGER
+//    CROSS JOIN
+//            (select count(*) as engineer_number from "user" where role = 'ROLE_ENGINEER') ENGINEER
+
+
     @Override
     public User findUserByEmail(String email) {
+
         return jdbcTemplate.queryForObject(FIND_USER_BY_EMAIL_WITH_PASSWORD, mapper, email);
     }
 
@@ -92,12 +113,16 @@ public class UserDAOImpl implements UserDAO {
         }
     }
 
+    @Override
+    public List<User> getUsersPageSorted(String orderByLimitOffsetWithValues, String isEnabledFiltering, String name, String surname, String email, String roles) {
+        return jdbcTemplate.queryForStream(GET_USERS + isEnabledFiltering + orderByLimitOffsetWithValues,
+                mapperWithoutPassword, name, surname, email, roles)
+                .collect(Collectors.toList());
+    }
 
     @Override
-    public List<User> getUsersPageSorted(String orderByLimitOffsetWithValues, String name, String surname, String email, String role) {
-        return jdbcTemplate.queryForStream(GET_USERS + orderByLimitOffsetWithValues,
-                mapperWithoutPassword, name, surname, email, role)
-                .collect(Collectors.toList());
+    public Integer countUsersSearch(String enabledSql, String name, String surname, String email, String roles) {
+        return jdbcTemplate.queryForObject(COUNT_USERS_SEARCH + enabledSql, Integer.class, name, surname, email, roles);
     }
 
     @Override
