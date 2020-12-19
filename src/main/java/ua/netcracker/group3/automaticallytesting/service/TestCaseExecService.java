@@ -11,13 +11,13 @@ public interface TestCaseExecService {
 
     List<TestCaseExecution> getAllTestCaseExecutions();
 
-    Integer countTestCaseExecutions();
+    Integer countTestCaseExecutions(String testCaseName, String projectName, String status);
 
     List<TestCaseExecutionDto> getAllTestCaseExecutionWithFailedActionNumber(long limit,long offset, String orderBy, String orderByClause, String testCaseName, String projectName, String status);
 
     Long createTestCaseExecution(Long testCaseId, long userId);
 
-    void updateTestCaseExecution(Enum status, long testCaseExecutionId);
+    void updateTestCaseExecution(String status, long testCaseExecutionId);
 
     List<TestCaseExecutionsCountsByStartDatesDto> getExecutionsByDatesForLastDays(Integer daysFromToday);
 
