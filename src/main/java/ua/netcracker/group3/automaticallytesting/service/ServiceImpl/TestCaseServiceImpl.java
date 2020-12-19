@@ -196,16 +196,16 @@ public class TestCaseServiceImpl implements TestCaseService {
     }
 
     @Override
-    public Integer countPages(Integer pageSize) {
-        return pagination.countPages(testCaseDAO.countUsers(), pageSize);
+    public Integer countTestCasesByProject(Integer pageSize, Long projectId) {
+        return pagination.countPages(testCaseDAO.countTestCasesByProject(projectId), pageSize);
     }
 
 
     @Override
-    public List<TestCaseUpd> getTestCases(Pageable pageable, String name) {
+    public List<TestCaseUpd> getTestCases(Long projectID, Pageable pageable, String name) {
         pageable = pagination.replaceNullsUserPage(pageable);
         pagination.validate(pageable, TEST_CASE_UPD_TABLE_FIELDS);
-        return testCaseDAO.getTestCasesPageSorted(pagination.formSqlPostgresPaginationPiece(pageable),
+        return testCaseDAO.getTestCasesPageSorted(projectID, pagination.formSqlPostgresPaginationPiece(pageable),
                 replaceNullsForSearch(name));
     }
 

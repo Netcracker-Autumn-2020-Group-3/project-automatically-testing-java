@@ -41,13 +41,16 @@ public class TestCaseExecutionController {
         return testCaseExecService.getAllTestCaseExecutions();
     }
 
-    @GetMapping("/get-all-with-failed-action-number/{limit}/{offset}/{orderBy}/{orderByClause}")
+    @GetMapping("/get-all-with-failed-action-number/{limit}/{offset}/{orderBy}/{orderByClause}/{testCaseName}/{projectName}/{status}")
     public List<TestCaseExecutionDto> getAllTestCaseExecutionWithFailedActionNumber(@PathVariable("limit") long limit,
                                                                                     @PathVariable("offset") long offset,
                                                                                     @PathVariable("orderBy") String orderBy,
-                                                                                    @PathVariable("orderByClause") String orderByClause) {
-
-        return  testCaseExecService.getAllTestCaseExecutionWithFailedActionNumber(limit, offset, orderBy, orderByClause);
+                                                                                    @PathVariable("orderByClause") String orderByClause,
+                                                                                    @PathVariable("testCaseName") String testCaseName,
+                                                                                    @PathVariable("projectName") String projectName,
+                                                                                    @PathVariable("status") String status) {
+        System.out.println(status);
+        return  testCaseExecService.getAllTestCaseExecutionWithFailedActionNumber(limit, offset, orderBy, orderByClause, testCaseName, projectName, status);
     }
 
     @GetMapping("/count")

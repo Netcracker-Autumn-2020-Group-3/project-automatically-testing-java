@@ -50,10 +50,10 @@ public class Pagination {
         return  String.format(PAGINATION_SQL, pageable.getSortField(), pageable.getSortOrder(), pageable.getPageSize(), countOffset(pageable));
     }
 
-    public String formSqlPostgresPaginationAction(Pageable pageable) {
+   /* public String formSqlPostgresPaginationAction(Pageable pageable) {
         return " order by " + pageable.getSortField() +
                 " limit " + pageable.getPageSize() + " offset " + countOffset(pageable);
-    }
+    }*/
 
     public Pageable setDefaultOrderValue(Pageable pageable){
 
@@ -61,6 +61,7 @@ public class Pagination {
                 .page(pageable.getPage())
                 .pageSize(pageable.getPageSize())
                 .sortField(pageable.getSortField().equals("") ? "id" : pageable.getSortField())
+                .sortOrder(pageable.getSortOrder())
                 .build();
     }
 

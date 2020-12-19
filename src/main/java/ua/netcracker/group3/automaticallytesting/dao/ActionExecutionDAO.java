@@ -8,7 +8,8 @@ import java.util.List;
 
 public interface ActionExecutionDAO {
     void addActionExecution(List<ActionExecution> actionExecutionList);
-    List<ActionExecutionDto> getAllActionExecution(Long testCaseExecutionId);
+    List<ActionExecutionDto> getAllActionExecution(Long testCaseExecutionId, String pagination,String search);
     List<ActionExecutionPassedFailed> getActionExecutionPassedFailed(String status);
 
+    Integer getQuantityActionsExecutions(Long testCaseExecutionId,String searchName);
 }
