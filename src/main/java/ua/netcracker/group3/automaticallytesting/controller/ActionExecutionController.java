@@ -1,18 +1,19 @@
 package ua.netcracker.group3.automaticallytesting.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.dto.ActionExecutionDto;
 import ua.netcracker.group3.automaticallytesting.model.ActionExecution;
 import ua.netcracker.group3.automaticallytesting.service.ActionExecutionService;
+import ua.netcracker.group3.automaticallytesting.util.Pageable;
 
 import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
+@RequestMapping("/list/actions-execution")
+@Slf4j
 public class ActionExecutionController {
 
     private final ActionExecutionService actionExecutionService;
@@ -22,8 +23,19 @@ public class ActionExecutionController {
         this.actionExecutionService = actionExecutionService;
     }
 
-    @GetMapping("/list/actions-execution/{testCaseExecutionId}")
-    public List<ActionExecutionDto> getAllActionExecutions(@PathVariable Long testCaseExecutionId){
-        return actionExecutionService.getAllActionExecutions(testCaseExecutionId);
+    @GetMapping("/{testCaseExecutionId}")
+    public List<ActionExecutionDto> getAllActionExecutions(@PathVariable Long testCaseExecutionId,
+                                                           Integer page,String orderSearch,
+                                                           String orderSort,Integer pageSize,String search){
+        Pageable pageable = Pageable.builder().page(page).pageSize(pageSize)
+                                              .sortField(orderSearch)
+                                              .sortOrder(orderSort).search(search).build();
+        log.info("pageable : {}", pageable);
+        return actionExecutionService.getAllActionExecutions(testCaseExecutionId,pageable);
+    }
+
+    @GetMapping("/quantity/{testCaseExecutionId}")
+    public Integer getQuantityActionsExecutions(@PathVariable Long testCaseExecutionId,String search){
+        return actionExecutionService.getQuantityActionsExecutions(testCaseExecutionId,search);
     }
 }

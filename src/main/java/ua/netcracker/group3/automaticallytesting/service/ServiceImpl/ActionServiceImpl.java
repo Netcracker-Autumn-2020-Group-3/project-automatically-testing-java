@@ -28,7 +28,7 @@ public class ActionServiceImpl implements ActionService {
     @Override
     public List<Action> getAllActions(Pageable pageable) {
         pageable = pagination.setDefaultOrderValue(pageable);
-        return actionDAO.getPageActions(pagination.formSqlPostgresPaginationAction(pageable));
+        return actionDAO.getPageActions(pagination.formSqlPostgresPaginationPiece(pageable));
     }
 
     @Override
@@ -39,7 +39,7 @@ public class ActionServiceImpl implements ActionService {
     @Override
     public List<Action> findActionsByName(String name,Pageable pageable) {
         pageable = pagination.setDefaultOrderValue(pageable);
-        return actionDAO.findActionsByName(pagination.formSqlPostgresPaginationAction(pageable),name);
+        return actionDAO.findActionsByName(pagination.formSqlPostgresPaginationPiece(pageable),name);
     }
 
     @Override

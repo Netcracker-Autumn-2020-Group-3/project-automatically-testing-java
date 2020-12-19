@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailSendException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -19,9 +22,11 @@ import ua.netcracker.group3.automaticallytesting.util.PasswordResetToken;
 import javax.mail.Address;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.SendFailedException;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -34,8 +39,6 @@ public class EmailServiceImpl {
 
     private final JavaMailSender mailSender;
     private String color;
-
-
 
     @Autowired
     public EmailServiceImpl(JavaMailSender mailSender){
@@ -55,26 +58,26 @@ public class EmailServiceImpl {
         mailSender.send(message);
     }
 
-    public void sendReportToUser(List<ActionExecutionDto> actionExecutionList,
-                                 List<SubscribedUserTestCaseDto> subscribedUsers)  {
+    public ResponseEntity<?> sendReportToUser(List<ActionExecutionDto> actionExecutionList,
+                                           List<SubscribedUserTestCaseDto> subscribedUsers)  {
         String msg = makeHtmlEmail(subscribedUsers,actionExecutionList);
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper;
         subscribedUsers.forEach(subscribedUser -> {
             try {
                 message.addRecipients(Message.RecipientType.TO,subscribedUser.getEmail());
-            } catch (MessagingException e) {
-                log.error("Error with adding emails");
-            }
+            } catch (MessagingException e) { log.error("Error with adding emails"); }
         });
         try {
             helper = new MimeMessageHelper(message, false, "utf-8");
             message.setContent(msg, "text/html");
             helper.setSubject("Report");
             mailSender.send(message);
-        } catch (MessagingException e) {
-           log.error("Error with sending emails");
+            return ResponseEntity.ok(HttpStatus.OK);
+        } catch (MessagingException | MailSendException exception) {
+           log.error("Error with sending emails!");
         }
+        return ResponseEntity.ok(HttpStatus.BAD_REQUEST);
     }
 
     private String makeHtmlEmail(List<SubscribedUserTestCaseDto> subscribedUsers,
@@ -85,29 +88,16 @@ public class EmailServiceImpl {
                 .append("\"</i> was completed with the next execution:</h3><table>")
                 .append("<thead><tr><th>Action Name</th><th>Variable Name</th><th>Variable Value</th><th>Status</th></tr></thead>")
                 .append("<tbody>");
-        actionExecutionList.stream()
-                .filter(actionExecution -> !actionExecution.getStatus().equalsIgnoreCase("notstarted"))
+        actionExecutionList
                 .forEach(actionExecution -> {
-                    color = actionExecution.getStatus().equalsIgnoreCase("passed") ? "green" : "red";
+                    color = actionExecution.getStatus().equalsIgnoreCase("passed") ? "green" :
+                            actionExecution.getStatus().equalsIgnoreCase("failed") ? "red" : "black";
                     sb.append("<tr><td style='color:").append(color).append("'>").append(actionExecution.getAction().getActionName()).append("</td>");
                     sb.append("<td style='color:").append(color).append("'>").append(actionExecution.getVariable().getName()).append("</td>");
                     sb.append("<td style='color:").append(color).append("'>").append(actionExecution.getDataEntry().getValue()).append("</td>");
                     sb.append("<td style='color:").append(color).append("'>").append(actionExecution.getStatus()).append("</td></tr>");
                 });
-        actionExecutionList.stream()
-                .filter(actionExecution -> actionExecution.getStatus().equalsIgnoreCase("notstarted"))
-                .forEach(actionExecution -> {
-                    sb.append("<tr><td>").append(actionExecution.getAction().getActionName()).append("</td>");
-                    sb.append("<td>").append(actionExecution.getVariable().getName()).append("</td>");
-                    sb.append("<td>").append(actionExecution.getDataEntry().getValue()).append("</td>");
-                    sb.append("<td>").append(actionExecution.getStatus()).append("</td></tr>");
-                });
         sb.append("</tbody></table></h4></body>");
         return sb.toString();
     }
-
-    private void addTableWithNotStartedStatus(List<ActionExecutionDto> actionExecutionList){
-
-    }
-
 }
