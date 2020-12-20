@@ -6,6 +6,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.dto.ProjectDto;
+import ua.netcracker.group3.automaticallytesting.dto.ProjectListPaginationDto;
 import ua.netcracker.group3.automaticallytesting.model.Project;
 import ua.netcracker.group3.automaticallytesting.service.ProjectService;
 import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.UserPrincipal;
@@ -24,20 +25,28 @@ public class ProjectController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<?> projects(@RequestParam Integer pageSize,
+    public ResponseEntity<?> projects(@RequestParam String link,
+                                      @RequestParam String name,
+                                      @RequestParam Boolean onlyNotArchived,
                                       @RequestParam Integer page,
+                                      @RequestParam Integer pageSize,
                                       @RequestParam String sortOrder,
                                       @RequestParam String sortField) {
-
-        Pageable pageable = new Pageable(pageSize, page, sortField, sortOrder);
-        pageable.setPage(
-                (pageable.getPage() > 0 ? pageable.getPage() - 1 : 0) * pageable.getPageSize()); // Будет исправлено
-        return ResponseEntity.ok(projectService.getAllProjects(pageable));
+        ProjectListPaginationDto pagination = new ProjectListPaginationDto(
+            name, link, onlyNotArchived, page, pageSize, sortOrder, sortField
+        ).setPage(page);
+        return ResponseEntity.ok(projectService.getAllProjects(pagination));
     }
 
     @GetMapping("/pages/count")
-    public Integer countUserPages(Integer pageSize) {
-        return projectService.countPages(pageSize);
+    public Integer countUserPages(@RequestParam String link,
+                                  @RequestParam String name,
+                                  @RequestParam Boolean onlyNotArchived,
+                                  @RequestParam Integer pageSize) {
+        ProjectListPaginationDto pagination = new ProjectListPaginationDto(
+                link, name, onlyNotArchived
+        );
+        return projectService.countPages(pagination, pageSize);
     }
 
     @GetMapping("/{id}")
