@@ -1,5 +1,6 @@
 package ua.netcracker.group3.automaticallytesting.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import ua.netcracker.group3.automaticallytesting.service.DataSetService;
 
 import java.util.List;
 
+@Slf4j
 @CrossOrigin(origins = "*")
 @RestController
 public class DataSetController {
@@ -62,6 +64,7 @@ public class DataSetController {
     @PostMapping("/create-data-set")
     public void createDataSet(@RequestBody DataSetDto dataSetValues) {
         long id = dataSetService.createDataSet(dataSetValues.getDataSetName());
+        log.info("created data set id: " + id + ", values: " + dataSetValues);
         dataEntryService.createDataEntry(id, dataSetValues.getDataEntryValues());
     }
 

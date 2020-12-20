@@ -16,6 +16,9 @@ import java.util.List;
 public class TestCaseExecServiceImpl implements TestCaseExecService {
 
     private final TestCaseExecutionDAO testCaseExecutionDAO;
+    private String whereByStatus = "";
+    private String testCaseName = "";
+    private String projectName = "";
 
     public TestCaseExecServiceImpl(TestCaseExecutionDAO testCaseExecutionDAO) {
         this.testCaseExecutionDAO = testCaseExecutionDAO;
@@ -27,19 +30,15 @@ public class TestCaseExecServiceImpl implements TestCaseExecService {
     }
 
     @Override
-    public Integer countTestCaseExecutions() {
-        return testCaseExecutionDAO.countTestCaseExecutions();
+    public Integer countTestCaseExecutions(String testCaseName, String projectName, String status) {
+        filterTestCase(testCaseName, projectName, status);
+        return testCaseExecutionDAO.countTestCaseExecutions(this.testCaseName, this.projectName, whereByStatus);
     };
 
     @Override
     public List<TestCaseExecutionDto> getAllTestCaseExecutionWithFailedActionNumber(long limit, long offset, String orderBy, String orderByClause, String testCaseName, String projectName, String status) {
-        if (testCaseName.equals("undefined")) {
-            testCaseName = "";
-        }
-        if (projectName.equals("undefined")) {
-            projectName = "";
-        }
-        return testCaseExecutionDAO.getAllTestCaseExecutionWithFailedActionNumber(limit, offset, orderBy, orderByClause, testCaseName, projectName, status);
+        filterTestCase(testCaseName, projectName, status);
+        return testCaseExecutionDAO.getAllTestCaseExecutionWithFailedActionNumber(limit, offset, orderBy, orderByClause, this.testCaseName, this.projectName, status, whereByStatus);
     }
 
     @Override
@@ -48,7 +47,7 @@ public class TestCaseExecServiceImpl implements TestCaseExecService {
     }
 
     @Override
-    public void updateTestCaseExecution(Enum status, long testCaseExecutionId) {
+    public void updateTestCaseExecution(String status, long testCaseExecutionId) {
         testCaseExecutionDAO.updateTestCaseExecution(status, testCaseExecutionId);
     }
 
@@ -63,4 +62,13 @@ public class TestCaseExecServiceImpl implements TestCaseExecService {
     public List<GroupedTestCaseExecutionDto> getGroupedTestCaseExecution() {
         return testCaseExecutionDAO.getGroupedTestCaseExecution();
     }
+
+    private void filterTestCase(String testCaseName, String projectName, String status) {
+        this.testCaseName = testCaseName.equals("undefined") ?  "" :  testCaseName;
+        this.projectName = projectName.equals("undefined") ? "" : projectName;
+        if (status.equals("all")) whereByStatus = " ";
+        if (status.equals("failed")) whereByStatus = " and passed_actions < all_actions ";
+        if (status.equals("passed")) whereByStatus = " and passed_actions = all_actions ";
+    }
+
 }
