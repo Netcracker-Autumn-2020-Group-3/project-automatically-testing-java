@@ -42,9 +42,10 @@ public class UserController {
         return userService.getUserById(id);
     }
 
-    @PostMapping("/updateUser")
+    @PutMapping("/update")
     @PreAuthorize("hasRole('ADMIN')")
     public void updateUserById(@RequestBody User user) {
+        log.info(String.valueOf(user));
         userService.updateUserById(user.getEmail(), user.getName(), user.getSurname(), user.getRole(), user.isEnabled(), user.getId());
     }
 
