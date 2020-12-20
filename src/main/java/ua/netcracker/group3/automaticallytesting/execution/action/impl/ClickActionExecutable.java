@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import ua.netcracker.group3.automaticallytesting.execution.action.ActionExecutable;
 import ua.netcracker.group3.automaticallytesting.execution.action.ContextVariable;
 import ua.netcracker.group3.automaticallytesting.model.Status;
@@ -16,9 +17,7 @@ import java.util.Optional;
 @Slf4j
 public class ClickActionExecutable implements ActionExecutable {
 
-    private final String BUTTON = "button xpath";
     private final Map<Optional<ContextVariable>, Status> resultActionExecution = new HashMap<>();
-    private Status actionExecution;
 
     public ClickActionExecutable(){
     }
@@ -27,16 +26,17 @@ public class ClickActionExecutable implements ActionExecutable {
 
     @Override
     public Map<Optional<ContextVariable>, Status> executeAction(WebDriver driver, Map<String, String> variableValues) {
-         log.info("fine!");
+        Status actionExecution;
+        String BUTTON = "button xpath";
         try {
             driver.findElement(By.xpath(variableValues.get(BUTTON))).click();
             actionExecution = Status.PASSED;
-        }catch (NoSuchElementException exception){
-            log.error("No such element like {} ",variableValues.get(BUTTON));
+        }catch (WebDriverException exception){
+            log.error("Error with element like {} ",exception.getMessage());
             actionExecution = Status.FAILED;
         }
 
-        resultActionExecution.put(Optional.empty(),actionExecution);
+        resultActionExecution.put(Optional.empty(), actionExecution);
         return resultActionExecution;
     }
 
