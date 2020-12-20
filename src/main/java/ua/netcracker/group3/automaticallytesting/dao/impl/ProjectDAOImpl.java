@@ -82,8 +82,8 @@ public class ProjectDAOImpl implements ProjectDAO {
         return jdbcTemplate.queryForObject(
                 COUNT_PROJECTS,
                 Integer.class,
-                pagination.getName(),
-                pagination.getLink(),
+                pagination.getName() + "%",
+                pagination.getLink() + "%",
                 pagination.isArchived());
     }
 

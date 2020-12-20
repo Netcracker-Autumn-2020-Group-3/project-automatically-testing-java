@@ -44,7 +44,7 @@ public class ProjectController {
                                   @RequestParam Boolean onlyNotArchived,
                                   @RequestParam Integer pageSize) {
         ProjectListPaginationDto pagination = new ProjectListPaginationDto(
-                link, name, onlyNotArchived
+                name, link, onlyNotArchived
         );
         return projectService.countPages(pagination, pageSize);
     }
