@@ -16,8 +16,4 @@ public class TestScenarioItemDto {
     private String contextInstanceName;
     private List<TestScenarioItemDto> items;
 
-    public TestScenarioItemDto(long id, long priority) {
-        this.id = id;
-        this.priority = priority;
-    }
 }

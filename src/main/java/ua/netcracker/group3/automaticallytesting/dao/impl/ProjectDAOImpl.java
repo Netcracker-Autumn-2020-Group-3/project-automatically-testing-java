@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ua.netcracker.group3.automaticallytesting.dao.ProjectDAO;
 import ua.netcracker.group3.automaticallytesting.dto.ProjectDto;
+import ua.netcracker.group3.automaticallytesting.dto.ProjectListPaginationDto;
 import ua.netcracker.group3.automaticallytesting.mapper.ProjectDtoMapper;
 import ua.netcracker.group3.automaticallytesting.mapper.ProjectMapper;
 import ua.netcracker.group3.automaticallytesting.model.Project;
@@ -49,12 +50,15 @@ public class ProjectDAOImpl implements ProjectDAO {
     }
 
     @Override
-    public List<Project> findAll(Pageable pageable) {
+    public List<Project> findAll(ProjectListPaginationDto pagination) {
         String sql = String.format(FIND_ALL,
-                pageable.getSortField(),
-                pageable.getSortOrder(),
-                pageable.getPageSize(),
-                pageable.getPage()
+                pagination.getName(),
+                pagination.getLink(),
+                pagination.isArchived(),
+                pagination.getSortField(),
+                pagination.getSortOrder(),
+                pagination.getPageSize(),
+                pagination.getPage()
         );
         return jdbcTemplate.query(sql, mapper);
     }
@@ -74,8 +78,13 @@ public class ProjectDAOImpl implements ProjectDAO {
     }
 
     @Override
-    public Integer countProjects() {
-        return jdbcTemplate.queryForObject(COUNT_PROJECTS, Integer.class);
+    public Integer countProjects(ProjectListPaginationDto pagination) {
+        return jdbcTemplate.queryForObject(
+                COUNT_PROJECTS,
+                Integer.class,
+                pagination.getName() + "%",
+                pagination.getLink() + "%",
+                pagination.isArchived());
     }
 
     @Override

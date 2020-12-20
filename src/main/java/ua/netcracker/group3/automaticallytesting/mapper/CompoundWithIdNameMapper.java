@@ -11,8 +11,8 @@ public class CompoundWithIdNameMapper implements RowMapper<CompoundDtoWithIdName
     @Override
     public CompoundDtoWithIdName mapRow(ResultSet rs, int i) throws SQLException {
         return new CompoundDtoWithIdName(
-                rs.getLong(1),
-                rs.getString(2)
+                rs.getLong("id"),
+                rs.getString("name")
         );
     }
 }

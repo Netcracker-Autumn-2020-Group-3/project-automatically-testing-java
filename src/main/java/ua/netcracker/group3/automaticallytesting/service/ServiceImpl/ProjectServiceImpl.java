@@ -3,6 +3,7 @@ package ua.netcracker.group3.automaticallytesting.service.ServiceImpl;
 import org.springframework.stereotype.Service;
 import ua.netcracker.group3.automaticallytesting.dao.ProjectDAO;
 import ua.netcracker.group3.automaticallytesting.dto.ProjectDto;
+import ua.netcracker.group3.automaticallytesting.dto.ProjectListPaginationDto;
 import ua.netcracker.group3.automaticallytesting.model.Project;
 import ua.netcracker.group3.automaticallytesting.service.ProjectService;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
@@ -22,8 +23,8 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<Project> getAllProjects(Pageable pageable) {
-        return projectDAO.findAll(pageable);
+    public List<Project> getAllProjects(ProjectListPaginationDto pagination) {
+        return projectDAO.findAll(pagination);
     }
 
     @Override
@@ -37,8 +38,8 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Integer countPages(Integer pageSize) {
-        return pagination.countPages(projectDAO.countProjects(), pageSize);
+    public Integer countPages(ProjectListPaginationDto pagination, Integer pageSize) {
+        return this.pagination.countPages(projectDAO.countProjects(pagination), pageSize);
     }
 
     @Override
