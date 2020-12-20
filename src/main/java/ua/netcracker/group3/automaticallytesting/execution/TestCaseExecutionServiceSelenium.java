@@ -41,7 +41,7 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
     public TestCaseExecutionServiceSelenium(ActionExecutionDAO actionExecutionDAO, SseService sseService){
         this.actionExecutionDAO = actionExecutionDAO;
         this.sseService = sseService;
-        System.setProperty("webdriver.chrome.driver", "D:\\netcracker\\chrome-driver87\\chromedriver.exe");
+        //System.setProperty("webdriver.chrome.driver", "D:\\netcracker\\chrome-driver87\\chromedriver.exe");
         //System.setProperty("webdriver.chrome.driver", "E:\\chromedriver.exe");
         //System.setProperty("webdriver.chrome.driver", "chrome-driver87\\chromedriver.exe");
         //System.setProperty("webdriver.chrome.driver", "chromedriver_linux64/chromedriver");
@@ -84,7 +84,7 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
         log.info("Test case execution started");
 
         driver.get(testCaseDto.getProjectLink());
-        driver.manage().window().maximize();
+        //driver.manage().window().maximize();
 
         scenarioStepDtoList.forEach(step -> {
             step.getActionDto().forEach(actionDto -> {
