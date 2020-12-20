@@ -1,5 +1,6 @@
 package ua.netcracker.group3.automaticallytesting.service.ServiceImpl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.netcracker.group3.automaticallytesting.dao.ActionInstanceDAO;
@@ -21,6 +22,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class TestCaseServiceImpl implements TestCaseService {
 
     private final TestCaseDAO testCaseDAO;
@@ -192,7 +194,13 @@ public class TestCaseServiceImpl implements TestCaseService {
 
     @Override
     public List<TestCaseTopSubscribed> getFiveTopSubscribedTestCases() {
-        return testCaseDAO.getTopFiveSubscribedTestCases();
+        List<TestCaseTopSubscribed> testCases = testCaseDAO.getTopFiveSubscribedTestCases();
+        if(testCases.isEmpty()) {
+            log.warn("IN getFiveTopSubscribedTestCases - no test cases found");
+            return testCases;
+        }
+        log.info("IN getFiveTopSubscribedTestCases - test cases: {} found", testCases);
+        return testCases;
     }
 
     @Override
