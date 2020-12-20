@@ -1,5 +1,6 @@
 package ua.netcracker.group3.automaticallytesting.service.ServiceImpl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.netcracker.group3.automaticallytesting.dao.ActionDAO;
@@ -13,6 +14,7 @@ import ua.netcracker.group3.automaticallytesting.util.Pagination;
 import java.util.List;
 
 @Service
+@Slf4j
 public class ActionServiceImpl implements ActionService {
 
     private ActionDAO actionDAO;
@@ -44,7 +46,9 @@ public class ActionServiceImpl implements ActionService {
 
     @Override
     public List<ActionDtoWithIdNameVoid> getAllActionsWithIdName() {
-        return actionDAO.findAllWithIdName();
+        List<ActionDtoWithIdNameVoid> actions = actionDAO.findAllWithIdName();
+        log.info("IN getAllActionsWithIdName - {} actions found", actions.size());
+        return actions;
     }
 
     @Override
