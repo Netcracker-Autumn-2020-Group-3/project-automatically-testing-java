@@ -70,6 +70,9 @@ public class TestCaseDAOImpl implements TestCaseDAO {
     @Value("${get.test.case.by.id}")
     private String GET_TEST_CASE_BY_ID;
 
+    @Value("${update.archive.test.case}")
+    private String UPDATE_IS_ARCHIVED;
+
     /**
      * @return created test_case_id
      */
@@ -140,5 +143,10 @@ public class TestCaseDAOImpl implements TestCaseDAO {
     @Override
     public TestCase getTestCaseById(long testCaseId) {
         return jdbcTemplate.queryForObject(GET_TEST_CASE_BY_ID, testCaseNameMapper, testCaseId);
+    }
+
+    @Override
+    public void updateIsArchivedField(Long projectId, boolean isArchived) {
+        jdbcTemplate.update(UPDATE_IS_ARCHIVED, isArchived, projectId);
     }
 }

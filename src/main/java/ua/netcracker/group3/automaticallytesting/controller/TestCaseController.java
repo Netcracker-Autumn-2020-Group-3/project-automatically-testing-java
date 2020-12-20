@@ -24,13 +24,11 @@ public class TestCaseController {
 
     private final TestCaseService testCaseService;
     private final TestCaseExecutionService testCaseExecutionService;
-    private final SseService sseService;
 
     @Autowired
-    public TestCaseController(TestCaseService testCaseService, TestCaseExecutionService testCaseExecutionService, SseService sseService) {
+    public TestCaseController(TestCaseService testCaseService, TestCaseExecutionService testCaseExecutionService) {
         this.testCaseService = testCaseService;
         this.testCaseExecutionService = testCaseExecutionService;
-        this.sseService = sseService;
     }
 
     @PostMapping()
@@ -59,11 +57,6 @@ public class TestCaseController {
         testCaseService.updateTestCase(createUpdateTestCaseDto);
     }
 
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") Long testCaseId){
-        // TODO
-    }
-
     @PatchMapping("/{id}/follow")
     public void follow(@PathVariable("id") Long testCaseId){
         Long userId = ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser().getId();
@@ -75,6 +68,18 @@ public class TestCaseController {
         Long userId = ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser().getId();
         log.info("unfollow testcase: {}, userId: {}", testCaseId, userId);
         testCaseService.removeSubscriber(testCaseId, userId);
+    }
+
+    @PatchMapping("/{id}/archive")
+    public void archiveProject(@PathVariable("id") Long projectId){
+        log.info("archive {}" , projectId);
+        testCaseService.archiveTestCase(projectId);
+    }
+
+    @PatchMapping("/{id}/unarchive")
+    public void unarchiveProject(@PathVariable("id") Long projectId){
+        log.info("unarchive {}" , projectId);
+        testCaseService.unarchiveTestCase(projectId);
     }
 
     @GetMapping("/{id}/is-followed")
@@ -100,7 +105,6 @@ public class TestCaseController {
     }
 
     @GetMapping("/{projectID}/pages/count")
-    //@PreAuthorize("hasRole('ADMIN')")
     public Integer countTestCasePages(Integer pageSize, @PathVariable("projectID") Long projectId) {
         return testCaseService.countTestCasesByProject(pageSize, projectId  );
     }
