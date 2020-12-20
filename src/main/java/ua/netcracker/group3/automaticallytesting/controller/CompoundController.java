@@ -67,12 +67,10 @@ public class CompoundController {
     }
 
     @GetMapping("/edit/{id}")
-    //@PreAuthorize("hasRole('ADMIN')" + "|| hasRole('MANAGER')" + "|| hasRole('ENGINEER')")
     public CompoundDto getCompoundById(@PathVariable long id) throws Exception{
         return compoundService.getCompoundById(id);
     }
     @PutMapping("/edit/{id}")
-    //@PreAuthorize("hasRole('ADMIN')" + "|| hasRole('MANAGER')" + "|| hasRole('ENGINEER')")
     public void updateCompound(@PathVariable long id, @RequestBody Compound compound){
         compoundService.updateCompound(compound, id);
     }

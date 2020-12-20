@@ -3,6 +3,8 @@ package ua.netcracker.group3.automaticallytesting.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.dto.ResetPassDto;
 import ua.netcracker.group3.automaticallytesting.dto.UserSearchDto;
@@ -21,15 +23,16 @@ public class UserController {
 
     private final UserServiceImpl userService;
     private final EmailServiceImpl emailService;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserController(UserServiceImpl userService, EmailServiceImpl emailService) {
+    public UserController(UserServiceImpl userService, EmailServiceImpl emailService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.emailService = emailService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping()
-    @PreAuthorize("hasRole('ADMIN')")
     public List<User> getPageUsers(UserSearchDto userSearchDto, Pageable pageable) {
         log.info("userSearchDto : {}", userSearchDto);
         log.info("pageable : {}", pageable);
@@ -37,32 +40,28 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public User getUserById(@PathVariable("id") long id) {
         return userService.getUserById(id);
     }
 
     @PostMapping("/updateUser")
-    @PreAuthorize("hasRole('ADMIN')")
     public void updateUserById(@RequestBody User user) {
         userService.updateUserById(user.getEmail(), user.getName(), user.getSurname(), user.getRole(), user.isEnabled(), user.getId());
     }
 
     @PostMapping("/addUser")
-    @PreAuthorize("hasRole('ADMIN')")
     public void addUser(@RequestBody User user){
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.saveUser(user);
         emailService.sendCredentialsByEmail(user);
     }
 
     @GetMapping("/pages/count")
-    @PreAuthorize("hasRole('ADMIN')")
     public Integer countUserPages(Integer pageSize) {
         return userService.countPages(pageSize);
     }
 
     @GetMapping("/pages/count-search")
-    @PreAuthorize("hasRole('ADMIN')")
     public Integer countUserPagesSearch(UserSearchDto userSearchDto, Integer pageSize) {
         return userService.countPagesSearch(userSearchDto, pageSize);
     }
