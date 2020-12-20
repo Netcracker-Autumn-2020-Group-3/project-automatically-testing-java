@@ -29,7 +29,7 @@ public class TestCaseExecutionDAOImpl implements TestCaseExecutionDAO {
     @Value("${get.page.test.case.executions}")
     public String GET_PAGE_TEST_CASE_EXECUTION;
 
-    @Value("${count.test.case.executions}")
+    @Value("${count.test.case.executions.search}")
     public String COUNT_TEST_CASE_EXECUTIONS;
 
     @Value("${select.test.case.executions.group.by.creation.date}")
@@ -77,22 +77,14 @@ public class TestCaseExecutionDAOImpl implements TestCaseExecutionDAO {
     }
 
     @Override
-    public Integer countTestCaseExecutions() {
-        return jdbcTemplate.queryForObject(COUNT_TEST_CASE_EXECUTIONS, Integer.class);
+    public Integer countTestCaseExecutions(String testCaseName, String projectName, String whereByStatus) {
+        String sql = COUNT_TEST_CASE_EXECUTIONS + whereByStatus;
+        return jdbcTemplate.queryForObject(sql, Integer.class,testCaseName + "%", projectName + "%");
     }
 
     @Override
-    public List<TestCaseExecutionDto> getAllTestCaseExecutionWithFailedActionNumber(long limit, long offset, String orderBy, String orderByClause, String testCaseName, String projectName, String status) {
-        String whereByStatus = "";
-        if(status.equals("all")) {
-            whereByStatus = "  ";
-        } else if (status.equals("failed")) {
-            whereByStatus = " and passed_actions < all_actions ";
-        } else if (status.equals("passed")) {
-            whereByStatus = " and passed_actions = all_actions ";
-        } else {
+    public List<TestCaseExecutionDto> getAllTestCaseExecutionWithFailedActionNumber(long limit, long offset, String orderBy, String orderByClause, String testCaseName, String projectName, String status, String whereByStatus) {
 
-        }
         String sql = GET_PAGE_TEST_CASE_EXECUTION + whereByStatus + " order by " + orderBy + " " + orderByClause + " limit " + limit + " offset " + offset;
         return jdbcTemplate.query(sql, testCaseExecutionWithActionFailedMapper, testCaseName + "%", projectName + "%");
     }
@@ -111,8 +103,8 @@ public class TestCaseExecutionDAOImpl implements TestCaseExecutionDAO {
     }
 
     @Override
-    public void updateTestCaseExecution(Enum status, long testCaseExecutionId) {
-        jdbcTemplate.update(UPDATE_TEST_CASE_EXECUTION, String.valueOf(status), testCaseExecutionId);
+    public void updateTestCaseExecution(String status, long testCaseExecutionId) {
+        jdbcTemplate.update(UPDATE_TEST_CASE_EXECUTION, status, testCaseExecutionId);
     }
 
     @Override
