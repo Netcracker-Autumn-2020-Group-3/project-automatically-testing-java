@@ -27,4 +27,6 @@ public interface TestCaseDAO {
     void removeSubscriber(Long testCaseId, Long userId);
 
     TestCase getTestCaseById(long testCaseId);
+
+    void updateIsArchivedField(Long projectId, boolean isArchived);
 }

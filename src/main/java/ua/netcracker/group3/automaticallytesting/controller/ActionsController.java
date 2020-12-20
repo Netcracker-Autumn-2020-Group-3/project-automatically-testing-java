@@ -30,7 +30,6 @@ public class ActionsController {
 
 
     @RequestMapping(value = "/library/actions",method = RequestMethod.GET)
-    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','ENGINEER')")
     public List<Action> getPageActions(Integer page,String orderSearch,String orderSort,Integer pageSize){
         Pageable pageable = Pageable.builder().page(page).pageSize(pageSize).sortField(orderSearch).sortOrder(orderSort).build();
         log.info("pageable : {}", pageable);
@@ -38,7 +37,6 @@ public class ActionsController {
     }
 
     @RequestMapping(value = "/library/actions/{actionName}",method = RequestMethod.GET)
-    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','ENGINEER')")
     public List<Action> findActionsByName(@PathVariable String actionName,String orderSearch,String orderSort,Integer page,Integer pageSize){
         Pageable pageable = Pageable.builder().page(page).pageSize(pageSize).sortField(orderSearch).sortOrder(orderSort).build();
         log.info("pageable : {}", pageable);
@@ -46,7 +44,6 @@ public class ActionsController {
     }
 
     @RequestMapping(value = "/library/actions/count",method = RequestMethod.GET)
-    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','ENGINEER')")
     public Integer getNumberOfActions(){
         return actionService.getNumberOfActions();
     }

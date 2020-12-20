@@ -225,9 +225,21 @@ public class TestCaseServiceImpl implements TestCaseService {
     public Boolean isFollowedByUser(Long testCaseId, Long userId) {
         return testCaseDAO.isFollowedByUser(testCaseId, userId);
     }
+
     @Override
     public void removeSubscriber(Long testCaseId, Long userId) {
         testCaseDAO.removeSubscriber(testCaseId, userId);
+    }
+
+    @Override
+    public void archiveTestCase(Long projectId) {
+        testCaseDAO.updateIsArchivedField(projectId, true);
+    }
+
+    @Override
+    public void unarchiveTestCase(Long projectId) {
+        testCaseDAO.updateIsArchivedField(projectId, false);
+
     }
 
     private String replaceNullsForSearch(String val) {
