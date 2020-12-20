@@ -6,6 +6,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.dto.CreateUpdateTestCaseDto;
+import ua.netcracker.group3.automaticallytesting.dto.TestCaseWithUserDto;
 import ua.netcracker.group3.automaticallytesting.execution.TestCaseExecutionService;
 import ua.netcracker.group3.automaticallytesting.model.TestCaseUpd;
 import ua.netcracker.group3.automaticallytesting.dto.TestCaseDto;
@@ -98,7 +99,7 @@ public class TestCaseController {
     }
 
     @GetMapping("/{projectID}/list/page")
-    public List<TestCaseUpd> getPageTestScenarios(@PathVariable("projectID") Long projectID, Integer pageSize, Integer page, String sortOrder, String sortField,
+    public List<TestCaseUpd> getPageTestCases(@PathVariable("projectID") Long projectID, Integer pageSize, Integer page, String sortOrder, String sortField,
                                                    String name) {
         Pageable pageable = Pageable.builder().page(page).pageSize(pageSize).sortField(sortField).sortOrder(sortOrder).build();
         return testCaseService.getTestCases (projectID, pageable, name);
@@ -108,6 +109,14 @@ public class TestCaseController {
     public Integer countTestCasePages(Integer pageSize, @PathVariable("projectID") Long projectId) {
         return testCaseService.countTestCasesByProject(pageSize, projectId  );
     }
+
+    @GetMapping("/{projectID}/list/page-upd")
+    public List<TestCaseWithUserDto> getPageTestCasesWithUser(@PathVariable("projectID") Long projectID, Integer pageSize, Integer page, String sortOrder, String sortField,
+                                              String name) {
+        Pageable pageable = Pageable.builder().page(page).pageSize(pageSize).sortField(sortField).sortOrder(sortOrder).build();
+        return testCaseService.getTestCasesWithUser(projectID, pageable, name);
+    }
+
 
 
 }
