@@ -6,6 +6,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.dto.CreateUpdateTestCaseDto;
+import ua.netcracker.group3.automaticallytesting.dto.TestCaseWithUserDto;
 import ua.netcracker.group3.automaticallytesting.execution.TestCaseExecutionService;
 import ua.netcracker.group3.automaticallytesting.model.TestCaseUpd;
 import ua.netcracker.group3.automaticallytesting.dto.TestCaseDto;
@@ -24,13 +25,11 @@ public class TestCaseController {
 
     private final TestCaseService testCaseService;
     private final TestCaseExecutionService testCaseExecutionService;
-    private final SseService sseService;
 
     @Autowired
-    public TestCaseController(TestCaseService testCaseService, TestCaseExecutionService testCaseExecutionService, SseService sseService) {
+    public TestCaseController(TestCaseService testCaseService, TestCaseExecutionService testCaseExecutionService) {
         this.testCaseService = testCaseService;
         this.testCaseExecutionService = testCaseExecutionService;
-        this.sseService = sseService;
     }
 
     @PostMapping()
@@ -59,11 +58,6 @@ public class TestCaseController {
         testCaseService.updateTestCase(createUpdateTestCaseDto);
     }
 
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") Long testCaseId){
-        // TODO
-    }
-
     @PatchMapping("/{id}/follow")
     public void follow(@PathVariable("id") Long testCaseId){
         Long userId = ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser().getId();
@@ -75,6 +69,18 @@ public class TestCaseController {
         Long userId = ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser().getId();
         log.info("unfollow testcase: {}, userId: {}", testCaseId, userId);
         testCaseService.removeSubscriber(testCaseId, userId);
+    }
+
+    @PatchMapping("/{id}/archive")
+    public void archiveProject(@PathVariable("id") Long projectId){
+        log.info("archive {}" , projectId);
+        testCaseService.archiveTestCase(projectId);
+    }
+
+    @PatchMapping("/{id}/unarchive")
+    public void unarchiveProject(@PathVariable("id") Long projectId){
+        log.info("unarchive {}" , projectId);
+        testCaseService.unarchiveTestCase(projectId);
     }
 
     @GetMapping("/{id}/is-followed")
@@ -93,17 +99,24 @@ public class TestCaseController {
     }
 
     @GetMapping("/{projectID}/list/page")
-    public List<TestCaseUpd> getPageTestScenarios(@PathVariable("projectID") Long projectID, Integer pageSize, Integer page, String sortOrder, String sortField,
+    public List<TestCaseUpd> getPageTestCases(@PathVariable("projectID") Long projectID, Integer pageSize, Integer page, String sortOrder, String sortField,
                                                    String name) {
         Pageable pageable = Pageable.builder().page(page).pageSize(pageSize).sortField(sortField).sortOrder(sortOrder).build();
         return testCaseService.getTestCases (projectID, pageable, name);
     }
 
     @GetMapping("/{projectID}/pages/count")
-    //@PreAuthorize("hasRole('ADMIN')")
     public Integer countTestCasePages(Integer pageSize, @PathVariable("projectID") Long projectId) {
         return testCaseService.countTestCasesByProject(pageSize, projectId  );
     }
+
+    @GetMapping("/{projectID}/list/page-upd")
+    public List<TestCaseWithUserDto> getPageTestCasesWithUser(@PathVariable("projectID") Long projectID, Integer pageSize, Integer page, String sortOrder, String sortField,
+                                              String name) {
+        Pageable pageable = Pageable.builder().page(page).pageSize(pageSize).sortField(sortField).sortOrder(sortOrder).build();
+        return testCaseService.getTestCasesWithUser(projectID, pageable, name);
+    }
+
 
 
 }

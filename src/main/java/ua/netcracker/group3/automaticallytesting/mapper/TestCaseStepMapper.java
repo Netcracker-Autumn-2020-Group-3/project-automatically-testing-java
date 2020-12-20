@@ -31,6 +31,7 @@ public class TestCaseStepMapper implements RowMapper<TestCaseStep> {
                         .testScenarioId(resultSet.getLong("test_case_test_scenario_id"))
                         .name(resultSet.getString("test_case_name"))
                         .id(resultSet.getLong("test_case_id"))
+                        .isArchived(resultSet.getBoolean("test_case_is_archived"))
                         .build())
                 .projectLink(resultSet.getString("test_case_project_link"))
                 .projectName(resultSet.getString("test_case_project_name"))

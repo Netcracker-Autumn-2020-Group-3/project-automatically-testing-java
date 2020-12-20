@@ -31,6 +31,7 @@ public class TestCaseServiceImpl implements TestCaseService {
     private final Pagination pagination;
 
     private final List<String> TEST_CASE_UPD_TABLE_FIELDS = Arrays.asList("id", "name");
+    private final List<String> TEST_CASE_UPD_WITH_USER_TABLE_FIELDS = Arrays.asList("id", "name", "email");
 
     public TestCaseServiceImpl(TestCaseDAO testCaseDAO, VariableValueDAO variableValueDAO, ActionInstanceDAO actionInstanceDAO, Pagination pagination) {
         this.testCaseDAO = testCaseDAO;
@@ -217,6 +218,14 @@ public class TestCaseServiceImpl implements TestCaseService {
                 replaceNullsForSearch(name));
     }
 
+    @Override
+    public List<TestCaseWithUserDto> getTestCasesWithUser(Long projectID, Pageable pageable, String name) {
+        pageable = pagination.replaceNullsUserPage(pageable);
+        pagination.validate(pageable, TEST_CASE_UPD_WITH_USER_TABLE_FIELDS);
+        return testCaseDAO.getTestCasesWithUserPageSorted(projectID, pagination.formSqlPostgresPaginationPiece(pageable),
+                replaceNullsForSearch(name));
+    }
+
     @Transactional
     @Override
     public void updateTestCase(CreateUpdateTestCaseDto createUpdateTestCaseDto) {
@@ -233,9 +242,21 @@ public class TestCaseServiceImpl implements TestCaseService {
     public Boolean isFollowedByUser(Long testCaseId, Long userId) {
         return testCaseDAO.isFollowedByUser(testCaseId, userId);
     }
+
     @Override
     public void removeSubscriber(Long testCaseId, Long userId) {
         testCaseDAO.removeSubscriber(testCaseId, userId);
+    }
+
+    @Override
+    public void archiveTestCase(Long projectId) {
+        testCaseDAO.updateIsArchivedField(projectId, true);
+    }
+
+    @Override
+    public void unarchiveTestCase(Long projectId) {
+        testCaseDAO.updateIsArchivedField(projectId, false);
+
     }
 
     private String replaceNullsForSearch(String val) {

@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import ua.netcracker.group3.automaticallytesting.execution.action.ActionExecutable;
@@ -33,8 +34,8 @@ public class DropDownActionExecutable implements ActionExecutable {
             moveTo.perform();
             driver.findElement(By.xpath(variableValues.get(MENU_ELEMENT))).click();
             actionExecution = Status.PASSED;
-       }catch (NoSuchElementException exception){
-           log.error("No such element like {} ",variableValues.get(MENU));
+       }catch (WebDriverException exception){
+            log.error("Error with element like {} ",exception.getMessage());
            actionExecution = Status.FAILED;
         }
 

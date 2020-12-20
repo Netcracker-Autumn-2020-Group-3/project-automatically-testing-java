@@ -15,4 +15,5 @@ public class TestCase {
     private Long projectId;
     private Long testScenarioId;
     private Long dataSetId;
+    private Boolean isArchived;
 }
