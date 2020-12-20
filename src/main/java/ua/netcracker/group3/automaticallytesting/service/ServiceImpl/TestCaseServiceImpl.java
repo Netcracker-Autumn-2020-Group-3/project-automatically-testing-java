@@ -29,6 +29,7 @@ public class TestCaseServiceImpl implements TestCaseService {
     private final Pagination pagination;
 
     private final List<String> TEST_CASE_UPD_TABLE_FIELDS = Arrays.asList("id", "name");
+    private final List<String> TEST_CASE_UPD_WITH_USER_TABLE_FIELDS = Arrays.asList("id", "name", "email");
 
     public TestCaseServiceImpl(TestCaseDAO testCaseDAO, VariableValueDAO variableValueDAO, ActionInstanceDAO actionInstanceDAO, Pagination pagination) {
         this.testCaseDAO = testCaseDAO;
@@ -206,6 +207,14 @@ public class TestCaseServiceImpl implements TestCaseService {
         pageable = pagination.replaceNullsUserPage(pageable);
         pagination.validate(pageable, TEST_CASE_UPD_TABLE_FIELDS);
         return testCaseDAO.getTestCasesPageSorted(projectID, pagination.formSqlPostgresPaginationPiece(pageable),
+                replaceNullsForSearch(name));
+    }
+
+    @Override
+    public List<TestCaseWithUserDto> getTestCasesWithUser(Long projectID, Pageable pageable, String name) {
+        pageable = pagination.replaceNullsUserPage(pageable);
+        pagination.validate(pageable, TEST_CASE_UPD_WITH_USER_TABLE_FIELDS);
+        return testCaseDAO.getTestCasesWithUserPageSorted(projectID, pagination.formSqlPostgresPaginationPiece(pageable),
                 replaceNullsForSearch(name));
     }
 
