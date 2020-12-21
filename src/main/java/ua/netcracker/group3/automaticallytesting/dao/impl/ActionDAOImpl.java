@@ -55,7 +55,6 @@ public class ActionDAOImpl implements ActionDAO {
 
     @Override
     public List<Action> getPageActions(String pageActionSql) {
-
         return jdbcTemplate.query(GET_ALL_ACTIONS + pageActionSql,actionMapper);
     }
 
@@ -94,7 +93,7 @@ public class ActionDAOImpl implements ActionDAO {
     }
 
     @Override
-    public List<ActionVariableDto>  getActionVariable(Long id) {
+    public List<ActionVariableDto> getActionVariable(Long id) {
         return jdbcTemplate.queryForStream(GET_ACTION_VARIABLE_BY_ID,actionVariableMapper,id).collect(Collectors.toList());
     }
 

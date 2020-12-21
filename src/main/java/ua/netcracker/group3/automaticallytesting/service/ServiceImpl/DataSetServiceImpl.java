@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 public class DataSetServiceImpl implements DataSetService {
 
-    private DataSetDAO dataSetDAO;
+    private final DataSetDAO dataSetDAO;
 
     @Autowired
     public DataSetServiceImpl(DataSetDAO dataSetDAO){

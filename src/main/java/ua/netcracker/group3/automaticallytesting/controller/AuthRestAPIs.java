@@ -19,24 +19,18 @@ import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.UserDetails
 @CrossOrigin(origins = "*")
 @RestController
 public class AuthRestAPIs {
-    @Autowired
-    AuthenticationManager authenticationManager;
+
+    private final AuthenticationManager authenticationManager;
+    private final JwtProvider jwtProvider;
 
     @Autowired
-    private UserDetailsServiceImpl userDetailsService;
-
-
-    @Autowired
-    UserDAO userRepository;
-
-    @Autowired
-    PasswordEncoder encoder;
-
-    @Autowired
-    JwtProvider jwtProvider;
+    public AuthRestAPIs(AuthenticationManager authenticationManager, JwtProvider jwtProvider) {
+        this.authenticationManager = authenticationManager;
+        this.jwtProvider = jwtProvider;
+    }
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@RequestBody AuthResponseDto authRequest) throws Exception {
+    public ResponseEntity<?> authenticateUser(@RequestBody AuthResponseDto authRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
 

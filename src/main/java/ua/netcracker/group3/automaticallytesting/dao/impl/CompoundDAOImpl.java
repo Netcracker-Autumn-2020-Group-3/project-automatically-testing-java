@@ -130,7 +130,6 @@ public class CompoundDAOImpl implements CompoundDAO {
     }
 
 
-
     @Override
     public boolean checkIfNameExist(String name) {
         return jdbcTemplate.queryForObject(CHECK_IF_COMPOUND_NAME_EXIST,Boolean.class,name);

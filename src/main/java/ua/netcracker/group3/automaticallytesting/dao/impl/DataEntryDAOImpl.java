@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class DataEntryDAOImpl implements DataEntryDAO {
 
     private final JdbcTemplate jdbcTemplate;
-    private DataEntryMapper dataEntryMapper;
+    private final DataEntryMapper dataEntryMapper;
 
     @Value("${get.data.entry.by.data.set.id}")
     private String GET_DATA_ENTRY_FOR_EDIT;
