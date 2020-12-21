@@ -31,11 +31,11 @@ import java.util.stream.Stream;
 @Slf4j
 public class TestCaseExecutionServiceSelenium implements TestCaseExecutionService {
 
-    private ActionExecutionDAO actionExecutionDAO;
+    private final ActionExecutionDAO actionExecutionDAO;
     private List<ActionExecution> actionExecutions;
     private SseService sseService;
 
-    private Status actionStatus = Status.PASSED;
+    private Status actionStatus;
 
     @Autowired
     public TestCaseExecutionServiceSelenium(ActionExecutionDAO actionExecutionDAO, SseService sseService){
@@ -67,6 +67,7 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
     public List<String> executeTestCase(TestCaseDto testCaseDto,Long testCaseExecutionId) {
 
         actionExecutions = new ArrayList<>();
+        actionStatus = Status.PASSED;
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-gpu");
@@ -82,7 +83,7 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
         List<ScenarioStepDto> scenarioStepDtoList = testCaseDto.getScenarioStepsWithData();
 
         log.info("Test case execution started");
-
+        System.out.println(testCaseDto);
         driver.get(testCaseDto.getProjectLink());
         //driver.manage().window().maximize();
 
