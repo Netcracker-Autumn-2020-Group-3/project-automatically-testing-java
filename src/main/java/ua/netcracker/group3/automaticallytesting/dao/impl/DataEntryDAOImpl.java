@@ -45,11 +45,18 @@ public class DataEntryDAOImpl implements DataEntryDAO {
         this.dataEntryMapper = dataEntryMapper;
     }
 
+    /**
+     * @param dataSetId
+     * @return
+     */
     @Override
     public List<DataEntry> getDataEntryByDataSetName(Integer dataSetId) {
         return jdbcTemplate.queryForStream(GET_DATA_ENTRY_FOR_EDIT,dataEntryMapper,dataSetId).collect(Collectors.toList());
     }
 
+    /**
+     * @param dataEntryList
+     */
     @Override
     public void updateDataEntry(List<DataEntry> dataEntryList) {
         jdbcTemplate.batchUpdate(UPDATE_DATA_ENTRY, dataEntryList, dataEntryList.size(), (ps, dataEntryValue) -> {
@@ -61,11 +68,17 @@ public class DataEntryDAOImpl implements DataEntryDAO {
         });
     }
 
-    //batch
+    /**
+     * @param dataEntryId
+     */
     @Override
     public void deleteDataEntryValueById(Integer dataEntryId) {
         jdbcTemplate.update(DELETE_DATA_ENTRY_BY_ID, dataEntryId);
     }
+
+    /**
+     * @param dataEntryValues
+     */
     @Override
     public void createDataEntry(List<DataEntry> dataEntryValues) {
         jdbcTemplate.batchUpdate(INSERT_DATA_ENTRY_DEFAULT, dataEntryValues, dataEntryValues.size(), (ps, dataEntryValue) -> {

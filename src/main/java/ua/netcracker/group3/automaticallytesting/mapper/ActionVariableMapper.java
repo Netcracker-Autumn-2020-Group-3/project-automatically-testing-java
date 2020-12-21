@@ -9,6 +9,12 @@ import java.sql.SQLException;
 
 @Component
 public class ActionVariableMapper implements RowMapper<ActionVariableDto> {
+    /**
+     * @param resultSet
+     * @param i
+     * @return
+     * @throws SQLException
+     */
     @Override
     public ActionVariableDto mapRow(ResultSet resultSet, int i) throws SQLException {
         return ActionVariableDto.builder()

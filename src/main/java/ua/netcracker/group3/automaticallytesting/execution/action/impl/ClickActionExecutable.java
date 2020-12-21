@@ -19,11 +19,11 @@ public class ClickActionExecutable implements ActionExecutable {
 
     private final Map<Optional<ContextVariable>, Status> resultActionExecution = new HashMap<>();
 
-    public ClickActionExecutable(){
-    }
-
-
-
+    /**
+     * @param driver
+     * @param variableValues
+     * @return
+     */
     @Override
     public Map<Optional<ContextVariable>, Status> executeAction(WebDriver driver, Map<String, String> variableValues) {
         Status actionExecution;
@@ -35,12 +35,7 @@ public class ClickActionExecutable implements ActionExecutable {
             log.error("Error with element like {} ",exception.getMessage());
             actionExecution = Status.FAILED;
         }
-
         resultActionExecution.put(Optional.empty(), actionExecution);
         return resultActionExecution;
     }
-
-
-
-
 }

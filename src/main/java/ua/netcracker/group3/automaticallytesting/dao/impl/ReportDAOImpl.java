@@ -26,6 +26,10 @@ public class ReportDAOImpl implements ReportDAO {
     }
 
 
+    /**
+     * @param testCaseExecutionId
+     * @return
+     */
     @Override
     public List<SubscribedUserTestCaseDto> getSubscribedUsers(Long testCaseExecutionId) {
         return jdbcTemplate.queryForStream(GET_SUBSCRIBED_USERS,subscribedUserMapper,testCaseExecutionId).collect(Collectors.toList());

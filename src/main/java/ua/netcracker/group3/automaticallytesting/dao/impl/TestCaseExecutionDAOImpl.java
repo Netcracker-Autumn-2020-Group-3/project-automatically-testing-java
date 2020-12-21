@@ -113,6 +113,9 @@ public class TestCaseExecutionDAOImpl implements TestCaseExecutionDAO {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * @return
+     */
     @Override
     public List<GroupedTestCaseExecutionDto> getGroupedTestCaseExecution() {
         return jdbcTemplate.queryForStream(GET_GROUPED_TEST_CASE_EXECUTIONS,groupedTestCaseExecutionMapper).collect(Collectors.toList());

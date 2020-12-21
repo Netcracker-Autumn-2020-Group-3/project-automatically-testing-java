@@ -10,7 +10,12 @@ import java.sql.SQLException;
 @Component
 public class ActionMapper implements RowMapper<Action> {
 
-
+    /**
+     * @param resultSet
+     * @param i
+     * @return
+     * @throws SQLException
+     */
     @Override
     public Action mapRow(ResultSet resultSet, int i) throws SQLException {
         return Action.builder().

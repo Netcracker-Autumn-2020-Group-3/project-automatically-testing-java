@@ -58,6 +58,11 @@ public class EmailServiceImpl {
         mailSender.send(message);
     }
 
+    /**
+     * @param actionExecutionList
+     * @param subscribedUsers
+     * @return
+     */
     public ResponseEntity<?> sendReportToUser(List<ActionExecutionDto> actionExecutionList,
                                            List<SubscribedUserTestCaseDto> subscribedUsers)  {
         String msg = makeHtmlEmail(subscribedUsers,actionExecutionList);
@@ -66,7 +71,9 @@ public class EmailServiceImpl {
         subscribedUsers.forEach(subscribedUser -> {
             try {
                 message.addRecipients(Message.RecipientType.TO,subscribedUser.getEmail());
-            } catch (MessagingException e) { log.error("Error with adding emails"); }
+            } catch (MessagingException e) {
+                log.error("Error with adding emails");
+            }
         });
         try {
             helper = new MimeMessageHelper(message, false, "utf-8");
@@ -80,6 +87,11 @@ public class EmailServiceImpl {
         return ResponseEntity.ok(HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * @param subscribedUsers
+     * @param actionExecutionList
+     * @return
+     */
     private String makeHtmlEmail(List<SubscribedUserTestCaseDto> subscribedUsers,
                                         List<ActionExecutionDto> actionExecutionList){
         StringBuilder sb = new StringBuilder();
@@ -88,8 +100,7 @@ public class EmailServiceImpl {
                 .append("\"</i> was completed with the next execution:</h3><table>")
                 .append("<thead><tr><th>Action Name</th><th>Variable Name</th><th>Variable Value</th><th>Status</th></tr></thead>")
                 .append("<tbody>");
-        actionExecutionList
-                .forEach(actionExecution -> {
+        actionExecutionList.forEach(actionExecution -> {
                     color = actionExecution.getStatus().equalsIgnoreCase("passed") ? "green" :
                             actionExecution.getStatus().equalsIgnoreCase("failed") ? "red" : "black";
                     sb.append("<tr><td style='color:").append(color).append("'>").append(actionExecution.getAction().getActionName()).append("</td>");
@@ -98,6 +109,7 @@ public class EmailServiceImpl {
                     sb.append("<td style='color:").append(color).append("'>").append(actionExecution.getStatus()).append("</td></tr>");
                 });
         sb.append("</tbody></table></h4></body>");
+        log.info("Html message was created successfully");
         return sb.toString();
     }
 }

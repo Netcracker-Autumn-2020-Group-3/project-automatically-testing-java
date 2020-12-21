@@ -22,8 +22,6 @@ public class JwtProvider {
 
     public String generateJwtToken(Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        //Claims claims = Jwts.claims().setSubject(userPrincipal.getUsername());
-
         return Jwts.builder()
                 .setSubject((userPrincipal.getUsername()))
                 .setIssuedAt(new Date())

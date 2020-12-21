@@ -29,7 +29,7 @@ public class DataSetDAOImpl implements DataSetDAO {
 
     private final JdbcTemplate jdbcTemplate;
 
-    private DataSetMapper dataSetMapper;
+    private final DataSetMapper dataSetMapper;
 
     @Value("${get.data.set.by.id}")
     private String GET_DATA_SET_BY_NAME;
@@ -73,11 +73,18 @@ public class DataSetDAOImpl implements DataSetDAO {
         return jdbcTemplate.queryForStream(GET_ALL, dataSetMapper).collect(Collectors.toList());
     }
 
+    /**
+     * @param dataSetId
+     * @return
+     */
     @Override
     public DataSet getDataSetById(Integer dataSetId) {
         return jdbcTemplate.queryForObject(GET_DATA_SET_BY_NAME,dataSetMapper,dataSetId);
     }
 
+    /**
+     * @param editedDataSet
+     */
     @Override
     public void updateDataSet(DataSet editedDataSet) {
         jdbcTemplate.update(UPDATE_DATA_SET,editedDataSet.getName(),editedDataSet.getId());

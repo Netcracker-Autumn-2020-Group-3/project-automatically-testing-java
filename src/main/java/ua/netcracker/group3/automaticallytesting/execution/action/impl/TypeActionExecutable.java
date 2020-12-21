@@ -18,10 +18,11 @@ public class TypeActionExecutable implements ActionExecutable {
 
     private final Map<Optional<ContextVariable>, Status> resultActionExecution = new HashMap<>();
 
-    public TypeActionExecutable(){
-    }
-
-
+    /**
+     * @param driver
+     * @param variableValues
+     * @return
+     */
     @Override
     public Map<Optional<ContextVariable>, Status> executeAction(WebDriver driver, Map<String, String> variableValues) {
         Status actionExecution;

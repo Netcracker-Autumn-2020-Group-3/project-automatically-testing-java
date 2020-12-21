@@ -53,11 +53,20 @@ public class ActionDAOImpl implements ActionDAO {
     }
 
 
+    /**
+     * @param pageActionSql
+     * @return
+     */
     @Override
     public List<Action> getPageActions(String pageActionSql) {
         return jdbcTemplate.query(GET_ALL_ACTIONS + pageActionSql,actionMapper);
     }
 
+    /**
+     * @param pageActionSql
+     * @param name
+     * @return
+     */
     @Override
     public List<Action> findActionsByName(String pageActionSql,String name) {
         return jdbcTemplate.queryForStream(FIND_ACTIONS_BY_NAME + pageActionSql,actionMapper,name).collect(Collectors.toList());
@@ -69,6 +78,9 @@ public class ActionDAOImpl implements ActionDAO {
         return jdbcTemplate.query(FIND_ALL_WITH_ID_NAME, mapper);
     }
 
+    /**
+     * @return
+     */
     @Override
     public Integer getNumberOfActions() {
         return jdbcTemplate.queryForObject(GET_NUMBER_OF_ACTIONS,Integer.class);
@@ -87,16 +99,27 @@ public class ActionDAOImpl implements ActionDAO {
         return keyHolder.getKey().longValue();
     }
 
+    /**
+     * @return
+     */
     @Override
     public List<Action> getAllActions() {
         return jdbcTemplate.query(GET_ALL_ACTIONS,actionMapper);
     }
 
+    /**
+     * @param id
+     * @return
+     */
     @Override
     public List<ActionVariableDto> getActionVariable(Long id) {
         return jdbcTemplate.queryForStream(GET_ACTION_VARIABLE_BY_ID,actionVariableMapper,id).collect(Collectors.toList());
     }
 
+    /**
+     * @param id
+     * @param action
+     */
     @Override
     public void updateActionDescription(Long id, Action action) {
         jdbcTemplate.update(UPDATE_ACTION_DESCRIPTION,action.getActionDescription(),id);

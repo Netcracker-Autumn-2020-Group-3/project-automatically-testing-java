@@ -10,6 +10,7 @@ public class DashboardServiceImpl implements DashboardService{
     public DashboardServiceImpl(UserDAO userDAO) {
         this.userDAO = userDAO;
     }
+
     @Override
     public Integer getCountOfUsers() {
         return userDAO.countUsers();

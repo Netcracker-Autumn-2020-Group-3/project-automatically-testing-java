@@ -58,6 +58,9 @@ public class TestCaseExecServiceImpl implements TestCaseExecService {
         return testCaseExecutionDAO.getExecutionsByStartDate(Date.valueOf(dateToCountFrom), Date.valueOf(today));
     }
 
+    /**
+     * @return
+     */
     @Override
     public List<GroupedTestCaseExecutionDto> getGroupedTestCaseExecution() {
         return testCaseExecutionDAO.getGroupedTestCaseExecution();

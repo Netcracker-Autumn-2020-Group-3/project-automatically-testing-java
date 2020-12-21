@@ -24,11 +24,20 @@ public class ReportServiceImpl implements ReportService {
         this.reportDAO = reportDAO;
     }
 
+    /**
+     * @param actionExecutionList
+     * @param subscribedUsers
+     * @return
+     */
     @Override
     public ResponseEntity<?> sendReportToUser(List<ActionExecutionDto> actionExecutionList, List<SubscribedUserTestCaseDto> subscribedUsers) {
         return emailService.sendReportToUser(actionExecutionList,subscribedUsers);
     }
 
+    /**
+     * @param testCaseExecutionId
+     * @return
+     */
     @Override
     public List<SubscribedUserTestCaseDto> getSubscribedUsers(Long testCaseExecutionId) {
         return reportDAO.getSubscribedUsers(testCaseExecutionId);

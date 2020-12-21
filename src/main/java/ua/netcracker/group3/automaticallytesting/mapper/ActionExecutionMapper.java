@@ -14,6 +14,12 @@ import java.sql.SQLException;
 @Component
 public class ActionExecutionMapper implements RowMapper<ActionExecutionDto> {
 
+    /**
+     * @param resultSet
+     * @param i
+     * @return
+     * @throws SQLException
+     */
     @Override
     public ActionExecutionDto mapRow(ResultSet resultSet, int i) throws SQLException {
         return ActionExecutionDto.builder()

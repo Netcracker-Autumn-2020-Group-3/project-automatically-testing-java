@@ -46,6 +46,9 @@ public class ActionExecutionDAOImpl implements ActionExecutionDAO {
         this.actionExecutionPassedFailedMapper = actionExecutionPassedFailedMapper;
     }
 
+    /**
+     * @param actionExecutionList
+     */
     @Override
     public void addActionExecution(List<ActionExecution> actionExecutionList) {
         jdbcTemplate.batchUpdate(CREATE_ACTION_EXECUTIONS,actionExecutionList,actionExecutionList.size(),
@@ -56,6 +59,12 @@ public class ActionExecutionDAOImpl implements ActionExecutionDAO {
         }));
     }
 
+    /**
+     * @param testCaseExecutionId
+     * @param pagination
+     * @param searchName
+     * @return
+     */
     @Override
     public List<ActionExecutionDto> getAllActionExecution(Long testCaseExecutionId, String pagination,String searchName) {
         String searchNameSql = searchName == null || searchName.equals("") ? "" :
@@ -69,6 +78,11 @@ public class ActionExecutionDAOImpl implements ActionExecutionDAO {
         return jdbcTemplate.queryForStream(GET_NUMBER_ACTION_EXECUTION, actionExecutionPassedFailedMapper, status).collect(Collectors.toList());
     }
 
+    /**
+     * @param testCaseExecutionId
+     * @param searchName
+     * @return
+     */
     @Override
     public Integer getQuantityActionsExecutions(Long testCaseExecutionId,String searchName) {
         String searchNameSql = searchName == null || searchName.equals("") ? "" :
