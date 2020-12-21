@@ -34,8 +34,8 @@ public class UserController {
 
     @GetMapping()
     public List<User> getPageUsers(UserSearchDto userSearchDto, Pageable pageable) {
-        log.info("userSearchDto : {}", userSearchDto);
-        log.info("pageable : {}", pageable);
+        log.info("Get users page by userSearchDto : {}", userSearchDto);
+        log.info("Pageable : {}", pageable);
         return userService.getUsers(userSearchDto, pageable);
     }
 

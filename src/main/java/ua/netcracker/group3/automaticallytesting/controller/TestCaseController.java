@@ -34,9 +34,7 @@ public class TestCaseController {
 
     @PostMapping()
     public void createTestCase(@RequestBody CreateUpdateTestCaseDto createUpdateTestCaseDto) {
-        log.info("Test case name: {}", createUpdateTestCaseDto.getTestCaseName());
-        log.info("Varval: {}", createUpdateTestCaseDto.getVariableValues());
-
+        log.info("Create test case: {}", createUpdateTestCaseDto);
         Long userId = ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser().getId();
         testCaseService.createTestCase(createUpdateTestCaseDto, userId);
     }
@@ -54,47 +52,47 @@ public class TestCaseController {
     @PutMapping("/{id}")
     public void update(@PathVariable("id") Long testCaseId, @RequestBody CreateUpdateTestCaseDto createUpdateTestCaseDto) {
         createUpdateTestCaseDto.setId(testCaseId);
-        log.info("Test case: {}", createUpdateTestCaseDto);
+        log.info("Update test case: {}", createUpdateTestCaseDto);
         testCaseService.updateTestCase(createUpdateTestCaseDto);
     }
 
     @PatchMapping("/{id}/follow")
     public void follow(@PathVariable("id") Long testCaseId){
         Long userId = ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser().getId();
-        log.info("follow testcase: {}, userId: {}", testCaseId, userId);
+        log.info("Follow test case: {}, by userId: {}", testCaseId, userId);
         testCaseService.addSubscriber(testCaseId, userId);
     }
+
     @PatchMapping("/{id}/unfollow")
     public void unfollow(@PathVariable("id") Long testCaseId){
         Long userId = ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser().getId();
-        log.info("unfollow testcase: {}, userId: {}", testCaseId, userId);
+        log.info("Unfollow test case: {}, by userId: {}", testCaseId, userId);
         testCaseService.removeSubscriber(testCaseId, userId);
     }
 
     @PatchMapping("/{id}/archive")
-    public void archiveProject(@PathVariable("id") Long projectId){
-        log.info("archive {}" , projectId);
-        testCaseService.archiveTestCase(projectId);
+    public void archiveTestCase(@PathVariable("id") Long testCaseId){
+        log.info("Archive test case with id={}" , testCaseId);
+        testCaseService.archiveTestCase(testCaseId);
     }
 
     @PatchMapping("/{id}/unarchive")
-    public void unarchiveProject(@PathVariable("id") Long projectId){
-        log.info("unarchive {}" , projectId);
-        testCaseService.unarchiveTestCase(projectId);
+    public void unarchiveTestCase(@PathVariable("id") Long testCaseId){
+        log.info("Unarchive with id={}" , testCaseId);
+        testCaseService.unarchiveTestCase(testCaseId);
     }
 
     @GetMapping("/{id}/is-followed")
     public Boolean isFollowed(@PathVariable("id") Long testCaseId) {
         Long userId = ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser().getId();
         boolean answer = testCaseService.isFollowedByUser(testCaseId, userId);
-        log.info("is followed testcase: {}, userId: {}, is followed: {}", testCaseId, userId, answer);
+        log.info("Test case: {}, by userId: {}, is followed: {}", testCaseId, userId, answer);
         return answer;
     }
     @GetMapping("/execute/{id}")
     public void execute(@PathVariable("id") Long id) {
-
         TestCaseDto testCaseDto =  testCaseService.getTestCase(id);
-        System.out.println("testCaseDto  " + testCaseDto);
+        System.out.println("Execute testCaseDto " + testCaseDto);
         System.out.println(testCaseExecutionService.executeTestCase(testCaseDto,60L));
     }
 
