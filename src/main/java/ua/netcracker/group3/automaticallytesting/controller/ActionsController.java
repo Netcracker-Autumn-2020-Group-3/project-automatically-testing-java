@@ -38,7 +38,7 @@ public class ActionsController {
      * @param pageSize  current size of elements on one page
      * @return list of actions
      */
-    @RequestMapping(value = "/library/actions",method = RequestMethod.GET)
+    @GetMapping(value = "/library/actions")
     public List<Action> getPageActions(Integer page,String orderSearch,String orderSort,Integer pageSize){
         Pageable pageable = Pageable.builder().page(page).pageSize(pageSize).sortField(orderSearch).sortOrder(orderSort).build();
         log.info("pageable : {}", pageable);
@@ -55,7 +55,7 @@ public class ActionsController {
      * @param pageSize current size of elements on one page
      * @return the list of actions
      */
-    @RequestMapping(value = "/library/actions/{actionName}",method = RequestMethod.GET)
+    @GetMapping(value = "/library/actions/{actionName}")
     public List<Action> findActionsByName(@PathVariable String actionName,String orderSearch,String orderSort,Integer page,Integer pageSize){
         Pageable pageable = Pageable.builder().page(page).pageSize(pageSize).sortField(orderSearch).sortOrder(orderSort).build();
         log.info("pageable : {}", pageable);
@@ -66,7 +66,7 @@ public class ActionsController {
      * Return Integer of number of actions
      * @return number of actions
      */
-    @RequestMapping(value = "/library/actions/count",method = RequestMethod.GET)
+    @GetMapping(value = "/library/actions/count")
     public Integer getNumberOfActions(){
         return actionService.getNumberOfActions();
     }
