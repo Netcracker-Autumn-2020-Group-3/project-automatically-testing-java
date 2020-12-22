@@ -28,8 +28,6 @@ public class SseService {
     private final TestCaseExecutionDAO testCaseExecutionDAO;
     private final TestCaseDAO testCaseDAO;
 
-    private Map<Long, List<Long>> notificatedTestCaseExec = new HashMap<>();
-
     @Autowired
     public SseService(UserService userService, NotificationDAO notificationDAO,
                       TestCaseExecutionDAO testCaseExecutionDAO,
@@ -45,45 +43,7 @@ public class SseService {
         notificationDAO.deleteNotification(testCaseExecutionId, userId);
     }
 
-    public void sendSseEventsToUi(long testCaseExecutionId) {
-//        JwtProvider jwtProvider = new JwtProvider();
-//        String email = jwtProvider.getUserNameFromJwtToken(jwtProvider.resolveStringToken(jwt));
-//        User user = userService.getUserByEmail(email);
-
-        List<User> users = notificationDAO.getUsersId(testCaseExecutionId);
-        System.out.println(users);
-        users.forEach(user -> {
-                    SseEmitter emitter = SseController.emitters.get(user.getId());
-                    if (emitter != null) {
-                        notificationDAO.getTestCaseExecutions(user.getId()).forEach(testCaseExecution -> {
-                                    try {
-                                        System.out.println(user.getId());
-                                        //System.out.println(notificatedTestCaseExec);
-                                        if (!notificatedTestCaseExec.containsKey(user.getId()) || !notificatedTestCaseExec
-                                                .get(user.getId()).contains(testCaseExecution.getId())) {
-                                            emitter.send(SseEmitter.event().name("message").data(testCaseExecution.getId()));
-                                            if (!notificatedTestCaseExec.containsKey(user.getId())) {
-                                                notificatedTestCaseExec.put(user.getId(), new ArrayList<>());
-                                                notificatedTestCaseExec.get(user.getId()).add(testCaseExecution.getId());
-                                            } else {
-                                                notificatedTestCaseExec.get(user.getId()).add(testCaseExecution.getId());
-                                            }
-                                        }
-                                    } catch (IOException e) {
-                                        SseController.emitters.remove(emitter);
-                                    }
-                                }
-                        );
-                    }
-            System.out.println(SseController.emitters.entrySet());
-                }
-        );
-    }
-
-
-
-    public void sendRecentNotifications(long testCaseId, long testCaseExecutionId){
-        //List<TestCaseExecution> recentNotifications = notificationDAO.getRecentNotifications(testCaseId, testCaseExecutionId);
+    public void sendRecentNotifications(long testCaseId, long testCaseExecutionId) {
         TestCaseExecution recentTestCaseExecution = testCaseExecutionDAO.getTestCaseExecutionById(testCaseExecutionId);
         TestCase recentTestCase = testCaseDAO.getTestCaseById(testCaseId);
         NotificationDto notificationDto = NotificationDto.builder()
@@ -93,21 +53,20 @@ public class SseService {
                 .id(testCaseExecutionId)
                 .build();
         List<User> users = notificationDAO.getUsersId(testCaseExecutionId);
-        users.forEach( user -> {
-            SseEmitter emitter = SseController.emitters.get(user.getId());
-            if(emitter != null){
+        users.forEach(user -> {
+                    SseEmitter emitter = SseController.emitters.get(user.getId());
+                    if (emitter != null) {
                         try {
                             emitter.send(SseEmitter.event().name("message").data(notificationDto));
                         } catch (IOException e) {
                             SseController.emitters.remove(emitter);
                         }
+                    }
                 }
-        }
         );
     }
 
-
-    public List<NotificationDto> sendAllNotifications(String jwt){
+    public List<NotificationDto> sendAllNotifications(String jwt) {
         JwtProvider jwtProvider = new JwtProvider();
         String email = jwtProvider.getUserNameFromJwtToken(jwtProvider.resolveStringToken(jwt));
         User user = userService.getUserByEmail(email);
@@ -115,7 +74,7 @@ public class SseService {
         return notifications;
     }
 
-    public Integer amountOfNotifications(String jwt){
+    public Integer amountOfNotifications(String jwt) {
         JwtProvider jwtProvider = new JwtProvider();
         String email = jwtProvider.getUserNameFromJwtToken(jwtProvider.resolveStringToken(jwt));
         User user = userService.getUserByEmail(email);

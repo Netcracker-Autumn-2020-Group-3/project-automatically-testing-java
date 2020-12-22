@@ -50,7 +50,7 @@ public class UserController {
         userService.updateUserById(user.getEmail(), user.getName(), user.getSurname(), user.getRole(), user.isEnabled(), user.getId());
     }
 
-    @PostMapping("/addUser")
+    @PostMapping("/add")
     public void addUser(@RequestBody User user){
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.saveUser(user);
@@ -72,8 +72,4 @@ public class UserController {
 //        return token;
 //    }
 
-    @PutMapping("/resetpass")
-    public void resetPassword(@RequestBody ResetPassDto resetPassDto) throws Exception {
-        userService.updateUserPasswordByToken(resetPassDto.getToken(), resetPassDto.getPassword());
-    }
 }
