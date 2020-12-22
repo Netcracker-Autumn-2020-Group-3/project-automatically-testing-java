@@ -32,7 +32,7 @@ public class CompoundController {
         pageable.setPageSize(pageSize);
         pageable.setSortField(sortField);
         pageable.setSearch(search);
-        pageable.setPage((page > 0 ? page - 1 : 0) * pageSize); // Будет исправлено
+        pageable.setPage((page > 0 ? page - 1 : 0) * pageSize);
         return ResponseEntity.ok(compoundService.getAllCompounds(pageable));
     }
 

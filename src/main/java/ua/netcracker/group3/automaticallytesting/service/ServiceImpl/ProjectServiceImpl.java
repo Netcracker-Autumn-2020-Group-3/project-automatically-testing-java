@@ -30,7 +30,7 @@ public class ProjectServiceImpl implements ProjectService {
             log.warn("IN getAllProjects - no projects found with pagination: {}", pagination);
             return projects;
         }
-        log.info("IN getAllProjects - projects: {} found with pagination: {}", projects, pagination);
+        log.info("IN getAllProjects - {} projects found with pagination: {}", projects.size(), pagination);
         return projects;
     }
 
