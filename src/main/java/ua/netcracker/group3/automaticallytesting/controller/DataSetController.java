@@ -82,10 +82,14 @@ public class DataSetController {
         dataEntryService.createDataEntry(id, dataSetValues.getDataEntryValues());
     }
 
-    @DeleteMapping("/delete-data-set/{id}")
-    public int deleteDataSet(@PathVariable("id") long id) {
-        dataEntryService.deleteDataEntry(id);
-        return  dataSetService.deleteDataSet(id);
+    /**
+     * @param id
+     * @return
+     */
+    @PatchMapping("/delete-data-set/{id}")
+    public void deleteDataSet(@PathVariable("id") long id) {
+        log.info("delete data set: id = {}",id);
+        dataSetService.deleteDataSet(id);
     }
 
     @GetMapping("/data-set/list")
