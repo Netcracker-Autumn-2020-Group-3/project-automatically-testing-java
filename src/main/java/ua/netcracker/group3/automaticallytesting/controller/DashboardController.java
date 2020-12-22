@@ -52,6 +52,12 @@ public class DashboardController {
         return testCaseExecService.getExecutionsByDatesForLastDays(numberOfDays);
     }
 
+    /**
+     * Returns the list of GroupedTestCaseExecutionDto
+     * Grouped by most executable test cases
+     * Method is needed for chart on angular
+     * @return list of GroupedTestCaseExecutionDto
+     */
     @GetMapping("/test-case-execution/grouped-number")
     public List<GroupedTestCaseExecutionDto> getGroupedTestCaseExecutionNumber(){
         return testCaseExecService.getGroupedTestCaseExecution();

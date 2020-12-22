@@ -33,22 +33,40 @@ public class ActionExecutionController {
         this.userService = userService;
     }
 
+    /**
+     * Returns the List of ActionExecutionDto with pagination
+     * using Pageable class
+     * @param testCaseExecutionId the id, which helps to get action executions by testCaseExecutionId
+     * @param page  current page of the pagination
+     * @param orderSearch  order in which query in DB will be executed
+     * @param orderSort using in query for sorting info from query in DB
+     * @param pageSize  current size of elements on one page
+     * @param search an item that used in DB query for searching info
+     * @param jwt used for resolving token
+     * @return list of ActionExecutionDto with pagination
+     */
     @GetMapping("/{testCaseExecutionId}")
     public List<ActionExecutionDto> getAllActionExecutions(@PathVariable Long testCaseExecutionId,
                                                            Integer page,String orderSearch,
                                                            String orderSort,Integer pageSize,String search,
                                                            @RequestHeader("Authorization") String jwt){
-        Pageable pageable = Pageable.builder().page(page).pageSize(pageSize)
-                                              .sortField(orderSearch)
-                                              .sortOrder(orderSort).search(search).build();
         JwtProvider jwtProvider = new JwtProvider();
         String email = jwtProvider.getUserNameFromJwtToken(jwtProvider.resolveStringToken(jwt));
         User user = userService.getUserByEmail(email);
+        log.info("User from jwt token : {}", user);
         sseService.deleteNotification(testCaseExecutionId, user.getId());
-        log.info("pageable : {}", pageable);
+        Pageable pageable = Pageable.builder().page(page).pageSize(pageSize).sortField(orderSearch)
+                                                       .sortOrder(orderSort).search(search).build();
+        log.info("Pageable : {}", pageable);
         return actionExecutionService.getAllActionExecutions(testCaseExecutionId,pageable);
     }
 
+    /**
+     * Returns the Integer of Quantity action executions
+     * @param testCaseExecutionId the id, which helps to get action executions by testCaseExecutionId
+     * @param search an item that used in DB query for searching info
+     * @return the Integer of Quantity action executions
+     */
     @GetMapping("/quantity/{testCaseExecutionId}")
     public Integer getQuantityActionsExecutions(@PathVariable Long testCaseExecutionId,String search){
         return actionExecutionService.getQuantityActionsExecutions(testCaseExecutionId,search);

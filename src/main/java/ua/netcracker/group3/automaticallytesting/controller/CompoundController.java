@@ -1,5 +1,6 @@
 package ua.netcracker.group3.automaticallytesting.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.dto.ActionDtoWithIdNameVoid;
@@ -13,6 +14,7 @@ import java.util.List;
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/compounds")
+@Slf4j
 public class CompoundController {
 
     private final CompoundService compoundService;
@@ -30,7 +32,7 @@ public class CompoundController {
         pageable.setPageSize(pageSize);
         pageable.setSortField(sortField);
         pageable.setSearch(search);
-        pageable.setPage((page > 0 ? page - 1 : 0) * pageSize); // Будет исправлено
+        pageable.setPage((page > 0 ? page - 1 : 0) * pageSize);
         return ResponseEntity.ok(compoundService.getAllCompounds(pageable));
     }
 
@@ -56,13 +58,24 @@ public class CompoundController {
         compoundService.archiveCompoundById(id);
     }
 
-    @RequestMapping(value = "/create/check/{name}",method = RequestMethod.GET)
+    /**
+     * Returns boolean if compound name is existed
+     * @param name for checking name in DB
+     * @return boolean if compound name is existed
+     */
+    @GetMapping(value = "/create/check/{name}")
     public boolean checkIfNameExist(@PathVariable String name){
+        log.info("Check if compound name exists before creating compound with name : {}",name);
         return compoundService.checkIfNameExist(name);
     }
 
-    @RequestMapping(value = "/create",method = RequestMethod.POST)
+    /**
+     * Void method that create compound with compoundDto
+     * @param compoundDto needed for creating compound in DB
+     */
+    @PostMapping(value = "/create")
     public void createCompound(@RequestBody CompoundDto compoundDto){
+        log.info("Compound for creating : {}",compoundDto);
         compoundService.createCompound(compoundDto);
     }
 

@@ -1,17 +1,18 @@
 package ua.netcracker.group3.automaticallytesting.service.ServiceImpl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ua.netcracker.group3.automaticallytesting.dao.ProjectDAO;
 import ua.netcracker.group3.automaticallytesting.dto.ProjectDto;
 import ua.netcracker.group3.automaticallytesting.dto.ProjectListPaginationDto;
 import ua.netcracker.group3.automaticallytesting.model.Project;
 import ua.netcracker.group3.automaticallytesting.service.ProjectService;
-import ua.netcracker.group3.automaticallytesting.util.Pageable;
 import ua.netcracker.group3.automaticallytesting.util.Pagination;
 
 import java.util.List;
 
 @Service
+@Slf4j
 public class ProjectServiceImpl implements ProjectService {
 
     private final ProjectDAO projectDAO;
@@ -24,7 +25,13 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<Project> getAllProjects(ProjectListPaginationDto pagination) {
-        return projectDAO.findAll(pagination);
+        List<Project> projects = projectDAO.findAll(pagination);
+        if(projects.isEmpty()) {
+            log.warn("IN getAllProjects - no projects found with pagination: {}", pagination);
+            return projects;
+        }
+        log.info("IN getAllProjects - {} projects found with pagination: {}", projects.size(), pagination);
+        return projects;
     }
 
     @Override

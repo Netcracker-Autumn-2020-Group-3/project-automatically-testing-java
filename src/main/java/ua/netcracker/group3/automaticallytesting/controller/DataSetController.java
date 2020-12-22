@@ -33,17 +33,31 @@ public class DataSetController {
         return dataSetService.gettAllDataSet();
     }
 
-    @RequestMapping(value = "/dataset/edit/{id}",method = RequestMethod.GET)
+    /**
+     * @param id
+     * @return
+     */
+    @GetMapping(value = "/dataset/edit/{id}")
     public DataSet getDataSetById(@PathVariable Integer id){
         return dataSetService.getDataSetById(id);
     }
 
-    @RequestMapping(value = "/dataentry/edit/{dataSetId}",method = RequestMethod.GET)
+    /**
+     * @param dataSetId
+     * @return
+     */
+    @GetMapping(value = "/dataentry/edit/{dataSetId}")
     public List<DataEntry> getDataEntry(@PathVariable Integer dataSetId){
         return dataEntryService.getDataEntryByDataSetName(dataSetId);
     }
 
-    @RequestMapping(value = "/dataset/edit/{id}/{name}/update",method = RequestMethod.PUT)
+    /**
+     * @param id
+     * @param name
+     * @param dataEntryList
+     * @return
+     */
+    @PutMapping(value = "/dataset/edit/{id}/{name}/update")
     public ResponseEntity<?> updateDataEntryById(@PathVariable Long id, @PathVariable String name, @RequestBody List<DataEntry> dataEntryList){
         DataSet editedDataSet = DataSet.builder().id(id).name(name).build();
         dataSetService.updateDataSet(editedDataSet);
@@ -51,7 +65,11 @@ public class DataSetController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/dataset/edit/{dataEntryId}/delete",method = RequestMethod.DELETE)
+    /**
+     * @param dataEntryId
+     * @return
+     */
+    @DeleteMapping(value = "/dataset/edit/{dataEntryId}/delete")
     public String deleteDataEntryById(@PathVariable Integer dataEntryId){
         dataEntryService.deleteDataEntryValueById(dataEntryId);
         return "ok";

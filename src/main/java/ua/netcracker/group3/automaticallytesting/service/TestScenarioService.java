@@ -20,7 +20,6 @@ public interface TestScenarioService {
 
     List<TestScenario> getTestScenarioById(long id);
 
-    boolean checkTestScenarioExistsByName(String name);
     List<TestScenario> getAll();
 
     Integer countPages(Integer pageSize);

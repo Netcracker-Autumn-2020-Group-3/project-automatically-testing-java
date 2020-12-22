@@ -1,19 +1,18 @@
 package ua.netcracker.group3.automaticallytesting.service.ServiceImpl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ua.netcracker.group3.automaticallytesting.dao.CompoundDAO;
 import ua.netcracker.group3.automaticallytesting.dto.ActionDtoWithIdNameVoid;
-import ua.netcracker.group3.automaticallytesting.model.Action;
 import ua.netcracker.group3.automaticallytesting.dto.CompoundDto;
 import ua.netcracker.group3.automaticallytesting.dto.CompoundDtoWithIdName;
 import ua.netcracker.group3.automaticallytesting.model.Compound;
-import ua.netcracker.group3.automaticallytesting.model.CompoundAction;
 import ua.netcracker.group3.automaticallytesting.service.CompoundService;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
 import java.util.List;
 
 @Service
+@Slf4j
 public class CompoundServiceImpl implements CompoundService {
 
     private final CompoundDAO compoundDAO;
@@ -24,32 +23,56 @@ public class CompoundServiceImpl implements CompoundService {
 
     @Override
     public List<Compound> getAllCompounds(Pageable pageable) {
-        return compoundDAO.findAll(pageable);
+        List<Compound> compounds = compoundDAO.findAll(pageable);
+        if(compounds.isEmpty()) {
+            log.warn("IN getAllCompounds - no compounds found with pagination: {}", pageable);
+            return compounds;
+        }
+        log.info("IN getAllCompounds - compounds: {} found with pagination: {}", compounds, pageable);
+        return compounds;
     }
 
     @Override
     public long getQuantityCompounds(String search) {
-        return compoundDAO.getQuantityCompounds(search);
+        long quantity = compoundDAO.getQuantityCompounds(search);
+        log.info("IN getQuantityCompounds - {} compounds found with name like: '{}'", quantity, search);
+        return quantity;
     }
 
     @Override
     public List<CompoundDtoWithIdName> getAllCompoundsWithIdName() {
-        return compoundDAO.findAllWithIdName();
+        List<CompoundDtoWithIdName> compounds = compoundDAO.findAllWithIdName();
+        if(compounds.isEmpty()) {
+            log.warn("IN getAllCompoundsWithIdName - no compounds found");
+            return compounds;
+        }
+        log.info("IN getAllCompoundsWithIdName - {} compounds found", compounds.size());
+        return compounds;
     }
 
     @Override
     public List<ActionDtoWithIdNameVoid> getAllCompoundActionsByCompoundId(long id) {
-        return compoundDAO.findAllCompoundActionsByCompoundId(id);
+        List<ActionDtoWithIdNameVoid> actions = compoundDAO.findAllCompoundActionsByCompoundId(id);
+        if(actions.isEmpty()) {
+            log.warn("IN getAllCompoundActionsByCompoundId - no actions found with compound id: {}", id);
+            return actions;
+        }
+        log.info("IN getAllCompoundActionsByCompoundId - actions: {} found with compound id: {}", actions, id);
+        return actions;
     }
 
     @Override
     public void archiveCompoundById(long id) {
         compoundDAO.archiveCompoundById(id);
+        log.info("IN archiveCompoundById - compound with id: {} is archived", id);
     }
 
     @Override
     public boolean checkIfNameExist(String name) {
-        return compoundDAO.checkIfNameExist(name);
+        boolean isExist = compoundDAO.checkIfNameExist(name);
+        String wordExist = isExist ? "already exists" : "does not exist";
+        log.info("IN checkIfNameExist - compound with name: {} {}", name, wordExist);
+        return isExist;
     }
 
     @Override
@@ -65,7 +88,6 @@ public class CompoundServiceImpl implements CompoundService {
     }
 
     @Override
-   // @Transactional
     public void updateCompound(Compound compound, long id) {
         compound.setId(id);
         compoundDAO.updateCompound(compound);
