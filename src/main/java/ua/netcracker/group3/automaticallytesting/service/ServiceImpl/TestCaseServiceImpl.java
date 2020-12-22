@@ -72,7 +72,6 @@ public class TestCaseServiceImpl implements TestCaseService {
     /**
      * get scenario steps that are compounds
      *
-     * @return map with compound priority as a key and step as value
      */
     private List<ScenarioStepDto> getCompoundsByPriorities(List<ActionInstanceJoined> actionInstanceJoinedList,
                                                            Map<Long, Set<VariableDto>> actionsVariables) {
@@ -102,7 +101,6 @@ public class TestCaseServiceImpl implements TestCaseService {
     /**
      * get scenario steps that are actions
      *
-     * @return map with action priority as a key and step as value
      */
     private List<ScenarioStepDto> getActionsByPriorities(List<ActionInstanceJoined> actionInstanceJoinedList,
                                                          Map<Long, Set<VariableDto>> actionsVariables) {
@@ -146,7 +144,6 @@ public class TestCaseServiceImpl implements TestCaseService {
                 .build();
 
         Long testCaseId = testCaseDAO.insert(testCase);
-        System.out.println(createUpdateTestCaseDto.getVariableValues());
         variableValueDAO.insert(createUpdateTestCaseDto.getVariableValues(), testCaseId);
 
     }

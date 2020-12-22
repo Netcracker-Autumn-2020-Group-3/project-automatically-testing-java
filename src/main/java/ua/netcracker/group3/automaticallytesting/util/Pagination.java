@@ -1,5 +1,6 @@
 package ua.netcracker.group3.automaticallytesting.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
@@ -7,13 +8,12 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
+@Slf4j
 @PropertySource("classpath:constants.properties")
 public class Pagination {
 
     @Value("${page.size}")
     private int defaultPageSize;
-    @Value("${page.size.actions}")
-    private int defaultPageSizeAction;
     @Value("${page.page}")
     private int defaultPage;
     @Value("${page.user.sort.field}")
@@ -42,6 +42,7 @@ public class Pagination {
     public void validate(Pageable pageable, List<String> possibleSortFields) {
         if (!possibleSortFields.contains(pageable.getSortField()) ||
                 !(pageable.getSortOrder().equalsIgnoreCase("ASC") || pageable.getSortOrder().equalsIgnoreCase("DESC"))) {
+            log.error("pageable validation error");
             throw new RuntimeException("pageable has incorrect sortField or sortOrder");
         }
     }
