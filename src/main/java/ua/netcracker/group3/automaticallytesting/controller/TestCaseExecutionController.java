@@ -45,6 +45,16 @@ public class TestCaseExecutionController {
         return testCaseExecService.getAllTestCaseExecutions();
     }
 
+    /**
+     * @param limit
+     * @param offset
+     * @param orderBy
+     * @param orderByClause
+     * @param testCaseName
+     * @param projectName
+     * @param status
+     * @return
+     */
     @GetMapping("/all")
     public List<TestCaseExecutionDto> getAllTestCaseExecutionWithFailedActionNumber(long limit,  long offset, String orderBy, String orderByClause,
                                                                                         String testCaseName, String projectName, String status) {
