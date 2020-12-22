@@ -45,14 +45,12 @@ public class TestCaseExecutionController {
         return testCaseExecService.getAllTestCaseExecutions();
     }
 
-    @GetMapping("/{limit}/{offset}/{orderBy}/{orderByClause}/{testCaseName}/{projectName}/{status}")
-    public List<TestCaseExecutionDto> getAllTestCaseExecutionWithFailedActionNumber(@PathVariable("limit") long limit, @PathVariable("offset") long offset,
-                                                                                    @PathVariable("orderBy") String orderBy, @PathVariable("orderByClause") String orderByClause,
-                                                                                    @PathVariable("testCaseName") String testCaseName, @PathVariable("projectName") String projectName,
-                                                                                    @PathVariable("status") String status) {
+    @GetMapping("/all")
+    public List<TestCaseExecutionDto> getAllTestCaseExecutionWithFailedActionNumber(long limit,  long offset, String orderBy, String orderByClause,
+                                                                                        String testCaseName, String projectName, String status) {
         Pageable pageable = Pageable.builder().page((int) offset).pageSize((int) limit).sortOrder(orderByClause).sortField(orderBy).build();
         //actions execution status:  all - get all actions executions, passed - only passed, failed
-        log.info("pageable: " + pageable + ", search test case name: " + testCaseName + ", search project name: " + projectName + ", actions execution status: " + status);
+        log.info("test case execution list: {}, search test case name: {}, search project name: {}, actions execution status: {}", pageable, testCaseName, projectName, status);
         return  testCaseExecService.getAllTestCaseExecutionWithFailedActionNumber(limit, offset, orderBy, orderByClause, testCaseName, projectName, status);
     }
 
