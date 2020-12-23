@@ -2,7 +2,6 @@ package ua.netcracker.group3.automaticallytesting.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.dto.CreateUpdateTestCaseDto;
@@ -10,7 +9,6 @@ import ua.netcracker.group3.automaticallytesting.dto.TestCaseWithUserDto;
 import ua.netcracker.group3.automaticallytesting.execution.TestCaseExecutionService;
 import ua.netcracker.group3.automaticallytesting.model.TestCaseUpd;
 import ua.netcracker.group3.automaticallytesting.dto.TestCaseDto;
-import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.SseService;
 import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.UserPrincipal;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
 import ua.netcracker.group3.automaticallytesting.service.TestCaseService;
@@ -94,13 +92,6 @@ public class TestCaseController {
         TestCaseDto testCaseDto =  testCaseService.getTestCase(id);
         System.out.println("Execute testCaseDto " + testCaseDto);
         System.out.println(testCaseExecutionService.executeTestCase(testCaseDto,60L));
-    }
-
-    @GetMapping("/{projectID}/list/page")
-    public List<TestCaseUpd> getPageTestCases(@PathVariable("projectID") Long projectID, Integer pageSize, Integer page, String sortOrder, String sortField,
-                                                   String name) {
-        Pageable pageable = Pageable.builder().page(page).pageSize(pageSize).sortField(sortField).sortOrder(sortOrder).build();
-        return testCaseService.getTestCases (projectID, pageable, name);
     }
 
     @GetMapping("/{projectID}/pages/count")

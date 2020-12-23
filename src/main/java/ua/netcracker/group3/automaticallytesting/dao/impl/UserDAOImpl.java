@@ -5,19 +5,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import ua.netcracker.group3.automaticallytesting.dao.UserDAO;
+import ua.netcracker.group3.automaticallytesting.dto.UserCountDto;
+import ua.netcracker.group3.automaticallytesting.mapper.UserCountMapper;
 import ua.netcracker.group3.automaticallytesting.mapper.UserMapper;
 import ua.netcracker.group3.automaticallytesting.mapper.UserMapperWithoutPassword;
 import ua.netcracker.group3.automaticallytesting.model.User;
-
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,12 +23,13 @@ public class UserDAOImpl implements UserDAO {
     private final JdbcTemplate jdbcTemplate;
     private final UserMapper mapper;
     private final UserMapperWithoutPassword mapperWithoutPassword;
-
+    private final UserCountMapper userCountMapper;
     @Autowired
-    public UserDAOImpl(JdbcTemplate jdbcTemplate, UserMapper mapper, UserMapperWithoutPassword mapperWithoutPassword) {
+    public UserDAOImpl(JdbcTemplate jdbcTemplate, UserMapper mapper, UserMapperWithoutPassword mapperWithoutPassword, UserCountMapper userCountMapper) {
         this.jdbcTemplate = jdbcTemplate;
         this.mapper = mapper;
         this.mapperWithoutPassword = mapperWithoutPassword;
+        this.userCountMapper = userCountMapper;
     }
 
     @Value("${find.user.by.email}")
@@ -64,6 +59,9 @@ public class UserDAOImpl implements UserDAO {
 
     @Value("${count.users.by.role}")
     private String COUNT_BY_ROLE;
+
+    @Value("${get.user.count}")
+    private String COUNT_USERS_BY_ROLE;
 
 
 //    select * from
@@ -145,11 +143,9 @@ public class UserDAOImpl implements UserDAO {
         jdbcTemplate.update(UPDATE_SETTINGS, user.getName(), user.getSurname(), user.getEmail());
     }
 
-
     @Override
-    public Integer countUsers(String role) {
-        String temp = "role_" + role;
-        temp = temp.toUpperCase();
-        return jdbcTemplate.queryForObject(COUNT_BY_ROLE, Integer.class, new Object[] { temp } );
+    public UserCountDto countOfUsersByRole() {
+        return jdbcTemplate.queryForObject(COUNT_USERS_BY_ROLE, userCountMapper);
+
     }
 }
