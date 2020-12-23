@@ -120,6 +120,11 @@ public class UserServiceImpl implements UserService {
                 formFilter(userSearchDto.getRoles())), pageSize);
     }
 
+    @Override
+    public Boolean checkIfEmailExists(String email) {
+        return userDAO.checkIfEmailExists(email);
+    }
+
     private User buildUser(User user) {
         return User.builder()
                 .email(user.getEmail())
@@ -129,6 +134,5 @@ public class UserServiceImpl implements UserService {
                 .isEnabled(true)
                 .role(user.getRole())
                 .build();
-
     }
 }

@@ -67,9 +67,9 @@ public class UserController {
         return userService.countPagesSearch(userSearchDto, pageSize);
     }
 
-//    @GetMapping("/users/resetpass")
-//    public String sendPasswordResetToken(@RequestParam String token){
-//        return token;
-//    }
+    @GetMapping("/check-email/{email}")
+    public Boolean checkIfEmailExists(@PathVariable String email){
+        return userService.checkIfEmailExists(email);
+    }
 
 }

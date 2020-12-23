@@ -64,6 +64,8 @@ public class UserDAOImpl implements UserDAO {
 
     @Value("${count.users.by.role}")
     private String COUNT_BY_ROLE;
+    @Value("${check.if.user.email.exists}")
+    private String CHECK_IF_EMAIL_EXISTS;
 
 
 //    select * from
@@ -151,5 +153,16 @@ public class UserDAOImpl implements UserDAO {
         String temp = "role_" + role;
         temp = temp.toUpperCase();
         return jdbcTemplate.queryForObject(COUNT_BY_ROLE, Integer.class, new Object[] { temp } );
+    }
+
+    @Override
+    public Boolean checkIfEmailExists(String email) {
+        Integer temp = jdbcTemplate.queryForObject(CHECK_IF_EMAIL_EXISTS, Integer.class, email);
+        if(temp != null) {
+            return temp == 1;
+        }
+        else {
+            return false;
+        }
     }
 }

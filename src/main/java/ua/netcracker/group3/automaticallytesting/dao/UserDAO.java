@@ -33,4 +33,6 @@ public interface UserDAO {
     Integer countUsers(String role);
 
     Integer countUsersSearch(String enabledSql, String name, String surname, String email, String formFilter);
+
+    Boolean checkIfEmailExists(String email);
 }

@@ -33,4 +33,6 @@ public interface UserService {
     void updateUserPassword(User user);
 
     Integer countPagesSearch(UserSearchDto userSearchDto, Integer pageSize);
+
+    Boolean checkIfEmailExists(String email);
 }
