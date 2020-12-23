@@ -66,8 +66,9 @@ public class DataSetController {
      * @param dataEntryList needed for updating dataEnrty in DB
      * @return ResponseEntity with status OK
      */
-    @PutMapping(value = "/dataset/edit/{id}/{name}/update")
-    public ResponseEntity<?> updateDataEntryById(@PathVariable Long id, @PathVariable String name, @RequestBody List<DataEntry> dataEntryList){
+    @PutMapping(value = "/dataset/edit/update/{id}/{name}")
+    public ResponseEntity<?> updateDataEntryById(@PathVariable Long id,
+                                                 @PathVariable String name, @RequestBody List<DataEntry> dataEntryList){
         DataSet editedDataSet = DataSet.builder().id(id).name(name).build();
         dataSetService.updateDataSet(editedDataSet);
         dataEntryService.updateDataEntry(dataEntryList);
@@ -79,7 +80,7 @@ public class DataSetController {
      * @param dataEntryId needed for deleting value from DB
      * @return ResponseEntity with status OK
      */
-    @DeleteMapping(value = "/dataset/edit/{dataEntryId}/delete")
+    @DeleteMapping(value = "/dataset/edit/delete/{dataEntryId}")
     public ResponseEntity<?> deleteDataEntryById(@PathVariable Integer dataEntryId){
         dataEntryService.deleteDataEntryValueById(dataEntryId);
         return ResponseEntity.ok(HttpStatus.OK);

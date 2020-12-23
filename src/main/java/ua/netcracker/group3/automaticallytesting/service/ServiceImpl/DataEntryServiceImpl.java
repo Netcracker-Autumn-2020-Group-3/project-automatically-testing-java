@@ -1,5 +1,6 @@
 package ua.netcracker.group3.automaticallytesting.service.ServiceImpl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.netcracker.group3.automaticallytesting.dao.DataEntryDAO;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class DataEntryServiceImpl implements DataEntryService {
 
     private final DataEntryDAO dataEntryDAO;
@@ -53,6 +55,8 @@ public class DataEntryServiceImpl implements DataEntryService {
                                             .stream().filter(d -> d.getId() != null).collect(Collectors.toList());
         List<DataEntry> dataEntryForInsert = dataEntryList
                                             .stream().filter(d -> d.getId() == null).collect(Collectors.toList());
+        log.info("DataEntry for update: {}",dataEntryForUpdate);
+        log.info("DataEntry for insert: {}",dataEntryForInsert);
         dataEntryDAO.createDataEntry(dataEntryForInsert);
         dataEntryDAO.updateDataEntry(dataEntryForUpdate);
     }

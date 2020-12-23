@@ -18,9 +18,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private UserDAO userDao;
 
     /**
-     * @param email
-     * @return
-     * @throws UsernameNotFoundException
+     * @param email needed for searching
+     * @return UserDetails
+     * @throws UsernameNotFoundException if user is not found
      */
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

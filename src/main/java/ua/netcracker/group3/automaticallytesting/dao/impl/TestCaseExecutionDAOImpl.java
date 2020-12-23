@@ -114,7 +114,8 @@ public class TestCaseExecutionDAOImpl implements TestCaseExecutionDAO {
     }
 
     /**
-     * @return
+     * Mehtod needed for chart on dashboard
+     * @return list of grouped test case executions
      */
     @Override
     public List<GroupedTestCaseExecutionDto> getGroupedTestCaseExecution() {

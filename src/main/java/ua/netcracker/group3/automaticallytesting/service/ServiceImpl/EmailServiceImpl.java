@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailSendException;
@@ -15,18 +14,11 @@ import org.springframework.stereotype.Service;
 import ua.netcracker.group3.automaticallytesting.controller.Constant.MailConstant;
 import ua.netcracker.group3.automaticallytesting.dto.ActionExecutionDto;
 import ua.netcracker.group3.automaticallytesting.dto.SubscribedUserTestCaseDto;
-import ua.netcracker.group3.automaticallytesting.model.ActionExecution;
 import ua.netcracker.group3.automaticallytesting.model.User;
 import ua.netcracker.group3.automaticallytesting.util.PasswordResetToken;
-
-import javax.mail.Address;
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.SendFailedException;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -59,9 +51,10 @@ public class EmailServiceImpl {
     }
 
     /**
-     * @param actionExecutionList
-     * @param subscribedUsers
-     * @return
+     * Method send email to users
+     * @param actionExecutionList contains action executions
+     * @param subscribedUsers contains subscribed users
+     * @return ResponseEntity with status
      */
     public ResponseEntity<?> sendReportToUser(List<ActionExecutionDto> actionExecutionList,
                                            List<SubscribedUserTestCaseDto> subscribedUsers)  {
@@ -80,6 +73,7 @@ public class EmailServiceImpl {
             message.setContent(msg, "text/html");
             helper.setSubject("Report");
             mailSender.send(message);
+            log.info("Message send to users");
             return ResponseEntity.ok(HttpStatus.OK);
         } catch (MessagingException | MailSendException exception) {
            log.error("Error with sending emails!");
@@ -88,9 +82,10 @@ public class EmailServiceImpl {
     }
 
     /**
-     * @param subscribedUsers
-     * @param actionExecutionList
-     * @return
+     * Method generate html email
+     * @param subscribedUsers contains subscribed users
+     * @param actionExecutionList contains action executions
+     * @return message string
      */
     private String makeHtmlEmail(List<SubscribedUserTestCaseDto> subscribedUsers,
                                         List<ActionExecutionDto> actionExecutionList){

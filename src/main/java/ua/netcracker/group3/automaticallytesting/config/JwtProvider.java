@@ -18,8 +18,6 @@ public class JwtProvider {
     @Value("${jwt.token.expired}")
     private int jwtExpiration;
 
-    private String JWT_SECRET = "jwtprodddjectng";
-
     public String generateJwtToken(Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         return Jwts.builder()
@@ -35,7 +33,7 @@ public class JwtProvider {
             Jws<Claims> claimsJws = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
             return !claimsJws.getBody().getExpiration().before(new Date());
         }catch (JwtException | IllegalArgumentException e){
-            throw new JwtException("exception");
+            throw new JwtException("Token was expired");
         }
     }
 
@@ -59,6 +57,7 @@ public class JwtProvider {
 
 
     public String getUserNameFromJwtToken(String token) {
+        final String JWT_SECRET = "jwtprodddjectng";
         return Jwts.parser()
                 .setSigningKey(JWT_SECRET)
                 .parseClaimsJws(token)

@@ -10,10 +10,10 @@ import java.sql.SQLException;
 @Component
 public class GroupedTestCaseExecutionMapper implements RowMapper<GroupedTestCaseExecutionDto> {
     /**
-     * @param resultSet
-     * @param i
-     * @return
-     * @throws SQLException
+     * @param resultSet contains result from DB
+     * @param i integer
+     * @return GroupedTestCaseExecutionDto
+     * @throws SQLException throw SQLException
      */
     @Override
     public GroupedTestCaseExecutionDto mapRow(ResultSet resultSet, int i) throws SQLException {
