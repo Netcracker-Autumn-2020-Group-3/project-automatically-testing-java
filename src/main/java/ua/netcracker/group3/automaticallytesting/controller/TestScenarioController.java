@@ -11,11 +11,10 @@ import ua.netcracker.group3.automaticallytesting.service.CompoundService;
 import ua.netcracker.group3.automaticallytesting.service.TestCaseService;
 import ua.netcracker.group3.automaticallytesting.service.TestScenarioService;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
-
 import java.util.List;
 
 @RestController
-@CrossOrigin("*")
+@CrossOrigin(origins = "https://automatically-testing-angular.herokuapp.com")
 @RequestMapping("/test-scenario")
 public class TestScenarioController {
 

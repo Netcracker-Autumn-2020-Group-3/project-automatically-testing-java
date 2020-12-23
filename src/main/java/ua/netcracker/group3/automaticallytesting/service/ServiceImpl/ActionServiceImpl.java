@@ -44,6 +44,9 @@ public class ActionServiceImpl implements ActionService {
         return actionDAO.findActionsByName(pagination.formSqlPostgresPaginationPiece(pageable),name);
     }
 
+    /**
+     * @return list of all Action objects with fields id and name.
+     */
     @Override
     public List<ActionDtoWithIdNameVoid> getAllActionsWithIdName() {
         List<ActionDtoWithIdNameVoid> actions = actionDAO.findAllWithIdName();
