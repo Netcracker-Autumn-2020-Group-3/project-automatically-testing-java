@@ -1,5 +1,6 @@
 package ua.netcracker.group3.automaticallytesting.service.ServiceImpl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Slf4j
 public class SseService {
 
     private UserService userService;
@@ -41,6 +43,7 @@ public class SseService {
 
     public void deleteNotification(long testCaseExecutionId, long userId) {
         notificationDAO.deleteNotification(testCaseExecutionId, userId);
+        log.info("Notification deleted");
     }
 
     public void sendRecentNotifications(long testCaseId, long testCaseExecutionId) {
@@ -64,6 +67,7 @@ public class SseService {
                     }
                 }
         );
+        log.info("Sent recent notifications to all users");
     }
 
     public List<NotificationDto> sendAllNotifications(String jwt) {
@@ -71,6 +75,7 @@ public class SseService {
         String email = jwtProvider.getUserNameFromJwtToken(jwtProvider.resolveStringToken(jwt));
         User user = userService.getUserByEmail(email);
         List<NotificationDto> notifications = notificationDAO.getNotificationsByUser(user.getId());
+        log.info("All notifications sent");
         return notifications;
     }
 
