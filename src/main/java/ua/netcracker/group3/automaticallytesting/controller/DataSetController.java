@@ -33,7 +33,7 @@ public class DataSetController {
      */
     @GetMapping("/all-data-set")
     public List<DataSet> getAllDataSet() {
-        log.info("get all data sets");
+        log.info("get all data set");
         return dataSetService.getAllDataSet();
     }
 
