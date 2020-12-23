@@ -1,10 +1,7 @@
 package ua.netcracker.group3.automaticallytesting.controller;
 
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.dto.ActionVariableDto;
 import ua.netcracker.group3.automaticallytesting.model.Action;
@@ -14,7 +11,7 @@ import ua.netcracker.group3.automaticallytesting.util.Pageable;
 
 import java.util.List;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "https://automatically-testing-angular.herokuapp.com")
 @RestController
 @Slf4j
 public class ActionsController {
@@ -74,7 +71,6 @@ public class ActionsController {
     @PostMapping("create-action/{name}/{description}")
     public void createAction(@PathVariable("name") String name, @PathVariable("description") String description,
                              @RequestBody List<String> variableValues) {
-
         long id = actionService.createAction(name, description);
         this.variableService.createVariables(id, variableValues);
     }

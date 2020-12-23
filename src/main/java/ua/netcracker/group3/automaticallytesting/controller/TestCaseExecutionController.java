@@ -12,13 +12,12 @@ import ua.netcracker.group3.automaticallytesting.service.TestCaseExecService;
 import ua.netcracker.group3.automaticallytesting.service.TestCaseService;
 import ua.netcracker.group3.automaticallytesting.service.UserService;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
-
 import java.util.List;
-
 import static ua.netcracker.group3.automaticallytesting.model.TestCaseExecutionStatus.FINISHED;
 
 @Slf4j
 @RestController
+@CrossOrigin(origins = "https://automatically-testing-angular.herokuapp.com")
 @RequestMapping("/test-case-execution")
 public class TestCaseExecutionController {
     private final TestCaseExecService testCaseExecService;
@@ -97,7 +96,7 @@ public class TestCaseExecutionController {
     private void executeTestCase(long testCaseId, long testCaseExecutionId) {
         TestCaseDto testCaseDto =  testCaseService.getTestCase(testCaseId);
         List<String> status = testCaseExecutionService.executeTestCase(testCaseDto, testCaseExecutionId);
-        long errorNumber = status.stream().filter(el -> el.equals("FAILED")).count();
+        log.error("Number of error action executions: {}",status.stream().filter(el -> el.equals("FAILED")).count());
         testCaseExecService.updateTestCaseExecution(String.valueOf(FINISHED), testCaseExecutionId);
         sseService.sendRecentNotifications(testCaseDto.getTestCase().getId(), testCaseExecutionId);
     }

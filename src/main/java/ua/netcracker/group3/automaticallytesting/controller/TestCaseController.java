@@ -13,10 +13,9 @@ import ua.netcracker.group3.automaticallytesting.dto.TestCaseDto;
 import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.UserPrincipal;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
 import ua.netcracker.group3.automaticallytesting.service.TestCaseService;
-
 import java.util.List;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "https://automatically-testing-angular.herokuapp.com")
 @RestController
 @Slf4j
 @RequestMapping("/test-case")

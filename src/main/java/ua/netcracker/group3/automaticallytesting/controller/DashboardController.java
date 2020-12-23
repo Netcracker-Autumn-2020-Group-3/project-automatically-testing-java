@@ -14,12 +14,10 @@ import ua.netcracker.group3.automaticallytesting.dto.GroupedTestCaseExecutionDto
 import ua.netcracker.group3.automaticallytesting.model.ActionExecutionPassedFailed;
 import ua.netcracker.group3.automaticallytesting.service.ActionExecutionService;
 import ua.netcracker.group3.automaticallytesting.service.TestCaseService;
-
-
 import java.util.List;
 
 @RestController
-@CrossOrigin("*")
+@CrossOrigin(origins = "https://automatically-testing-angular.herokuapp.com")
 @RequestMapping("/dashboard")
 public class DashboardController {
 

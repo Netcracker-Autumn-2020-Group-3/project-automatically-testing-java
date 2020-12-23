@@ -14,7 +14,6 @@ import ua.netcracker.group3.automaticallytesting.mapper.ActionMapper;
 import ua.netcracker.group3.automaticallytesting.mapper.ActionVariableMapper;
 import ua.netcracker.group3.automaticallytesting.mapper.ActionWithIdNameVoidMapper;
 import ua.netcracker.group3.automaticallytesting.model.Action;
-
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;

@@ -4,18 +4,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.dto.DataSetDto;
 import ua.netcracker.group3.automaticallytesting.model.DataEntry;
 import ua.netcracker.group3.automaticallytesting.model.DataSet;
 import ua.netcracker.group3.automaticallytesting.service.DataEntryService;
 import ua.netcracker.group3.automaticallytesting.service.DataSetService;
-
 import java.util.List;
 
 @Slf4j
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "https://automatically-testing-angular.herokuapp.com")
 @RestController
 public class DataSetController {
 

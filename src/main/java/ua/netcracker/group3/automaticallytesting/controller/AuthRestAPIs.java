@@ -1,6 +1,5 @@
 package ua.netcracker.group3.automaticallytesting.controller;
 
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,15 +8,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.config.JwtProvider;
 import ua.netcracker.group3.automaticallytesting.config.JwtResponse;
 import ua.netcracker.group3.automaticallytesting.dto.AuthResponseDto;
-import ua.netcracker.group3.automaticallytesting.dao.UserDAO;
-import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.UserDetailsServiceImpl;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "https://automatically-testing-angular.herokuapp.com")
 @RestController
 @Slf4j
 public class AuthRestAPIs {

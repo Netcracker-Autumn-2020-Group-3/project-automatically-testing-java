@@ -8,13 +8,13 @@ import ua.netcracker.group3.automaticallytesting.model.User;
 import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.EmailServiceImpl;
 import ua.netcracker.group3.automaticallytesting.service.UserService;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "https://automatically-testing-angular.herokuapp.com")
 @RestController
 @RequestMapping("/settings")
 public class UserSettingsController {
 
-    private UserService userService;
-    private EmailServiceImpl emailService;
+    private final UserService userService;
+    private final EmailServiceImpl emailService;
 
     @Autowired
     public UserSettingsController(UserService userService, EmailServiceImpl emailService){
@@ -44,8 +44,6 @@ public class UserSettingsController {
     }
     @PostMapping("/reset-by-email")
     public void resetPassByEmail(@RequestBody User user){
-
-        System.out.println(user.getEmail());
         emailService.sendCredentialsByEmail(user);
     }
 }

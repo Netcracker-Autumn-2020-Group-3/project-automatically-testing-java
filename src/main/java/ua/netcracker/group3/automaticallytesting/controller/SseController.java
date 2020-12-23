@@ -1,25 +1,19 @@
 package ua.netcracker.group3.automaticallytesting.controller;
 
-
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import ua.netcracker.group3.automaticallytesting.config.JwtProvider;
 import ua.netcracker.group3.automaticallytesting.dto.NotificationDto;
-import ua.netcracker.group3.automaticallytesting.model.TestCaseExecution;
 import ua.netcracker.group3.automaticallytesting.model.User;
 import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.SseService;
 import ua.netcracker.group3.automaticallytesting.service.UserService;
-
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 @RestController
-@CrossOrigin("*")
+@CrossOrigin(origins = "https://automatically-testing-angular.herokuapp.com")
 public class SseController {
 
     private final UserService userService;
@@ -30,7 +24,6 @@ public class SseController {
         this.sseService = sseService;
     }
 
-    //public static final List<SseEmitter> emitters = new CopyOnWriteArrayList<>();
     public static final Map<Long,SseEmitter> emitters = new ConcurrentHashMap<>();
 
     @GetMapping(value = "/subscribe/{userId}")
