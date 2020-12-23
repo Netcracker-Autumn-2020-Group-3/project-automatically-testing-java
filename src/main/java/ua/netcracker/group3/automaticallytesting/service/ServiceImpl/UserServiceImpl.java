@@ -5,6 +5,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.netcracker.group3.automaticallytesting.dao.UserDAO;
 import ua.netcracker.group3.automaticallytesting.dto.UserSearchDto;
+import ua.netcracker.group3.automaticallytesting.exception.ValidationException;
+import ua.netcracker.group3.automaticallytesting.model.Role;
+import ua.netcracker.group3.automaticallytesting.dao.impl.UserDAOImpl;
 import ua.netcracker.group3.automaticallytesting.model.User;
 import ua.netcracker.group3.automaticallytesting.service.UserService;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
@@ -29,6 +32,15 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    private String formFilter(List<String> roles) {
+        if (roles.isEmpty()) {
+            return "%";
+        }
+        StringBuilder sb = new StringBuilder("(");
+        roles.forEach(r -> sb.append(r).append("|"));
+        return sb.deleteCharAt(sb.length() - 1).append(")").toString();
+    }
+
     @Override
     public String getUserEmail(User user) {
         return userDAO.getEmail(user.getId());
@@ -51,7 +63,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getUsers(UserSearchDto userSearchDto, Pageable pageable) {
+    public List<User> getUsers(UserSearchDto userSearchDto, Pageable pageable) throws ValidationException {
         pagination.validate(pageable, USER_TABLE_FIELDS);
         return userDAO.getUsersPageSorted(pagination.formSqlPostgresPaginationPiece(pageable),
                 userSearchDto.getOnlyEnabled() ? " and is_enabled=true " : "",
@@ -59,15 +71,6 @@ public class UserServiceImpl implements UserService {
                 userSearchDto.getSurname(),
                 userSearchDto.getEmail(),
                 formFilter(userSearchDto.getRoles()));
-    }
-
-    private String formFilter(List<String> roles) {
-        if (roles.isEmpty()) {
-            return "%";
-        }
-        StringBuilder sb = new StringBuilder("(");
-        roles.forEach(r -> sb.append(r).append("|"));
-        return sb.deleteCharAt(sb.length() - 1).append(")").toString();
     }
 
     @Override

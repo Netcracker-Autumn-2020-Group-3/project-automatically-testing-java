@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.dto.*;
+import ua.netcracker.group3.automaticallytesting.exception.ValidationException;
 import ua.netcracker.group3.automaticallytesting.model.CompoundActionWithActionIdAndPriority;
 import ua.netcracker.group3.automaticallytesting.model.TestScenario;
 import ua.netcracker.group3.automaticallytesting.service.ActionService;
@@ -70,7 +71,7 @@ public class TestScenarioController {
     @GetMapping("/list/page")
 
     public List<TestScenario> getPageTestScenarios(Integer pageSize, Integer page, String sortOrder, String sortField,
-                                   String name) {
+                                   String name) throws ValidationException {
         Pageable pageable = Pageable.builder().page(page).pageSize(pageSize).sortField(sortField).sortOrder(sortOrder).build();
         return testScenarioService.getTestScenarios(pageable, name);
     }

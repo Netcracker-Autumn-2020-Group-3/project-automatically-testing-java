@@ -9,6 +9,7 @@ import ua.netcracker.group3.automaticallytesting.dao.TestScenarioDAO;
 import ua.netcracker.group3.automaticallytesting.dto.TestScenarioDto;
 import ua.netcracker.group3.automaticallytesting.dto.TestScenarioDtoWithIdNameArchived;
 import ua.netcracker.group3.automaticallytesting.dto.TestScenarioItemDto;
+import ua.netcracker.group3.automaticallytesting.exception.ValidationException;
 import ua.netcracker.group3.automaticallytesting.model.CompoundActionWithActionIdAndPriority;
 import ua.netcracker.group3.automaticallytesting.model.TestScenario;
 import ua.netcracker.group3.automaticallytesting.service.TestScenarioService;
@@ -133,7 +134,7 @@ public class TestScenarioServiceImpl implements TestScenarioService {
     }
 
     @Override
-    public List<TestScenario> getTestScenarios(Pageable pageable, String name) {
+    public List<TestScenario> getTestScenarios(Pageable pageable, String name) throws ValidationException {
         pageable = pagination.replaceNullsUserPage(pageable);
         pagination.validate(pageable,TEST_SCENARIO_TABLE_FIELDS);
         return testScenarioDAO.getTestScenariosPageSorted(pagination.formSqlPostgresPaginationPiece(pageable),

@@ -2,6 +2,7 @@ package ua.netcracker.group3.automaticallytesting.service;
 
 import org.springframework.transaction.annotation.Transactional;
 import ua.netcracker.group3.automaticallytesting.dto.TestCaseWithUserDto;
+import ua.netcracker.group3.automaticallytesting.exception.ValidationException;
 import ua.netcracker.group3.automaticallytesting.model.TestCase;
 import ua.netcracker.group3.automaticallytesting.model.TestCaseTopSubscribed;
 import ua.netcracker.group3.automaticallytesting.dto.CreateUpdateTestCaseDto;
@@ -21,7 +22,9 @@ public interface TestCaseService {
 
     TestCaseDto getTestCase(Long testCaseId);
 
-    List<TestCaseWithUserDto> getTestCasesWithUser(Long projectID, Pageable pageable, String name);
+    List<TestCaseUpd> getTestCases(Long projectID, Pageable pageable, String name) throws ValidationException;
+
+    List<TestCaseWithUserDto> getTestCasesWithUser(Long projectID, Pageable pageable, String name) throws ValidationException;
 
     List<TestCaseUpd> getAllTestCases();
 
@@ -37,8 +40,8 @@ public interface TestCaseService {
 
     void removeSubscriber(Long testCaseId, Long userId);
 
-    void archiveTestCase(Long projectId);
+    void archiveTestCase(Long testCaseId);
 
-    void unarchiveTestCase(Long projectId);
+    void unarchiveTestCase(Long testCaseId);
 
 }
