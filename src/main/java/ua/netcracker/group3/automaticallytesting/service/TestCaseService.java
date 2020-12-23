@@ -21,9 +21,8 @@ public interface TestCaseService {
 
     TestCaseDto getTestCase(Long testCaseId);
 
-    List<TestCaseUpd> getTestCases(Long projectID, Pageable pageable, String name);
-
     List<TestCaseWithUserDto> getTestCasesWithUser(Long projectID, Pageable pageable, String name);
+
     List<TestCaseUpd> getAllTestCases();
 
     Integer countTestCasesByProject(Integer pageSize, Long projectId);
