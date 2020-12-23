@@ -11,7 +11,8 @@ import ua.netcracker.group3.automaticallytesting.service.ProjectService;
 import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.UserPrincipal;
 
 @RestController
-@CrossOrigin(origins = "https://automatically-testing-angular.herokuapp.com")
+// @CrossOrigin(origins = "https://automatically-testing-angular.herokuapp.com")
+@CrossOrigin("*")
 @RequestMapping("/projects")
 @Slf4j
 public class ProjectController {
@@ -25,13 +26,13 @@ public class ProjectController {
     @GetMapping("/list")
     public ResponseEntity<?> projects(@RequestParam String link,
                                       @RequestParam String name,
-                                      @RequestParam Boolean onlyNotArchived,
+                                      @RequestParam Boolean isArchived,
                                       @RequestParam Integer page,
                                       @RequestParam Integer pageSize,
                                       @RequestParam String sortOrder,
                                       @RequestParam String sortField) {
         ProjectListPaginationDto pagination = new ProjectListPaginationDto(
-            name, link, onlyNotArchived, page, pageSize, sortOrder, sortField
+            name, link, isArchived, page, pageSize, sortOrder, sortField
         ).setPage(page);
         return ResponseEntity.ok(projectService.getAllProjects(pagination));
     }
@@ -39,10 +40,10 @@ public class ProjectController {
     @GetMapping("/pages/count")
     public Integer countUserPages(@RequestParam String link,
                                   @RequestParam String name,
-                                  @RequestParam Boolean onlyNotArchived,
+                                  @RequestParam Boolean isArchived,
                                   @RequestParam Integer pageSize) {
         ProjectListPaginationDto pagination = new ProjectListPaginationDto(
-                name, link, onlyNotArchived
+                name, link, isArchived
         );
         return projectService.countPages(pagination, pageSize);
     }
