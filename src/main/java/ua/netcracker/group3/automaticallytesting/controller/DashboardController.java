@@ -62,6 +62,10 @@ public class DashboardController {
         return actionExecutionService.getActionExecutionPassedFailed(status);
     }
 
+    /**
+     * Returns UserCountDto:
+     * It contains fields of Long type: userCount, adminCount, managerCount, engineerCount
+     */
     @GetMapping("/user-count-by-role")
     public UserCountDto getUserCountByRole() {
         return dashboardService.getCountOfUsersByRole();

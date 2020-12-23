@@ -5,13 +5,16 @@ import java.util.List;
 public interface TestCaseDAO {
 
     long insert(TestCase testCase);
+
     List<TestCaseStep> getTestCaseSteps(Long testCaseId);
+
     List<TestCaseUpd> getTestCases();
+
     List<TestCaseWithUserDto> getTestCasesWithUserPageSorted(Long projectID, String orderByLimitOffsetWithValues, String name);
+
     Integer countTestCasesByProject(Long projectId);
 
     List<TestCaseTopSubscribed> getTopFiveSubscribedTestCases();
-
 
     void update(Long testCaseId, String newTestCaseName);
 

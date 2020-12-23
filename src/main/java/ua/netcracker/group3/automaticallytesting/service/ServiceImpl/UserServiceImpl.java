@@ -2,17 +2,13 @@ package ua.netcracker.group3.automaticallytesting.service.ServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ua.netcracker.group3.automaticallytesting.dao.UserDAO;
 import ua.netcracker.group3.automaticallytesting.dto.UserSearchDto;
-import ua.netcracker.group3.automaticallytesting.model.Role;
-import ua.netcracker.group3.automaticallytesting.dao.impl.UserDAOImpl;
 import ua.netcracker.group3.automaticallytesting.model.User;
 import ua.netcracker.group3.automaticallytesting.service.UserService;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
 import ua.netcracker.group3.automaticallytesting.util.Pagination;
 import ua.netcracker.group3.automaticallytesting.util.PasswordResetToken;
-
 import java.util.Arrays;
 import java.util.List;
 

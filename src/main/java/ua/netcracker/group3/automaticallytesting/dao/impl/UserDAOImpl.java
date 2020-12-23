@@ -57,22 +57,8 @@ public class UserDAOImpl implements UserDAO {
     @Value("${get.user.id.by.email}")
     private String GET_USER_ID_BY_EMAIL;
 
-    @Value("${count.users.by.role}")
-    private String COUNT_BY_ROLE;
-
     @Value("${get.user.count}")
     private String COUNT_USERS_BY_ROLE;
-
-
-//    select * from
-//            (select count(*) as total_number from "user") TOTAL
-//    CROSS JOIN
-//            (select count(*) as admin_number from "user" where role = 'ROLE_ADMIN') ADMIN
-//    CROSS JOIN
-//            (select count(*) as manager_number from "user" where role = 'ROLE_MANAGER') MANAGER
-//    CROSS JOIN
-//            (select count(*) as engineer_number from "user" where role = 'ROLE_ENGINEER') ENGINEER
-
 
     @Override
     public User findUserByEmail(String email) {
@@ -146,6 +132,5 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public UserCountDto countOfUsersByRole() {
         return jdbcTemplate.queryForObject(COUNT_USERS_BY_ROLE, userCountMapper);
-
     }
 }
