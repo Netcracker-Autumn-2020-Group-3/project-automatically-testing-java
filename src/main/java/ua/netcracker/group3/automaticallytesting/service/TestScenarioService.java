@@ -2,6 +2,7 @@ package ua.netcracker.group3.automaticallytesting.service;
 
 import ua.netcracker.group3.automaticallytesting.dto.TestScenarioDto;
 import ua.netcracker.group3.automaticallytesting.dto.TestScenarioDtoWithIdNameArchived;
+import ua.netcracker.group3.automaticallytesting.exception.ValidationException;
 import ua.netcracker.group3.automaticallytesting.model.CompoundActionWithActionIdAndPriority;
 import ua.netcracker.group3.automaticallytesting.model.TestScenario;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
@@ -14,7 +15,7 @@ public interface TestScenarioService {
 
     boolean saveTestScenario(TestScenarioDto testScenarioDto);
 
-    List<TestScenario> getTestScenarios(Pageable pageable, String name);
+    List<TestScenario> getTestScenarios(Pageable pageable, String name) throws ValidationException;
 
     List<CompoundActionWithActionIdAndPriority> getAllCompoundActionsByCompoundId(long id);
 

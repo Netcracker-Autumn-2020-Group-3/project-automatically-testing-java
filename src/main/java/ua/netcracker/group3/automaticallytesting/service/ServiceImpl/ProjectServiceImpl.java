@@ -52,20 +52,24 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void createProject(Project project) {
         projectDAO.insert(project);
+        log.info("Project created: {}", project);
     }
 
     @Override
     public void updateProject(Project project) {
         projectDAO.update(project);
+        log.info("Project updated: {}", project);
     }
 
     @Override
     public void archiveProject(Long projectId) {
         projectDAO.updateIsArchivedField(projectId, true);
+        log.info("Project {} archived", projectId);
     }
 
     @Override
     public void unarchiveProject(Long projectId) {
         projectDAO.updateIsArchivedField(projectId, false);
+        log.info("Project {} unarchived", projectId);
     }
 }

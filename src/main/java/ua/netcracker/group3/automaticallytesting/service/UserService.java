@@ -1,6 +1,7 @@
 package ua.netcracker.group3.automaticallytesting.service;
 
 import ua.netcracker.group3.automaticallytesting.dto.UserSearchDto;
+import ua.netcracker.group3.automaticallytesting.exception.ValidationException;
 import ua.netcracker.group3.automaticallytesting.model.User;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
 
@@ -20,7 +21,7 @@ public interface UserService {
 
     Integer countPages(Integer pageSize);
 
-    List<User> getUsers(UserSearchDto userSearchDto, Pageable pageable);
+    List<User> getUsers(UserSearchDto userSearchDto, Pageable pageable) throws ValidationException;
 
     User getUserById(long id);
 
