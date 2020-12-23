@@ -2,7 +2,6 @@ package ua.netcracker.group3.automaticallytesting.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.dto.ProjectDto;
@@ -10,10 +9,9 @@ import ua.netcracker.group3.automaticallytesting.dto.ProjectListPaginationDto;
 import ua.netcracker.group3.automaticallytesting.model.Project;
 import ua.netcracker.group3.automaticallytesting.service.ProjectService;
 import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.UserPrincipal;
-import ua.netcracker.group3.automaticallytesting.util.Pageable;
 
 @RestController
-@CrossOrigin("*")
+@CrossOrigin(origins = "https://automatically-testing-angular.herokuapp.com")
 @RequestMapping("/projects")
 @Slf4j
 public class ProjectController {
@@ -59,26 +57,22 @@ public class ProjectController {
     public void createProject(@RequestBody Project project){
         Long userId = ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser().getId();
         project.setUserId(userId);
-        log.info("Create project: {}", project);
         projectService.createProject(project);
     }
 
     @PutMapping("/{id}")
     public void updateProject(@PathVariable("id") Long projectId, @RequestBody Project project){
         project.setId(projectId);
-        log.info("Update project: {}", project);
         projectService.updateProject(project);
     }
 
     @PatchMapping("/{id}/archive")
     public void archiveProject(@PathVariable("id") Long projectId){
-        log.info("Archive project with id: {}", projectId);
         projectService.archiveProject(projectId);
     }
 
     @PatchMapping("/{id}/unarchive")
     public void unarchiveProject(@PathVariable("id") Long projectId){
-        log.info("Unrchive project with id: {}", projectId);
         projectService.unarchiveProject(projectId);
     }
 

@@ -46,6 +46,9 @@ public class DataSetDAOImpl implements DataSetDAO {
     @Value("${create.data.set}")
     private String CREATE_DATA_SET;
 
+    @Value("${get.all.data.sets}")
+    private String GET_ALL_DATA_SETS;
+
     @Autowired
     public DataSetDAOImpl(JdbcTemplate jdbcTemplate, DataSetMapper dataSetMapper){
         this.jdbcTemplate = jdbcTemplate;
@@ -92,7 +95,7 @@ public class DataSetDAOImpl implements DataSetDAO {
 
     @Override
     public List<DataSet> getAllDataSet() {
-        return jdbcTemplate.query("select id, name from data_set", new RowMapper<DataSet>() {
+        return jdbcTemplate.query(GET_ALL_DATA_SETS, new RowMapper<DataSet>() {
             @Override
             public DataSet mapRow(ResultSet resultSet, int i) throws SQLException {
                 return new DataSet(resultSet.getLong(1), resultSet.getString(2));

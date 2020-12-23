@@ -11,8 +11,8 @@ import ua.netcracker.group3.automaticallytesting.util.Pageable;
 
 import java.util.List;
 
-@CrossOrigin("*")
 @RestController
+@CrossOrigin(origins = "https://automatically-testing-angular.herokuapp.com")
 @RequestMapping("/compounds")
 @Slf4j
 public class CompoundController {
@@ -25,14 +25,14 @@ public class CompoundController {
 
     @GetMapping
     public ResponseEntity<?> getCompounds(@RequestParam Integer pageSize,
-                                       @RequestParam Integer page,
-                                       @RequestParam String search,
-                                       @RequestParam String sortField) {
+                                          @RequestParam Integer page,
+                                          @RequestParam String search,
+                                          @RequestParam String sortField) {
         Pageable pageable = new Pageable();
         pageable.setPageSize(pageSize);
         pageable.setSortField(sortField);
         pageable.setSearch(search);
-        pageable.setPage((page > 0 ? page - 1 : 0) * pageSize); // Будет исправлено
+        pageable.setPage((page > 0 ? page - 1 : 0) * pageSize);
         return ResponseEntity.ok(compoundService.getAllCompounds(pageable));
     }
 
@@ -88,3 +88,4 @@ public class CompoundController {
         compoundService.updateCompound(compound, id);
     }
 }
+

@@ -33,7 +33,7 @@ public class TestCaseExecServiceImpl implements TestCaseExecService {
     public Integer countTestCaseExecutions(String testCaseName, String projectName, String status) {
         filterTestCase(testCaseName, projectName, status);
         return testCaseExecutionDAO.countTestCaseExecutions(this.testCaseName, this.projectName, whereByStatus);
-    };
+    }
 
     @Override
     public List<TestCaseExecutionDto> getAllTestCaseExecutionWithFailedActionNumber(long limit, long offset, String orderBy, String orderByClause, String testCaseName, String projectName, String status) {

@@ -1,7 +1,10 @@
 package ua.netcracker.group3.automaticallytesting.service.ServiceImpl;
 import org.springframework.stereotype.Service;
 import ua.netcracker.group3.automaticallytesting.dao.UserDAO;
+import ua.netcracker.group3.automaticallytesting.dto.UserCountDto;
 import ua.netcracker.group3.automaticallytesting.service.DashboardService;
+
+import java.util.List;
 
 @Service
 public class DashboardServiceImpl implements DashboardService{
@@ -12,12 +15,7 @@ public class DashboardServiceImpl implements DashboardService{
     }
 
     @Override
-    public Integer getCountOfUsers() {
-        return userDAO.countUsers();
-    }
-
-    @Override
-    public Integer getCountOfUsers(String role) {
-        return userDAO.countUsers(role);
+    public UserCountDto getCountOfUsersByRole() {
+        return userDAO.countOfUsersByRole();
     }
 }
