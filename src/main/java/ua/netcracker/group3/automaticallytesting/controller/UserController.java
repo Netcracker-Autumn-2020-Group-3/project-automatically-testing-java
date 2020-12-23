@@ -44,9 +44,13 @@ public class UserController {
         return userService.getUserById(id);
     }
 
+    /**
+     * update user information
+     * @param user user model: email, name, surname, role, is_enabled, id
+     */
     @PutMapping("/update")
     public void updateUserById(@RequestBody User user) {
-        log.info(String.valueOf(user));
+        log.info("update user: {}", user);
         userService.updateUserById(user.getEmail(), user.getName(), user.getSurname(), user.getRole(), user.isEnabled(), user.getId());
     }
 
