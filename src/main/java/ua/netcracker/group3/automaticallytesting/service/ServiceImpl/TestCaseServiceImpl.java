@@ -31,8 +31,6 @@ public class TestCaseServiceImpl implements TestCaseService {
     private final VariableValueDAO variableValueDAO;
     private final ActionInstanceDAO actionInstanceDAO;
     private final Pagination pagination;
-
-    private final List<String> TEST_CASE_UPD_TABLE_FIELDS = Arrays.asList("id", "name");
     private final List<String> TEST_CASE_UPD_WITH_USER_TABLE_FIELDS = Arrays.asList("id", "name", "email");
 
     public TestCaseServiceImpl(TestCaseDAO testCaseDAO, VariableValueDAO variableValueDAO, ActionInstanceDAO actionInstanceDAO, Pagination pagination) {
@@ -211,10 +209,13 @@ public class TestCaseServiceImpl implements TestCaseService {
         return testCaseDAO.getTestCases();
     }
 
+    /**
+     * @return list of five TestCase objects those have the greatest number of subscribers.
+     */
     @Override
     public List<TestCaseTopSubscribed> getFiveTopSubscribedTestCases() {
         List<TestCaseTopSubscribed> testCases = testCaseDAO.getTopFiveSubscribedTestCases();
-        if (testCases.isEmpty()) {
+        if(testCases.isEmpty()) {
             log.warn("IN getFiveTopSubscribedTestCases - no test cases found");
             return testCases;
         }
@@ -225,15 +226,6 @@ public class TestCaseServiceImpl implements TestCaseService {
     @Override
     public Integer countTestCasesByProject(Integer pageSize, Long projectId) {
         return pagination.countPages(testCaseDAO.countTestCasesByProject(projectId), pageSize);
-    }
-
-
-    @Override
-    public List<TestCaseUpd> getTestCases(Long projectID, Pageable pageable, String name) throws ValidationException {
-        pageable = pagination.replaceNullsUserPage(pageable);
-        pagination.validate(pageable, TEST_CASE_UPD_TABLE_FIELDS);
-        return testCaseDAO.getTestCasesPageSorted(projectID, pagination.formSqlPostgresPaginationPiece(pageable),
-                replaceNullsForSearch(name));
     }
 
     @Override

@@ -2,7 +2,6 @@ package ua.netcracker.group3.automaticallytesting.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.dto.CreateUpdateTestCaseDto;
@@ -11,7 +10,6 @@ import ua.netcracker.group3.automaticallytesting.exception.ValidationException;
 import ua.netcracker.group3.automaticallytesting.execution.TestCaseExecutionService;
 import ua.netcracker.group3.automaticallytesting.model.TestCaseUpd;
 import ua.netcracker.group3.automaticallytesting.dto.TestCaseDto;
-import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.SseService;
 import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.UserPrincipal;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
 import ua.netcracker.group3.automaticallytesting.service.TestCaseService;

@@ -2,8 +2,6 @@ package ua.netcracker.group3.automaticallytesting.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.dto.ResetPassDto;
@@ -43,13 +41,17 @@ public class UserController {
         return userService.getUserById(id);
     }
 
+    /**
+     * update user information
+     * @param user user model: email, name, surname, role, is_enabled, id
+     */
     @PutMapping("/update")
     public void updateUserById(@RequestBody User user) {
-        log.info(String.valueOf(user));
+        log.info("update user: {}", user);
         userService.updateUserById(user.getEmail(), user.getName(), user.getSurname(), user.getRole(), user.isEnabled(), user.getId());
     }
 
-    @PostMapping("/addUser")
+    @PostMapping("/add")
     public void addUser(@RequestBody User user){
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.saveUser(user);
@@ -66,13 +68,9 @@ public class UserController {
         return userService.countPagesSearch(userSearchDto, pageSize);
     }
 
-//    @GetMapping("/users/resetpass")
-//    public String sendPasswordResetToken(@RequestParam String token){
-//        return token;
-//    }
-
-    @PutMapping("/resetpass")
-    public void resetPassword(@RequestBody ResetPassDto resetPassDto) throws Exception {
-        userService.updateUserPasswordByToken(resetPassDto.getToken(), resetPassDto.getPassword());
+    @GetMapping("/check-email/{email}")
+    public Boolean checkIfEmailExists(@PathVariable String email){
+        return userService.checkIfEmailExists(email);
     }
+
 }

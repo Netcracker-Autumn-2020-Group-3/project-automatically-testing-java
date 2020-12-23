@@ -111,14 +111,6 @@ public class TestCaseDAOImpl implements TestCaseDAO {
     }
 
     @Override
-    public List<TestCaseUpd> getTestCasesPageSorted(Long projectID, String orderByLimitOffsetWithValues, String name) {
-        return jdbcTemplate.queryForStream(GET_PAGE + orderByLimitOffsetWithValues,
-                testCaseUpdMapper,projectID,name)
-                .collect(Collectors.toList());
-    }
-
-
-    @Override
     public List<TestCaseWithUserDto> getTestCasesWithUserPageSorted(Long projectID, String orderByLimitOffsetWithValues, String name) {
         return jdbcTemplate.queryForStream(GET_PAGE_TEST_CASE_DTO + orderByLimitOffsetWithValues,
                 testCaseDtoWithUserMapper,projectID,name)

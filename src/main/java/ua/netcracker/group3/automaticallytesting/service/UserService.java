@@ -11,9 +11,7 @@ public interface UserService {
 
     String getUserEmail(User user);
 
-
     void saveUser(User user);
-
 
     User getUserByEmail(String email);
 
@@ -34,4 +32,6 @@ public interface UserService {
     void updateUserPassword(User user);
 
     Integer countPagesSearch(UserSearchDto userSearchDto, Integer pageSize);
+
+    Boolean checkIfEmailExists(String email);
 }

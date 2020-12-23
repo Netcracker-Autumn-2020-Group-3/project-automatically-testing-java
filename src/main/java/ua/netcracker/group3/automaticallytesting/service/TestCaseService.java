@@ -25,6 +25,7 @@ public interface TestCaseService {
     List<TestCaseUpd> getTestCases(Long projectID, Pageable pageable, String name) throws ValidationException;
 
     List<TestCaseWithUserDto> getTestCasesWithUser(Long projectID, Pageable pageable, String name) throws ValidationException;
+
     List<TestCaseUpd> getAllTestCases();
 
     Integer countTestCasesByProject(Integer pageSize, Long projectId);

@@ -18,7 +18,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private UserDAO userDao;
 
     @Override
-    //@Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userDao.findUserByEmail(email);
         return new UserPrincipal(user);

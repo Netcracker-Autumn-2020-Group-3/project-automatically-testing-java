@@ -23,6 +23,10 @@ public class ProjectServiceImpl implements ProjectService {
         this.pagination = pagination;
     }
 
+    /**
+     * @param pagination object that includes fields for pagination.
+     * @return list of Project objects from database.
+     */
     @Override
     public List<Project> getAllProjects(ProjectListPaginationDto pagination) {
         List<Project> projects = projectDAO.findAll(pagination);

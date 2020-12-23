@@ -45,23 +45,42 @@ public class TestCaseExecutionController {
         return testCaseExecService.getAllTestCaseExecutions();
     }
 
-    @GetMapping("/{limit}/{offset}/{orderBy}/{orderByClause}/{testCaseName}/{projectName}/{status}")
-    public List<TestCaseExecutionDto> getAllTestCaseExecutionWithFailedActionNumber(@PathVariable("limit") long limit, @PathVariable("offset") long offset,
-                                                                                    @PathVariable("orderBy") String orderBy, @PathVariable("orderByClause") String orderByClause,
-                                                                                    @PathVariable("testCaseName") String testCaseName, @PathVariable("projectName") String projectName,
-                                                                                    @PathVariable("status") String status) {
+    /**
+     * @param limit page size
+     * @param offset sql offset
+     * @param orderBy ASC or DESC
+     * @param orderByClause column for order by
+     * @param testCaseName test case name
+     * @param projectName project name
+     * @param status status of actions executions
+     * @return list of test case executions
+     */
+    @GetMapping("/all")
+    public List<TestCaseExecutionDto> getAllTestCaseExecutionWithFailedActionNumber(long limit,  long offset, String orderBy, String orderByClause,
+                                                                                        String testCaseName, String projectName, String status) {
         Pageable pageable = Pageable.builder().page((int) offset).pageSize((int) limit).sortOrder(orderByClause).sortField(orderBy).build();
-        //actions execution status:  all - get all actions executions, passed - only passed, failed
-        log.info("pageable: " + pageable + ", search test case name: " + testCaseName + ", search project name: " + projectName + ", actions execution status: " + status);
+        //actions execution status:  all - get all actions executions, passed - only passed, failed - only with failed
+        log.info("test case execution list: {}, search test case name: {}, search project name: {}, actions execution status: {}", pageable, testCaseName, projectName, status);
         return  testCaseExecService.getAllTestCaseExecutionWithFailedActionNumber(limit, offset, orderBy, orderByClause, testCaseName, projectName, status);
     }
 
+    /**
+     * @param testCaseName test case name
+     * @param projectName project name
+     * @param status status of actions executions
+     * @return number of test case executions
+     */
     @GetMapping("/count/{testCaseName}/{projectName}/{status}")
     public Integer countTestCaseExecutions(@PathVariable("testCaseName") String testCaseName, @PathVariable("projectName") String projectName,
                                            @PathVariable("status") String status) {
         return testCaseExecService.countTestCaseExecutions(testCaseName, projectName, status);
     }
 
+    /**
+     * create test case executions
+     * @param testCaseId test case id
+     * @param userEmail user email
+     */
     @PostMapping("/execute/{testCaseId}")
     public void createTestCaseExecution(@PathVariable("testCaseId") Long testCaseId,
                                         @RequestBody String userEmail) {
@@ -71,6 +90,10 @@ public class TestCaseExecutionController {
         executeTestCase(testCaseId, testCaseExecutionId);
     }
 
+    /**
+     * @param testCaseId test case id
+     * @param testCaseExecutionId test case executions id
+     */
     private void executeTestCase(long testCaseId, long testCaseExecutionId) {
         TestCaseDto testCaseDto =  testCaseService.getTestCase(testCaseId);
         List<String> status = testCaseExecutionService.executeTestCase(testCaseDto, testCaseExecutionId);
