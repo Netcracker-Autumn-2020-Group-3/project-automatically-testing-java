@@ -46,14 +46,14 @@ public class TestCaseExecutionController {
     }
 
     /**
-     * @param limit
-     * @param offset
-     * @param orderBy
-     * @param orderByClause
-     * @param testCaseName
-     * @param projectName
-     * @param status
-     * @return
+     * @param limit page size
+     * @param offset sql offset
+     * @param orderBy ASC or DESC
+     * @param orderByClause column for order by
+     * @param testCaseName test case name
+     * @param projectName project name
+     * @param status status of actions executions
+     * @return list of test case executions
      */
     @GetMapping("/all")
     public List<TestCaseExecutionDto> getAllTestCaseExecutionWithFailedActionNumber(long limit,  long offset, String orderBy, String orderByClause,
@@ -65,10 +65,10 @@ public class TestCaseExecutionController {
     }
 
     /**
-     * @param testCaseName
-     * @param projectName
-     * @param status
-     * @return
+     * @param testCaseName test case name
+     * @param projectName project name
+     * @param status status of actions executions
+     * @return number of test case executions
      */
     @GetMapping("/count/{testCaseName}/{projectName}/{status}")
     public Integer countTestCaseExecutions(@PathVariable("testCaseName") String testCaseName, @PathVariable("projectName") String projectName,
@@ -77,8 +77,9 @@ public class TestCaseExecutionController {
     }
 
     /**
-     * @param testCaseId
-     * @param userEmail
+     * create test case executions
+     * @param testCaseId test case id
+     * @param userEmail user email
      */
     @PostMapping("/execute/{testCaseId}")
     public void createTestCaseExecution(@PathVariable("testCaseId") Long testCaseId,
@@ -90,8 +91,8 @@ public class TestCaseExecutionController {
     }
 
     /**
-     * @param testCaseId
-     * @param testCaseExecutionId
+     * @param testCaseId test case id
+     * @param testCaseExecutionId test case executions id
      */
     private void executeTestCase(long testCaseId, long testCaseExecutionId) {
         TestCaseDto testCaseDto =  testCaseService.getTestCase(testCaseId);

@@ -45,7 +45,8 @@ public class UserController {
     }
 
     /**
-     * @param user
+     * update user information
+     * @param user user model: email, name, surname, role, is_enabled, id
      */
     @PutMapping("/update")
     public void updateUserById(@RequestBody User user) {

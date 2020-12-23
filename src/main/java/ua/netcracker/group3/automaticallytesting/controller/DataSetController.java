@@ -29,7 +29,7 @@ public class DataSetController {
     }
 
     /**
-     * @return
+     * @return list of data set
      */
     @GetMapping("/all-data-set")
     public List<DataSet> getAllDataSet() {
@@ -80,7 +80,8 @@ public class DataSetController {
     }
 
     /**
-     * @param dataSetValues
+     * create data set with data entry
+     * @param dataSetValues data set name, data entry key, value
      */
     @PostMapping("/create-data-set")
     public void createDataSet(@RequestBody DataSetDto dataSetValues) {
@@ -90,8 +91,8 @@ public class DataSetController {
     }
 
     /**
-     * @param id
-     * @return
+     * archived data set
+     * @param id of data set
      */
     @PatchMapping("/delete-data-set/{id}")
     public void deleteDataSet(@PathVariable("id") long id) {
