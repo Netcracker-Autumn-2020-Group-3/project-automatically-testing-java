@@ -82,6 +82,7 @@ public class CompoundServiceImpl implements CompoundService {
     @Override
     public void createCompound(CompoundDto compoundDto) {
         Compound compound = Compound.builder().name(compoundDto.getName()).description(compoundDto.getDescription()).build();
+        log.info("Will be created compound: {}",compoundDto);
         Integer compoundId = compoundDAO.createCompound(compound);
         compoundDAO.createCompoundActions(compoundId,compoundDto);
     }

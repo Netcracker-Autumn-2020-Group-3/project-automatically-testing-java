@@ -20,9 +20,9 @@ public class ClickActionExecutable implements ActionExecutable {
     private final Map<Optional<ContextVariable>, Status> resultActionExecution = new HashMap<>();
 
     /**
-     * @param driver
-     * @param variableValues
-     * @return
+     * @param driver needed for selenium
+     * @param variableValues needed for variable value
+     * @return map of status and contextVariable
      */
     @Override
     public Map<Optional<ContextVariable>, Status> executeAction(WebDriver driver, Map<String, String> variableValues) {

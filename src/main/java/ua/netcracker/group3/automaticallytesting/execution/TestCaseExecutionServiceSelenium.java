@@ -38,10 +38,6 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
     }
 
     private final Map<String, ActionExecutable> actions = new HashMap<String, ActionExecutable>() {{
-        /*put("click sign in", new ClickActionExecutable());
-        put("click login", new ClickActionExecutable());
-        put("enter login", new TypeActionExecutable());
-        put("enter password", new TypeActionExecutable());*/
         put("click", new ClickActionExecutable());
         put("input", new TypeActionExecutable());
         put("click on drop down menu element", new DropDownActionExecutable());
@@ -57,7 +53,6 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
      */
     @Override
     public List<String> executeTestCase(TestCaseDto testCaseDto,Long testCaseExecutionId) {
-
 
         List<ScenarioStepDto> scenarioStepDtoList = testCaseDto.getScenarioStepsWithData();
         actionExecutions = new ArrayList<>();

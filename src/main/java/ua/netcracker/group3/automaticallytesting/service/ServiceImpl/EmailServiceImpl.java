@@ -73,6 +73,7 @@ public class EmailServiceImpl {
             message.setContent(msg, "text/html");
             helper.setSubject("Report");
             mailSender.send(message);
+            log.info("Message send to users");
             return ResponseEntity.ok(HttpStatus.OK);
         } catch (MessagingException | MailSendException exception) {
            log.error("Error with sending emails!");

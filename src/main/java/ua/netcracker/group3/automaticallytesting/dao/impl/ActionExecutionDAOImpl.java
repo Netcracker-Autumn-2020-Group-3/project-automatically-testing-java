@@ -9,7 +9,6 @@ import ua.netcracker.group3.automaticallytesting.mapper.ActionExecutionMapper;
 import ua.netcracker.group3.automaticallytesting.mapper.ActionExecutionPassedFailedMapper;
 import ua.netcracker.group3.automaticallytesting.model.ActionExecution;
 import ua.netcracker.group3.automaticallytesting.model.ActionExecutionPassedFailed;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
