@@ -18,14 +18,15 @@ public class TypeActionExecutable implements ActionExecutable {
 
     private final Map<Optional<ContextVariable>, Status> resultActionExecution = new HashMap<>();
 
-    public TypeActionExecutable(){
-    }
-
-
+    /**
+     * @param driver needed for selenium
+     * @param variableValues needed for variable value
+     * @return map of status and contextVariable
+     */
     @Override
     public Map<Optional<ContextVariable>, Status> executeAction(WebDriver driver, Map<String, String> variableValues) {
         Status actionExecution;
-        String INPUT_ELEMENT = "input xpath";
+        final String INPUT_ELEMENT = "input xpath";
         try {
             String TEXT = "text";
             driver.findElement(By.xpath(variableValues.get(INPUT_ELEMENT)))

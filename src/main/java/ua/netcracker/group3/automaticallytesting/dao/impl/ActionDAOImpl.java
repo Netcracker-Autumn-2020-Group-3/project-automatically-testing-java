@@ -14,7 +14,6 @@ import ua.netcracker.group3.automaticallytesting.mapper.ActionMapper;
 import ua.netcracker.group3.automaticallytesting.mapper.ActionVariableMapper;
 import ua.netcracker.group3.automaticallytesting.mapper.ActionWithIdNameVoidMapper;
 import ua.netcracker.group3.automaticallytesting.model.Action;
-
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
@@ -53,11 +52,22 @@ public class ActionDAOImpl implements ActionDAO {
     }
 
 
+    /**
+     * Returns list of Actions
+     * @param pageActionSql needed for pagination, string that contains parameters
+     * @return list of Actions
+     */
     @Override
     public List<Action> getPageActions(String pageActionSql) {
         return jdbcTemplate.query(GET_ALL_ACTIONS + pageActionSql,actionMapper);
     }
 
+    /**
+     * Returns list of Actions
+     * @param pageActionSql  needed for pagination, string that contains parameters
+     * @param name value for searching
+     * @return list of Actions
+     */
     @Override
     public List<Action> findActionsByName(String pageActionSql,String name) {
         return jdbcTemplate.queryForStream(FIND_ACTIONS_BY_NAME + pageActionSql,actionMapper,name).collect(Collectors.toList());
@@ -69,6 +79,9 @@ public class ActionDAOImpl implements ActionDAO {
         return jdbcTemplate.query(FIND_ALL_WITH_ID_NAME, mapper);
     }
 
+    /**
+     * @return Integer number of actions
+     */
     @Override
     public Integer getNumberOfActions() {
         return jdbcTemplate.queryForObject(GET_NUMBER_OF_ACTIONS,Integer.class);
@@ -87,16 +100,29 @@ public class ActionDAOImpl implements ActionDAO {
         return keyHolder.getKey().longValue();
     }
 
+    /**
+     * @return list of all actions
+     */
     @Override
     public List<Action> getAllActions() {
         return jdbcTemplate.query(GET_ALL_ACTIONS,actionMapper);
     }
 
+    /**
+     * Return list of actions and their variables
+     * @param id needed for getting value from DB by id
+     * @return list of ActionVariableDto
+     */
     @Override
     public List<ActionVariableDto> getActionVariable(Long id) {
         return jdbcTemplate.queryForStream(GET_ACTION_VARIABLE_BY_ID,actionVariableMapper,id).collect(Collectors.toList());
     }
 
+    /**
+     * Void method that updates action description
+     * @param id needed for updating value by id
+     * @param action contains updated description
+     */
     @Override
     public void updateActionDescription(Long id, Action action) {
         jdbcTemplate.update(UPDATE_ACTION_DESCRIPTION,action.getActionDescription(),id);

@@ -17,6 +17,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private UserDAO userDao;
 
+    /**
+     * @param email needed for searching
+     * @return UserDetails
+     * @throws UsernameNotFoundException if user is not found
+     */
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userDao.findUserByEmail(email);

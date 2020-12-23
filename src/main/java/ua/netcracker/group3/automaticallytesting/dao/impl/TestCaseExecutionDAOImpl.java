@@ -113,6 +113,10 @@ public class TestCaseExecutionDAOImpl implements TestCaseExecutionDAO {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Mehtod needed for chart on dashboard
+     * @return list of grouped test case executions
+     */
     @Override
     public List<GroupedTestCaseExecutionDto> getGroupedTestCaseExecution() {
         return jdbcTemplate.queryForStream(GET_GROUPED_TEST_CASE_EXECUTIONS,groupedTestCaseExecutionMapper).collect(Collectors.toList());

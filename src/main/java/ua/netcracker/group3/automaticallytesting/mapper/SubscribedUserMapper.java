@@ -10,6 +10,12 @@ import java.sql.SQLException;
 @Component
 public class SubscribedUserMapper implements RowMapper<SubscribedUserTestCaseDto> {
 
+    /**
+     * @param resultSet contains result from DB
+     * @param i integer
+     * @return SubscribedUserTestCaseDto
+     * @throws SQLException throw SQLException
+     */
     @Override
     public SubscribedUserTestCaseDto mapRow(ResultSet resultSet, int i) throws SQLException {
         return SubscribedUserTestCaseDto.builder()

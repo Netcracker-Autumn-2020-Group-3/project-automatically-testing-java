@@ -4,18 +4,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.dto.DataSetDto;
 import ua.netcracker.group3.automaticallytesting.model.DataEntry;
 import ua.netcracker.group3.automaticallytesting.model.DataSet;
 import ua.netcracker.group3.automaticallytesting.service.DataEntryService;
 import ua.netcracker.group3.automaticallytesting.service.DataSetService;
-
 import java.util.List;
 
 @Slf4j
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "https://automatically-testing-angular.herokuapp.com")
 @RestController
 public class DataSetController {
 
@@ -38,8 +36,9 @@ public class DataSetController {
     }
 
     /**
-     * @param id
-     * @return
+     * Returns DataSet by dataSet Id
+     * @param id needed for getting value from DB
+     * @return DataSet
      */
     @GetMapping(value = "/dataset/edit/{id}")
     public DataSet getDataSetById(@PathVariable Integer id){
@@ -47,8 +46,9 @@ public class DataSetController {
     }
 
     /**
-     * @param dataSetId
-     * @return
+     * Returns the list of DataEntry by dataSetId
+     * @param dataSetId needed for getting value from DB
+     * @return list of DataEntry
      */
     @GetMapping(value = "/dataentry/edit/{dataSetId}")
     public List<DataEntry> getDataEntry(@PathVariable Integer dataSetId){
@@ -56,13 +56,17 @@ public class DataSetController {
     }
 
     /**
-     * @param id
-     * @param name
-     * @param dataEntryList
-     * @return
+     * Method updates DataSet by Id and name
+     * Method updates DataEntry using dataEntryList
+     * Returns status OK if method updates values successfully
+     * @param id needed for updating dataSet in DB
+     * @param name needed for updating dataSet in DB
+     * @param dataEntryList needed for updating dataEnrty in DB
+     * @return ResponseEntity with status OK
      */
-    @PutMapping(value = "/dataset/edit/{id}/{name}/update")
-    public ResponseEntity<?> updateDataEntryById(@PathVariable Long id, @PathVariable String name, @RequestBody List<DataEntry> dataEntryList){
+    @PutMapping(value = "/dataset/edit/update/{id}/{name}")
+    public ResponseEntity<?> updateDataEntryById(@PathVariable Long id,
+                                                 @PathVariable String name, @RequestBody List<DataEntry> dataEntryList){
         DataSet editedDataSet = DataSet.builder().id(id).name(name).build();
         dataSetService.updateDataSet(editedDataSet);
         dataEntryService.updateDataEntry(dataEntryList);
@@ -70,13 +74,14 @@ public class DataSetController {
     }
 
     /**
-     * @param dataEntryId
-     * @return
+     * Returns status OK if method deletes values successfully
+     * @param dataEntryId needed for deleting value from DB
+     * @return ResponseEntity with status OK
      */
-    @DeleteMapping(value = "/dataset/edit/{dataEntryId}/delete")
-    public String deleteDataEntryById(@PathVariable Integer dataEntryId){
+    @DeleteMapping(value = "/dataset/edit/delete/{dataEntryId}")
+    public ResponseEntity<?> deleteDataEntryById(@PathVariable Integer dataEntryId){
         dataEntryService.deleteDataEntryValueById(dataEntryId);
-        return "ok";
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
     /**

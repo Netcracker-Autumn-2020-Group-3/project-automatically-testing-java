@@ -19,11 +19,20 @@ public class DataSetServiceImpl implements DataSetService {
         this.dataSetDAO = dataSetDAO;
     }
 
+    /**
+     * Returns DataSet by dataSet dataSetId
+     * @param dataSetId needed for getting value from DB
+     * @return DataSet
+     */
     @Override
     public DataSet getDataSetById(Integer dataSetId) {
         return dataSetDAO.getDataSetById(dataSetId);
     }
 
+    /**
+     * Void method for updating DataSet
+     * @param editedDataSet needed for updating DataSet
+     */
     @Transactional
     @Override
     public void updateDataSet(DataSet editedDataSet) {

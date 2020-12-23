@@ -4,19 +4,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.config.JwtProvider;
-import org.springframework.web.bind.annotation.*;
 import ua.netcracker.group3.automaticallytesting.dto.ActionExecutionDto;
-import ua.netcracker.group3.automaticallytesting.model.ActionExecution;
 import ua.netcracker.group3.automaticallytesting.model.User;
 import ua.netcracker.group3.automaticallytesting.service.ActionExecutionService;
 import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.SseService;
 import ua.netcracker.group3.automaticallytesting.service.UserService;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
-
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "https://automatically-testing-angular.herokuapp.com")
 @RequestMapping("/list/actions-execution")
 @Slf4j
 public class ActionExecutionController {

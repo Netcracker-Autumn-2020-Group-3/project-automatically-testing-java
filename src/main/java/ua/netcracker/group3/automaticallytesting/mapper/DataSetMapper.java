@@ -10,6 +10,12 @@ import java.sql.SQLException;
 @Component
 public class DataSetMapper implements RowMapper<DataSet> {
 
+    /**
+     * @param resultSet contains result from DB
+     * @param i integer
+     * @return DataSet
+     * @throws SQLException throw SQLException
+     */
     @Override
     public DataSet mapRow(ResultSet resultSet, int i) throws SQLException {
         return DataSet.builder()

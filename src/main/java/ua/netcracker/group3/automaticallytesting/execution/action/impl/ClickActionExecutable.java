@@ -19,15 +19,15 @@ public class ClickActionExecutable implements ActionExecutable {
 
     private final Map<Optional<ContextVariable>, Status> resultActionExecution = new HashMap<>();
 
-    public ClickActionExecutable(){
-    }
-
-
-
+    /**
+     * @param driver needed for selenium
+     * @param variableValues needed for variable value
+     * @return map of status and contextVariable
+     */
     @Override
     public Map<Optional<ContextVariable>, Status> executeAction(WebDriver driver, Map<String, String> variableValues) {
         Status actionExecution;
-        String BUTTON = "button xpath";
+        final String BUTTON = "button xpath";
         try {
             driver.findElement(By.xpath(variableValues.get(BUTTON))).click();
             actionExecution = Status.PASSED;
@@ -35,12 +35,7 @@ public class ClickActionExecutable implements ActionExecutable {
             log.error("Error with element like {} ",exception.getMessage());
             actionExecution = Status.FAILED;
         }
-
         resultActionExecution.put(Optional.empty(), actionExecution);
         return resultActionExecution;
     }
-
-
-
-
 }

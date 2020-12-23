@@ -23,6 +23,13 @@ public class ActionExecutionServiceImpl implements ActionExecutionService {
         this.pagination = pagination;
     }
 
+    /**
+     * Service that returns the List of ActionExecutionDto with pagination
+     * Using Pageable class
+     * @param testCaseExecutionId the id, which helps to get action executions by testCaseExecutionId
+     * @param pageable object that contains pageSize,pageNumber and  needed for pagination
+     * @return List of ActionExecutionDto
+     */
     @Override
     public List<ActionExecutionDto> getAllActionExecutions(Long testCaseExecutionId, Pageable pageable) {
         return actionExecutionDAO.getAllActionExecution(testCaseExecutionId,
@@ -35,6 +42,12 @@ public class ActionExecutionServiceImpl implements ActionExecutionService {
         return actionExecutionDAO.getActionExecutionPassedFailed(status);
     }
 
+    /**
+     * Returns the Integer of Quantity action executions
+     * @param testCaseExecutionId the id, which helps to get action executions by testCaseExecutionId
+     * @param searchName an item that used in DB query for searching info
+     * @return the Integer of Quantity action executions
+     */
     @Override
     public Integer getQuantityActionsExecutions(Long testCaseExecutionId,String searchName) {
         return actionExecutionDAO.getQuantityActionsExecutions(testCaseExecutionId,searchName);

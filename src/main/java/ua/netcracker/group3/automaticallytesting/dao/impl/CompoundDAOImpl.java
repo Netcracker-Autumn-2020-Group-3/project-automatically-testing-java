@@ -139,6 +139,11 @@ public class CompoundDAOImpl implements CompoundDAO {
         return Objects.requireNonNull(keyHolder.getKey()).intValue();
     }
 
+    /**
+     * Void method for creating compound in DB
+     * @param compoundId needed for inserting compound to DB
+     * @param compoundDto needed for inserting compound to DB
+     */
     @Override
     public void createCompoundActions(Integer compoundId,CompoundDto compoundDto) {
         jdbcTemplate.batchUpdate(CREATE_COMPOUND_ACTIONS,compoundDto.getActionList(),compoundDto.getActionList().size(),((ps, compoundActionsValue) -> {

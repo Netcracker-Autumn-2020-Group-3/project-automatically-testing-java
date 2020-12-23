@@ -9,6 +9,12 @@ import java.sql.SQLException;
 
 @Component
 public class GroupedTestCaseExecutionMapper implements RowMapper<GroupedTestCaseExecutionDto> {
+    /**
+     * @param resultSet contains result from DB
+     * @param i integer
+     * @return GroupedTestCaseExecutionDto
+     * @throws SQLException throw SQLException
+     */
     @Override
     public GroupedTestCaseExecutionDto mapRow(ResultSet resultSet, int i) throws SQLException {
         return GroupedTestCaseExecutionDto.builder()

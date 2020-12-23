@@ -1,5 +1,6 @@
 package ua.netcracker.group3.automaticallytesting.service.ServiceImpl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.netcracker.group3.automaticallytesting.dao.DataEntryDAO;
@@ -9,15 +10,21 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class DataEntryServiceImpl implements DataEntryService {
 
-    private DataEntryDAO dataEntryDAO;
+    private final DataEntryDAO dataEntryDAO;
 
     @Autowired
     public DataEntryServiceImpl(DataEntryDAO dataEntryDAO) {
         this.dataEntryDAO = dataEntryDAO;
     }
 
+    /**
+     * Void method that creates DataEntry in DB
+     * @param dataSetId needed for creating dataEntry
+     * @param dataSetValues contains dataSetValues for creating dataEntry
+     */
     @Override
     public void createDataEntry(Long dataSetId, List<DataEntry> dataSetValues) {
         dataEntryDAO.createDataEntry(dataSetId, dataSetValues);
@@ -28,19 +35,36 @@ public class DataEntryServiceImpl implements DataEntryService {
         dataEntryDAO.deleteDataEntry(dataSetId);
     }
 
+    /**
+     * Returns the list of DataEntry that was got by dataSetId
+     * @param dataSetId needed for getting dataEntry from DB by dataSetId
+     * @return list of DataEntry
+     */
     @Override
     public List<DataEntry> getDataEntryByDataSetName(Integer dataSetId) {
         return dataEntryDAO.getDataEntryByDataSetName(dataSetId);
     }
 
+    /**
+     * Void method that updates DataEntry using dataEntryList
+     * @param dataEntryList contains value for updating DataEntry
+     */
     @Override
     public void updateDataEntry(List<DataEntry> dataEntryList) {
-        List<DataEntry> dataEntryForUpdate = dataEntryList.stream().filter(d -> d.getId() != null).collect(Collectors.toList());
-        List<DataEntry> dataEntryForInsert = dataEntryList.stream().filter(d -> d.getId() == null).collect(Collectors.toList());
+        List<DataEntry> dataEntryForUpdate = dataEntryList
+                                            .stream().filter(d -> d.getId() != null).collect(Collectors.toList());
+        List<DataEntry> dataEntryForInsert = dataEntryList
+                                            .stream().filter(d -> d.getId() == null).collect(Collectors.toList());
+        log.info("DataEntry for update: {}",dataEntryForUpdate);
+        log.info("DataEntry for insert: {}",dataEntryForInsert);
         dataEntryDAO.createDataEntry(dataEntryForInsert);
         dataEntryDAO.updateDataEntry(dataEntryForUpdate);
     }
 
+    /**
+     * Void method that deletes DataEntry using dataEntryId
+     * @param dataEntryId needed for deleting dataEntry from DB
+     */
     @Override
     public void deleteDataEntryValueById(Integer dataEntryId) {
         dataEntryDAO.deleteDataEntryValueById(dataEntryId);

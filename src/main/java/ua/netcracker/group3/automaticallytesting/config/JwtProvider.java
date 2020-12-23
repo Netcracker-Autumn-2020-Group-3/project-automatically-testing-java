@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.UserPrincipal;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
@@ -18,12 +17,8 @@ public class JwtProvider {
     @Value("${jwt.token.expired}")
     private int jwtExpiration;
 
-    private String JWT_SECRET = "jwtprodddjectng";
-
     public String generateJwtToken(Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        //Claims claims = Jwts.claims().setSubject(userPrincipal.getUsername());
-
         return Jwts.builder()
                 .setSubject((userPrincipal.getUsername()))
                 .setIssuedAt(new Date())
@@ -37,14 +32,12 @@ public class JwtProvider {
             Jws<Claims> claimsJws = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
             return !claimsJws.getBody().getExpiration().before(new Date());
         }catch (JwtException | IllegalArgumentException e){
-            throw new JwtException("exception");
+            throw new JwtException("Token was expired");
         }
     }
 
-
     public String resolveToken(HttpServletRequest request){
         String bearerToken = request.getHeader("Authorization");
-
         if (bearerToken != null && bearerToken.startsWith("Bearer ")){
             return bearerToken.replace("Bearer ", "");
         }
@@ -58,9 +51,8 @@ public class JwtProvider {
         return null;
     }
 
-
-
     public String getUserNameFromJwtToken(String token) {
+        final String JWT_SECRET = "jwtprodddjectng";
         return Jwts.parser()
                 .setSigningKey(JWT_SECRET)
                 .parseClaimsJws(token)

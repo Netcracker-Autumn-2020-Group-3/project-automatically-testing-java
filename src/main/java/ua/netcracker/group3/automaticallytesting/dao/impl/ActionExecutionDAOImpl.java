@@ -9,7 +9,6 @@ import ua.netcracker.group3.automaticallytesting.mapper.ActionExecutionMapper;
 import ua.netcracker.group3.automaticallytesting.mapper.ActionExecutionPassedFailedMapper;
 import ua.netcracker.group3.automaticallytesting.model.ActionExecution;
 import ua.netcracker.group3.automaticallytesting.model.ActionExecutionPassedFailed;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,6 +45,9 @@ public class ActionExecutionDAOImpl implements ActionExecutionDAO {
         this.actionExecutionPassedFailedMapper = actionExecutionPassedFailedMapper;
     }
 
+    /**
+     * @param actionExecutionList needed for adding list of action execution to DB
+     */
     @Override
     public void addActionExecution(List<ActionExecution> actionExecutionList) {
         jdbcTemplate.batchUpdate(CREATE_ACTION_EXECUTIONS,actionExecutionList,actionExecutionList.size(),
@@ -56,6 +58,13 @@ public class ActionExecutionDAOImpl implements ActionExecutionDAO {
         }));
     }
 
+    /**
+     * Method make part of string sql and make getting values from DB
+     * @param testCaseExecutionId needed for getting values from DB
+     * @param pagination needed for pagination
+     * @param searchName needed for searching by value
+     * @return list of ActionExecutionDto
+     */
     @Override
     public List<ActionExecutionDto> getAllActionExecution(Long testCaseExecutionId, String pagination,String searchName) {
         String searchNameSql = searchName == null || searchName.equals("") ? "" :
@@ -69,6 +78,11 @@ public class ActionExecutionDAOImpl implements ActionExecutionDAO {
         return jdbcTemplate.queryForStream(GET_NUMBER_ACTION_EXECUTION, actionExecutionPassedFailedMapper, status).collect(Collectors.toList());
     }
 
+    /**
+     * @param testCaseExecutionId needed for getting values from DB
+     * @param searchName needed for searching by value
+     * @return Integer number of actionExecutions
+     */
     @Override
     public Integer getQuantityActionsExecutions(Long testCaseExecutionId,String searchName) {
         String searchNameSql = searchName == null || searchName.equals("") ? "" :

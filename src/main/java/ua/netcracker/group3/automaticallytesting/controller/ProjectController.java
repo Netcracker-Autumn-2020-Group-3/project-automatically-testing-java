@@ -57,26 +57,22 @@ public class ProjectController {
     public void createProject(@RequestBody Project project){
         Long userId = ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser().getId();
         project.setUserId(userId);
-        log.info("Create project: {}", project);
         projectService.createProject(project);
     }
 
     @PutMapping("/{id}")
     public void updateProject(@PathVariable("id") Long projectId, @RequestBody Project project){
         project.setId(projectId);
-        log.info("Update project: {}", project);
         projectService.updateProject(project);
     }
 
     @PatchMapping("/{id}/archive")
     public void archiveProject(@PathVariable("id") Long projectId){
-        log.info("Archive project with id: {}", projectId);
         projectService.archiveProject(projectId);
     }
 
     @PatchMapping("/{id}/unarchive")
     public void unarchiveProject(@PathVariable("id") Long projectId){
-        log.info("Unrchive project with id: {}", projectId);
         projectService.unarchiveProject(projectId);
     }
 
