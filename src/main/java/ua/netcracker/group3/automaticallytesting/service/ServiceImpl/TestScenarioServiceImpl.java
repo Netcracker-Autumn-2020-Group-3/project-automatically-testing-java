@@ -2,7 +2,6 @@ package ua.netcracker.group3.automaticallytesting.service.ServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ua.netcracker.group3.automaticallytesting.dao.ActionInstanceDAO;
 import ua.netcracker.group3.automaticallytesting.dao.CompoundDAO;
 import ua.netcracker.group3.automaticallytesting.dao.CompoundInstanceDAO;
@@ -15,7 +14,6 @@ import ua.netcracker.group3.automaticallytesting.model.TestScenario;
 import ua.netcracker.group3.automaticallytesting.service.TestScenarioService;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
 import ua.netcracker.group3.automaticallytesting.util.Pagination;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,11 +29,6 @@ public class TestScenarioServiceImpl implements TestScenarioService {
     private final CompoundDAO compoundDAO;
     private final ActionInstanceDAO actionInstanceDAO;
 
-    private String replaceNullsForSearch(String val) {
-        return val == null ? "%" : val;
-    }
-
-
     public TestScenarioServiceImpl(TestScenarioDAO testScenarioDAO, Pagination pagination, CompoundInstanceDAO compoundInstanceDAO, CompoundDAO compoundDAO, ActionInstanceDAO actionInstanceDAO) {
         this.testScenarioDAO = testScenarioDAO;
         this.pagination = pagination;
@@ -44,6 +37,10 @@ public class TestScenarioServiceImpl implements TestScenarioService {
         this.actionInstanceDAO = actionInstanceDAO;
     }
 
+    /**
+     * @param id id of TestScenario object in database.
+     * @return list that contains or one TestScenario object, or nothing.
+     */
     @Override
     public List<TestScenario> getTestScenarioById(long id) {
         List<TestScenario> testScenarios = testScenarioDAO.getTestScenarioById(id);
@@ -55,6 +52,11 @@ public class TestScenarioServiceImpl implements TestScenarioService {
         return testScenarios;
     }
 
+    /**
+     * @param testScenarioDto object that will be updated in database.
+     * @return TRUE - if TestScenario object was updated or
+     * FALSE - if the one wasn't updated.
+     */
     @Override
     public boolean updateTestScenario(TestScenarioDtoWithIdNameArchived testScenarioDto) {
         String testScenarioName = testScenarioDto.getName();
@@ -72,7 +74,17 @@ public class TestScenarioServiceImpl implements TestScenarioService {
         return true;
     }
 
-    @Transactional
+    /**
+     * It checks existence TestScenario object by name in database.
+     * If the one exists - return boolean FALSE.
+     * If the one doesn't exist - create TestScenario object in database and return his id,
+     * then actions and compounds will be created via TestScenario id,
+     * after this return boolean TRUE.
+     *
+     * @param testScenarioDto object will be created in database.
+     * @return TRUE - if TestScenario object was created or
+     * FALSE - if the one wasn't created.
+     */
     @Override
     public boolean saveTestScenario(TestScenarioDto testScenarioDto) {
         String testScenarioName = testScenarioDto.getName();
@@ -103,6 +115,11 @@ public class TestScenarioServiceImpl implements TestScenarioService {
         return true;
     }
 
+    /**
+     * @param id id of Compound object.
+     * @return list of actions by compound id.
+     * Action objects have fields id and priority.
+     */
     @Override
     public List<CompoundActionWithActionIdAndPriority> getAllCompoundActionsByCompoundId(long id) {
         List<CompoundActionWithActionIdAndPriority> actions =
@@ -122,11 +139,17 @@ public class TestScenarioServiceImpl implements TestScenarioService {
         return testScenarioDAO.getTestScenariosPageSorted(pagination.formSqlPostgresPaginationPiece(pageable),
                 replaceNullsForSearch(name));
     }
+
     @Override
     public List<TestScenario> getAll(){
         return testScenarioDAO.getAll();
     }
 
+    /**
+     * @param type type can be: Action or Compound.
+     * @return list of TestScenarioItemDto objects,
+     * that is filtered by String type: Action or Compound.
+     */
     private List<TestScenarioItemDto> getItemsByType(String type, List<TestScenarioItemDto> items) {
         return items.stream()
                 .filter(i -> i.getType().equals(type))
@@ -137,5 +160,9 @@ public class TestScenarioServiceImpl implements TestScenarioService {
     @Override
     public Integer countPages(Integer pageSize) {
         return pagination.countPages(testScenarioDAO.countUsers(), pageSize);
+    }
+
+    private String replaceNullsForSearch(String val) {
+        return val == null ? "%" : val;
     }
 }
