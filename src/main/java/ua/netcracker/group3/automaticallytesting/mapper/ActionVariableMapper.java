@@ -10,10 +10,10 @@ import java.sql.SQLException;
 @Component
 public class ActionVariableMapper implements RowMapper<ActionVariableDto> {
     /**
-     * @param resultSet
-     * @param i
-     * @return
-     * @throws SQLException
+     * @param resultSet contains result from DB
+     * @param i integer
+     * @return ActionVariableDto
+     * @throws SQLException throw SQLException
      */
     @Override
     public ActionVariableDto mapRow(ResultSet resultSet, int i) throws SQLException {

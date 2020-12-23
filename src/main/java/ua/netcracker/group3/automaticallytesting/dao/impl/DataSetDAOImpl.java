@@ -74,8 +74,8 @@ public class DataSetDAOImpl implements DataSetDAO {
     }
 
     /**
-     * @param dataSetId
-     * @return
+     * @param dataSetId needed for getting data from DB by id
+     * @return dataSet
      */
     @Override
     public DataSet getDataSetById(Integer dataSetId) {
@@ -83,7 +83,7 @@ public class DataSetDAOImpl implements DataSetDAO {
     }
 
     /**
-     * @param editedDataSet
+     * @param editedDataSet contains data for updating
      */
     @Override
     public void updateDataSet(DataSet editedDataSet) {

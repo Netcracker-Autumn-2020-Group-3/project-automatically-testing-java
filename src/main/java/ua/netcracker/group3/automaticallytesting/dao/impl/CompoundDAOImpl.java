@@ -150,8 +150,9 @@ public class CompoundDAOImpl implements CompoundDAO {
     }
 
     /**
-     * @param compoundId
-     * @param compoundDto
+     * Void method for creating compound in DB
+     * @param compoundId needed for inserting compound to DB
+     * @param compoundDto needed for inserting compound to DB
      */
     @Override
     public void createCompoundActions(Integer compoundId,CompoundDto compoundDto) {

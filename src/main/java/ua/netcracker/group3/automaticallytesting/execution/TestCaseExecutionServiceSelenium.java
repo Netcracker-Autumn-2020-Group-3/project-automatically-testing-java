@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class TestCaseExecutionServiceSelenium implements TestCaseExecutionService {
 
+    private final Map<Long, ContextVariable> contextVariables = new HashMap<>();
     private final ActionExecutionDAO actionExecutionDAO;
     private List<ActionExecution> actionExecutions;
     private Status actionStatus;
@@ -49,14 +50,15 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
     }};
 
     /**
-     * @param testCaseDto
-     * @param testCaseExecutionId
-     * @return
+     * Method execute test case and after pass data to DAO
+     * @param testCaseDto contains all needed data for test case execution
+     * @param testCaseExecutionId needed for executing test case by id
+     * @return list of string like status
      */
     @Override
     public List<String> executeTestCase(TestCaseDto testCaseDto,Long testCaseExecutionId) {
 
-        Map<Long, ContextVariable> contextVariables = new HashMap<>();
+
         List<ScenarioStepDto> scenarioStepDtoList = testCaseDto.getScenarioStepsWithData();
         actionExecutions = new ArrayList<>();
         actionStatus = Status.PASSED;
@@ -74,7 +76,7 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
 
         scenarioStepDtoList.forEach(step -> {
             step.getActionDto().forEach(actionDto -> {
-                executeScenarioAction(actionDto,driver,testCaseExecutionId,contextVariables);
+                executeScenarioAction(actionDto,driver,testCaseExecutionId);
             });
         });
 
@@ -88,35 +90,34 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
     }
 
     /**
-     * @param actionDto
-     * @param driver
-     * @param testCaseExecutionId
-     * @param contextVariables
+     * Void method execute action of test scenario
+     * @param actionDto needed for getting value for each action execution
+     * @param driver needed for selenium realization
+     * @param testCaseExecutionId needed for execute action
      */
-    private void executeScenarioAction(ActionDto actionDto,WebDriver driver,Long testCaseExecutionId,Map<Long, ContextVariable> contextVariables){
+    private void executeScenarioAction(ActionDto actionDto,WebDriver driver,Long testCaseExecutionId){
         if (actionStatus == Status.PASSED) {
             actions.get(actionDto.getName())
                     .executeAction(driver, variableDtosToVariableValues(actionDto.getVariables()))
                     .forEach((contextVariable, status) -> {
                         actionStatus = status;
                         log.info("Action STATUS of {} is {}",actionDto.getName(),status);
-                        fillActionExecution(testCaseExecutionId,actionDto,status,contextVariable,contextVariables);});
+                        fillActionExecution(testCaseExecutionId,actionDto,status,contextVariable);});
         }else{
-            fillActionExecution(testCaseExecutionId,actionDto,Status.NOTSTARTED,Optional.empty(),contextVariables);
+            fillActionExecution(testCaseExecutionId,actionDto,Status.NOTSTARTED,Optional.empty());
         }
     }
 
 
     /**
-     * @param testCaseExecutionId
-     * @param actionDto
-     * @param status
-     * @param contextVariable
-     * @param contextVariables
+     * Void method that fill the data after action was executed
+     * @param testCaseExecutionId needed for fill data about action execution
+     * @param actionDto needed for getting data to fill result
+     * @param status needed for fill status of each action execution
+     * @param contextVariable needed for fill values in variable if it isn`t empty
      */
     private void fillActionExecution(Long testCaseExecutionId, ActionDto actionDto,
-                                     Status status, Optional<ContextVariable> contextVariable,
-                                     Map<Long, ContextVariable> contextVariables) {
+                                     Status status, Optional<ContextVariable> contextVariable) {
         actionExecutions.add(ActionExecution.builder()
                 .testCaseExecutionId(testCaseExecutionId)
                 .actionInstanceId(actionDto.getActionInstanceId())
@@ -126,17 +127,15 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
                 contextVariables.put(actionDto.getActionInstanceId(), cv));
     }
 
-    /**
-     * @param variables
-     * @return
-     */
+
     private Map<String, String> variableDtosToVariableValues(List<VariableDto> variables) {
         return variables.stream().collect(Collectors.toMap(VariableDto::getName, v -> v.getDataEntry().getValue()));
     }
 
     /**
-     * @param actionExecutionList
-     * @return
+     * Void method that extracts statuses from list of action executions
+     * @param actionExecutionList needed for extracting statuses
+     * @return list of string
      */
     private List<String> statusValuesForTestExecution(List<ActionExecution> actionExecutionList){
         return actionExecutionList.stream()
@@ -145,7 +144,7 @@ public class TestCaseExecutionServiceSelenium implements TestCaseExecutionServic
     }
 
     /**
-     * @param actionExecutionList
+     * @param actionExecutionList needed for creating action executions
      */
     private void createActionExecutions(List<ActionExecution> actionExecutionList){
         actionExecutionDAO.addActionExecution(actionExecutionList);

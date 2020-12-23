@@ -15,10 +15,10 @@ import java.sql.SQLException;
 public class ActionExecutionMapper implements RowMapper<ActionExecutionDto> {
 
     /**
-     * @param resultSet
-     * @param i
-     * @return
-     * @throws SQLException
+     * @param resultSet contains result from DB
+     * @param i integer
+     * @return ActionExecutionDto
+     * @throws SQLException throw SQLException
      */
     @Override
     public ActionExecutionDto mapRow(ResultSet resultSet, int i) throws SQLException {

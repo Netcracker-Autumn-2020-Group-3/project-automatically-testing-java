@@ -54,8 +54,9 @@ public class ActionDAOImpl implements ActionDAO {
 
 
     /**
-     * @param pageActionSql
-     * @return
+     * Returns list of Actions
+     * @param pageActionSql needed for pagination, string that contains parameters
+     * @return list of Actions
      */
     @Override
     public List<Action> getPageActions(String pageActionSql) {
@@ -63,9 +64,10 @@ public class ActionDAOImpl implements ActionDAO {
     }
 
     /**
-     * @param pageActionSql
-     * @param name
-     * @return
+     * Returns list of Actions
+     * @param pageActionSql  needed for pagination, string that contains parameters
+     * @param name value for searching
+     * @return list of Actions
      */
     @Override
     public List<Action> findActionsByName(String pageActionSql,String name) {
@@ -79,7 +81,7 @@ public class ActionDAOImpl implements ActionDAO {
     }
 
     /**
-     * @return
+     * @return Integer number of actions
      */
     @Override
     public Integer getNumberOfActions() {
@@ -100,7 +102,7 @@ public class ActionDAOImpl implements ActionDAO {
     }
 
     /**
-     * @return
+     * @return list of all actions
      */
     @Override
     public List<Action> getAllActions() {
@@ -108,8 +110,9 @@ public class ActionDAOImpl implements ActionDAO {
     }
 
     /**
-     * @param id
-     * @return
+     * Return list of actions and their variables
+     * @param id needed for getting value from DB by id
+     * @return list of ActionVariableDto
      */
     @Override
     public List<ActionVariableDto> getActionVariable(Long id) {
@@ -117,8 +120,9 @@ public class ActionDAOImpl implements ActionDAO {
     }
 
     /**
-     * @param id
-     * @param action
+     * Void method that updates action description
+     * @param id needed for updating value by id
+     * @param action contains updated description
      */
     @Override
     public void updateActionDescription(Long id, Action action) {

@@ -46,8 +46,20 @@ public class DataEntryDAOImpl implements DataEntryDAO {
     }
 
     /**
-     * @param dataSetId
-     * @return
+     * @param dataEntryValues contain dataEntry for creating
+     */
+    @Override
+    public void createDataEntry(List<DataEntry> dataEntryValues) {
+        jdbcTemplate.batchUpdate(INSERT_DATA_ENTRY_DEFAULT, dataEntryValues, dataEntryValues.size(), (ps, dataEntryValue) -> {
+            ps.setLong(1, dataEntryValue.getData_set_id());
+            ps.setString(2, dataEntryValue.getValue());
+            ps.setString(3, dataEntryValue.getKey());
+        });
+    }
+
+    /**
+     * @param dataSetId needed for getting data from DB using dataSetId
+     * @return list of dataEntry
      */
     @Override
     public List<DataEntry> getDataEntryByDataSetName(Integer dataSetId) {
@@ -55,7 +67,7 @@ public class DataEntryDAOImpl implements DataEntryDAO {
     }
 
     /**
-     * @param dataEntryList
+     * @param dataEntryList contains data for updating dataEntry
      */
     @Override
     public void updateDataEntry(List<DataEntry> dataEntryList) {
@@ -69,24 +81,13 @@ public class DataEntryDAOImpl implements DataEntryDAO {
     }
 
     /**
-     * @param dataEntryId
+     * @param dataEntryId id for deleting data from DB
      */
     @Override
     public void deleteDataEntryValueById(Integer dataEntryId) {
         jdbcTemplate.update(DELETE_DATA_ENTRY_BY_ID, dataEntryId);
     }
 
-    /**
-     * @param dataEntryValues
-     */
-    @Override
-    public void createDataEntry(List<DataEntry> dataEntryValues) {
-        jdbcTemplate.batchUpdate(INSERT_DATA_ENTRY_DEFAULT, dataEntryValues, dataEntryValues.size(), (ps, dataEntryValue) -> {
-            ps.setLong(1, dataEntryValue.getData_set_id());
-            ps.setString(2, dataEntryValue.getValue());
-            ps.setString(3, dataEntryValue.getKey());
-        });
-    }
 
     @Override
     public void createDataEntry(Long dataSetId, List<DataEntry> dataSetValues) {

@@ -26,7 +26,7 @@ public class TypeActionExecutable implements ActionExecutable {
     @Override
     public Map<Optional<ContextVariable>, Status> executeAction(WebDriver driver, Map<String, String> variableValues) {
         Status actionExecution;
-        String INPUT_ELEMENT = "input xpath";
+        final String INPUT_ELEMENT = "input xpath";
         try {
             String TEXT = "text";
             driver.findElement(By.xpath(variableValues.get(INPUT_ELEMENT)))

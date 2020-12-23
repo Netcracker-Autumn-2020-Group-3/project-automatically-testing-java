@@ -59,7 +59,8 @@ public class TestCaseExecServiceImpl implements TestCaseExecService {
     }
 
     /**
-     * @return
+     * Method needed for chart on dashboard
+     * @return list of GroupedTestCaseExecutionDto
      */
     @Override
     public List<GroupedTestCaseExecutionDto> getGroupedTestCaseExecution() {

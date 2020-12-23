@@ -47,7 +47,7 @@ public class ActionExecutionDAOImpl implements ActionExecutionDAO {
     }
 
     /**
-     * @param actionExecutionList
+     * @param actionExecutionList needed for adding list of action execution to DB
      */
     @Override
     public void addActionExecution(List<ActionExecution> actionExecutionList) {
@@ -60,10 +60,11 @@ public class ActionExecutionDAOImpl implements ActionExecutionDAO {
     }
 
     /**
-     * @param testCaseExecutionId
-     * @param pagination
-     * @param searchName
-     * @return
+     * Method make part of string sql and make getting values from DB
+     * @param testCaseExecutionId needed for getting values from DB
+     * @param pagination needed for pagination
+     * @param searchName needed for searching by value
+     * @return list of ActionExecutionDto
      */
     @Override
     public List<ActionExecutionDto> getAllActionExecution(Long testCaseExecutionId, String pagination,String searchName) {
@@ -79,9 +80,9 @@ public class ActionExecutionDAOImpl implements ActionExecutionDAO {
     }
 
     /**
-     * @param testCaseExecutionId
-     * @param searchName
-     * @return
+     * @param testCaseExecutionId needed for getting values from DB
+     * @param searchName needed for searching by value
+     * @return Integer number of actionExecutions
      */
     @Override
     public Integer getQuantityActionsExecutions(Long testCaseExecutionId,String searchName) {
