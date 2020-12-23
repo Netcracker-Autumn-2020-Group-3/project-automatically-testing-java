@@ -21,6 +21,10 @@ public class CompoundServiceImpl implements CompoundService {
         this.compoundDAO = compoundDAO;
     }
 
+    /**
+     * @param pageable object that includes fields for pagination
+     * @return list of Compound objects by object of Pageable(it's pagination).
+     */
     @Override
     public List<Compound> getAllCompounds(Pageable pageable) {
         List<Compound> compounds = compoundDAO.findAll(pageable);
@@ -32,6 +36,11 @@ public class CompoundServiceImpl implements CompoundService {
         return compounds;
     }
 
+    /**
+     * @param search string field that means part of compound name
+     * @return long type number that means compound quantity
+     * by search(in this case it's part of compound name) from database
+    */
     @Override
     public long getQuantityCompounds(String search) {
         long quantity = compoundDAO.getQuantityCompounds(search);
@@ -39,6 +48,10 @@ public class CompoundServiceImpl implements CompoundService {
         return quantity;
     }
 
+    /**
+     * @return list of all Compound objects from database.
+     * These objects have fields id and name.
+     */
     @Override
     public List<CompoundDtoWithIdName> getAllCompoundsWithIdName() {
         List<CompoundDtoWithIdName> compounds = compoundDAO.findAllWithIdName();
@@ -50,6 +63,11 @@ public class CompoundServiceImpl implements CompoundService {
         return compounds;
     }
 
+    /**
+     * @param id id of Compound object in database.
+     * @return list of all Action objects from database.
+     * These objects have fields id, name and void.
+     */
     @Override
     public List<ActionDtoWithIdNameVoid> getAllCompoundActionsByCompoundId(long id) {
         List<ActionDtoWithIdNameVoid> actions = compoundDAO.findAllCompoundActionsByCompoundId(id);
@@ -61,6 +79,10 @@ public class CompoundServiceImpl implements CompoundService {
         return actions;
     }
 
+    /**
+     * This method archives Compound object by id in database.
+     * @param id id of Compound object in database.
+     */
     @Override
     public void archiveCompoundById(long id) {
         compoundDAO.archiveCompoundById(id);
@@ -69,10 +91,7 @@ public class CompoundServiceImpl implements CompoundService {
 
     @Override
     public boolean checkIfNameExist(String name) {
-        boolean isExist = compoundDAO.checkIfNameExist(name);
-        String wordExist = isExist ? "already exists" : "does not exist";
-        log.info("IN checkIfNameExist - compound with name: {} {}", name, wordExist);
-        return isExist;
+        return compoundDAO.checkIfNameExist(name);
     }
 
     /**

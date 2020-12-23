@@ -50,7 +50,7 @@ public class DataSetServiceImpl implements DataSetService {
     }
 
     @Override
-    public List<DataSet> gettAllDataSet() {
+    public List<DataSet> getAllDataSet() {
         return dataSetDAO.getAllDataSet();
     }
 

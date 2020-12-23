@@ -36,8 +36,6 @@ public class CompoundDAOImpl implements CompoundDAO {
     private String FIND_COMP_ACTION_BY_ID;
     @Value("${update.compound}")
     private String UPDATE_COMPOUND;
-    @Value("${insert.comp.action.list}")
-    private String INSERT_ACTION_TO_COMPOUND;
 
     @Value("${find.compound.quantity}")
     private String GET_QUANTITY_COMPOUNDS;
@@ -65,14 +63,6 @@ public class CompoundDAOImpl implements CompoundDAO {
 
     @Value("${insert.compound.actions}")
     private String CREATE_COMPOUND_ACTIONS;
-
-    @Value("${get.compound.by.id}")
-    private String GET_COMPOUND_BY_ID;
-
-    @Value("${get.compound.actions}")
-    private String GET_COMPOUND_ACTIONS;
-
-
 
     public CompoundDAOImpl(JdbcTemplate jdbcTemplate, CompoundMapper mapper, CompoundActionListMapper actionListMapper) {
         this.jdbcTemplate = jdbcTemplate;

@@ -10,7 +10,6 @@ import java.util.Date;
 
 @PropertySource("classpath:constants.properties")
 public class PasswordResetToken {
-//    @Value("${reset.secret}")
     private String RESET_SECRET = "jf3e8aspol2c";
 
     private String RESET_SECRET_ENC = Base64.getEncoder().encodeToString(RESET_SECRET.getBytes());
@@ -44,7 +43,7 @@ public class PasswordResetToken {
             Jws<Claims> claimsJws = Jwts.parser().setSigningKey(RESET_SECRET_ENC).parseClaimsJws(token);
             return !claimsJws.getBody().getExpiration().before(new Date());
         }catch (JwtException | IllegalArgumentException e){
-            throw new JwtException("exception");
+            throw new JwtException("Password JWT token exception");
         }
     }
 }

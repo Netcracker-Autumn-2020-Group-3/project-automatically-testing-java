@@ -9,6 +9,7 @@ import ua.netcracker.group3.automaticallytesting.model.TestCaseStep;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 
 @Component
 public class TestCaseStepMapper implements RowMapper<TestCaseStep> {
@@ -22,7 +23,9 @@ public class TestCaseStepMapper implements RowMapper<TestCaseStep> {
     @Override
     public TestCaseStep mapRow(ResultSet resultSet, int i) throws SQLException {
         ActionInstanceJoined ai = actionInstanceJoinedMapper.mapRow(resultSet, i);
-        ai.setVariableValueId(resultSet.getLong("variable_value_id"));
+        if (ai != null) {
+            ai.setVariableValueId(resultSet.getLong("variable_value_id"));
+        }
         return TestCaseStep.builder()
                 .testCase(TestCase.builder()
                         .userId(resultSet.getLong("test_case_user_id"))
