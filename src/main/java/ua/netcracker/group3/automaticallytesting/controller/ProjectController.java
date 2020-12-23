@@ -11,8 +11,7 @@ import ua.netcracker.group3.automaticallytesting.service.ProjectService;
 import ua.netcracker.group3.automaticallytesting.service.ServiceImpl.UserPrincipal;
 
 @RestController
-// @CrossOrigin(origins = "https://automatically-testing-angular.herokuapp.com")
-@CrossOrigin("*")
+@CrossOrigin(origins = "https://automatically-testing-angular.herokuapp.com")
 @RequestMapping("/projects")
 @Slf4j
 public class ProjectController {
