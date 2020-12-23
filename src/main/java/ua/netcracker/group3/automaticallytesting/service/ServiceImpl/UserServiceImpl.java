@@ -1,6 +1,7 @@
 package ua.netcracker.group3.automaticallytesting.service.ServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.netcracker.group3.automaticallytesting.dao.UserDAO;
 import ua.netcracker.group3.automaticallytesting.dto.UserSearchDto;
@@ -18,12 +19,14 @@ public class UserServiceImpl implements UserService {
 
     UserDAO userDAO;
     Pagination pagination;
+    private final PasswordEncoder passwordEncoder;
     private final List<String> USER_TABLE_FIELDS = Arrays.asList("id", "name", "surname", "role", "email", "is_enabled");
 
     @Autowired
-    public UserServiceImpl(Pagination pagination, UserDAO userDAO) {
+    public UserServiceImpl(Pagination pagination, UserDAO userDAO, PasswordEncoder passwordEncoder) {
         this.pagination = pagination;
         this.userDAO = userDAO;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -32,7 +35,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    //@Transactional
     public void saveUser(User userRequest) {
         User user = buildUser(userRequest);
         userDAO.saveUser(user);
@@ -88,19 +90,17 @@ public class UserServiceImpl implements UserService {
         PasswordResetToken passwordResetToken = new PasswordResetToken();
             String resolvedToken = passwordResetToken.resolveToken(token);
             String email = passwordResetToken.getEmailFromResetToken(resolvedToken);
-            userDAO.updateUserPassword(email, password);
+            userDAO.updateUserPassword(email, passwordEncoder.encode(password));
     }
 
     @Override
-    //@Transactional
     public void updateUserSettings(User user) {
         userDAO.updateUserSettings(user);
     }
 
     @Override
-    //@Transactional
     public void updateUserPassword(User user) {
-        userDAO.updateUserPassword(user.getEmail(), user.getPassword());
+        userDAO.updateUserPassword(user.getEmail(), passwordEncoder.encode(user.getPassword()));
     }
 
     @Override
@@ -113,15 +113,19 @@ public class UserServiceImpl implements UserService {
                 formFilter(userSearchDto.getRoles())), pageSize);
     }
 
+    @Override
+    public Boolean checkIfEmailExists(String email) {
+        return userDAO.checkIfEmailExists(email);
+    }
+
     private User buildUser(User user) {
         return User.builder()
                 .email(user.getEmail())
-                .password(user.getPassword())
+                .password(passwordEncoder.encode(user.getPassword()))
                 .name(user.getName())
                 .surname(user.getSurname())
                 .isEnabled(true)
                 .role(user.getRole())
                 .build();
-
     }
 }

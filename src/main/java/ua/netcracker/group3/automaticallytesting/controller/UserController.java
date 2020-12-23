@@ -52,7 +52,7 @@ public class UserController {
         userService.updateUserById(user.getEmail(), user.getName(), user.getSurname(), user.getRole(), user.isEnabled(), user.getId());
     }
 
-    @PostMapping("/addUser")
+    @PostMapping("/add")
     public void addUser(@RequestBody User user){
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.saveUser(user);
@@ -69,13 +69,9 @@ public class UserController {
         return userService.countPagesSearch(userSearchDto, pageSize);
     }
 
-//    @GetMapping("/users/resetpass")
-//    public String sendPasswordResetToken(@RequestParam String token){
-//        return token;
-//    }
-
-    @PutMapping("/resetpass")
-    public void resetPassword(@RequestBody ResetPassDto resetPassDto) throws Exception {
-        userService.updateUserPasswordByToken(resetPassDto.getToken(), resetPassDto.getPassword());
+    @GetMapping("/check-email/{email}")
+    public Boolean checkIfEmailExists(@PathVariable String email){
+        return userService.checkIfEmailExists(email);
     }
+
 }

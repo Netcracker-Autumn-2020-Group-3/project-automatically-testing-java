@@ -59,6 +59,11 @@ public class UserDAOImpl implements UserDAO {
 
     @Value("${get.user.count}")
     private String COUNT_USERS_BY_ROLE;
+    @Value("${count.users.by.role}")
+    private String COUNT_BY_ROLE;
+    @Value("${check.if.user.email.exists}")
+    private String CHECK_IF_EMAIL_EXISTS;
+
 
     @Override
     public User findUserByEmail(String email) {
@@ -132,5 +137,16 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public UserCountDto countOfUsersByRole() {
         return jdbcTemplate.queryForObject(COUNT_USERS_BY_ROLE, userCountMapper);
+    }
+
+    @Override
+    public Boolean checkIfEmailExists(String email) {
+        Integer temp = jdbcTemplate.queryForObject(CHECK_IF_EMAIL_EXISTS, Integer.class, email);
+        if(temp != null) {
+            return temp == 1;
+        }
+        else {
+            return false;
+        }
     }
 }

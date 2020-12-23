@@ -39,8 +39,8 @@ public class SseController {
 
         emitter.send(SseEmitter.event().name("INIT"));
         emitter.onCompletion(() -> emitters.remove(emitter));
-//        emitter.onTimeout(() -> emitters.remove(emitter));
-//        emitter.onError((e) -> emitters.remove(emitter));
+        emitter.onTimeout(() -> emitters.remove(emitter));
+        emitter.onError((e) -> emitters.remove(emitter));
 
         emitters.put(userId, emitter);
         return emitter;
