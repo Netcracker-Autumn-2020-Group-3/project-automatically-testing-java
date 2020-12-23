@@ -15,14 +15,12 @@ import ua.netcracker.group3.automaticallytesting.dto.TestCaseDto;
 import ua.netcracker.group3.automaticallytesting.util.Pageable;
 
 public interface TestCaseService {
-    @Transactional
+
     void createTestCase(CreateUpdateTestCaseDto createUpdateTestCaseDto, Long userId);
 
     List<ScenarioStepDto> getTestScenarioStep(Long testCaseId);
 
     TestCaseDto getTestCase(Long testCaseId);
-
-    List<TestCaseUpd> getTestCases(Long projectID, Pageable pageable, String name) throws ValidationException;
 
     List<TestCaseWithUserDto> getTestCasesWithUser(Long projectID, Pageable pageable, String name) throws ValidationException;
 

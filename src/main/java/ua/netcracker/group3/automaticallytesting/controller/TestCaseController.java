@@ -87,12 +87,6 @@ public class TestCaseController {
         System.out.println(testCaseExecutionService.executeTestCase(testCaseDto,60L));
     }
 
-    @GetMapping("/{projectID}/list/page")
-    public List<TestCaseUpd> getPageTestCases(@PathVariable("projectID") Long projectID, Integer pageSize, Integer page, String sortOrder, String sortField,
-                                                   String name) throws ValidationException {
-        Pageable pageable = Pageable.builder().page(page).pageSize(pageSize).sortField(sortField).sortOrder(sortOrder).build();
-        return testCaseService.getTestCases (projectID, pageable, name);
-    }
 
     @GetMapping("/{projectID}/pages/count")
     public Integer countTestCasePages(Integer pageSize, @PathVariable("projectID") Long projectId) {
