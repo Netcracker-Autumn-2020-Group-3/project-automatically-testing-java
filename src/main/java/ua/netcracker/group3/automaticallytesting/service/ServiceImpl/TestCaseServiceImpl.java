@@ -191,6 +191,9 @@ public class TestCaseServiceImpl implements TestCaseService {
         return testCaseDAO.getTestCases();
     }
 
+    /**
+     * @return list of five TestCase objects those have the greatest number of subscribers.
+     */
     @Override
     public List<TestCaseTopSubscribed> getFiveTopSubscribedTestCases() {
         List<TestCaseTopSubscribed> testCases = testCaseDAO.getTopFiveSubscribedTestCases();
