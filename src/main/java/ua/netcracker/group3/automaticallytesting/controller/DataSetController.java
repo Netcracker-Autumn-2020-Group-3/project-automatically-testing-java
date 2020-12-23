@@ -79,10 +79,13 @@ public class DataSetController {
         return "ok";
     }
 
+    /**
+     * @param dataSetValues
+     */
     @PostMapping("/create-data-set")
     public void createDataSet(@RequestBody DataSetDto dataSetValues) {
         long id = dataSetService.createDataSet(dataSetValues.getDataSetName());
-        log.info("created data set id: " + id + ", values: " + dataSetValues);
+        log.info("created data set id: {}, values: {}", id, dataSetValues.getDataEntryValues());
         dataEntryService.createDataEntry(id, dataSetValues.getDataEntryValues());
     }
 
