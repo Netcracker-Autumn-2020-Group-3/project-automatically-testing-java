@@ -57,6 +57,12 @@ public class DashboardController {
         return testCaseExecService.getGroupedTestCaseExecution();
     }
 
+    /**
+     * Returns the number of actions executions
+     * Grouped by data
+     * @param status of actions executions
+     * @return number of actions executions
+     */
     @GetMapping("/action-execution/{status}")
     public List<ActionExecutionPassedFailed> getActionExecutionPassedFailed(@PathVariable("status") String status) {
         return actionExecutionService.getActionExecutionPassedFailed(status);

@@ -28,9 +28,13 @@ public class DataSetController {
         this.dataEntryService = dataEntryService;
     }
 
-    @GetMapping("/allDataSet")
+    /**
+     * @return list of data set
+     */
+    @GetMapping("/all-data-set")
     public List<DataSet> getAllDataSet() {
-        return dataSetService.gettAllDataSet();
+        log.info("get all data set");
+        return dataSetService.getAllDataSet();
     }
 
     /**
@@ -75,17 +79,25 @@ public class DataSetController {
         return "ok";
     }
 
+    /**
+     * create data set with data entry
+     * @param dataSetValues data set name, data entry key, value
+     */
     @PostMapping("/create-data-set")
     public void createDataSet(@RequestBody DataSetDto dataSetValues) {
         long id = dataSetService.createDataSet(dataSetValues.getDataSetName());
-        log.info("created data set id: " + id + ", values: " + dataSetValues);
+        log.info("created data set id: {}, values: {}", id, dataSetValues.getDataEntryValues());
         dataEntryService.createDataEntry(id, dataSetValues.getDataEntryValues());
     }
 
-    @DeleteMapping("/delete-data-set/{id}")
-    public int deleteDataSet(@PathVariable("id") long id) {
-        dataEntryService.deleteDataEntry(id);
-        return  dataSetService.deleteDataSet(id);
+    /**
+     * archived data set
+     * @param id of data set
+     */
+    @PatchMapping("/delete-data-set/{id}")
+    public void deleteDataSet(@PathVariable("id") long id) {
+        log.info("delete data set: id = {}",id);
+        dataSetService.deleteDataSet(id);
     }
 
     @GetMapping("/data-set/list")
