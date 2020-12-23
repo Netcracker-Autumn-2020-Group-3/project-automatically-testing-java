@@ -25,7 +25,7 @@ import java.util.Map;
 @Slf4j
 public class SseService {
 
-    private UserService userService;
+    private final UserService userService;
     private final NotificationDAO notificationDAO;
     private final TestCaseExecutionDAO testCaseExecutionDAO;
     private final TestCaseDAO testCaseDAO;
