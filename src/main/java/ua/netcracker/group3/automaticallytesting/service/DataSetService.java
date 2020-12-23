@@ -12,7 +12,7 @@ public interface DataSetService {
 
     long createDataSet(String name);
 
-    List<DataSet> gettAllDataSet();
+    List<DataSet> getAllDataSet();
 
     List<DataSet> getAll();
 

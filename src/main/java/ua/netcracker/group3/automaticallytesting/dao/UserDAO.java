@@ -1,12 +1,7 @@
 package ua.netcracker.group3.automaticallytesting.dao;
-
-
+import ua.netcracker.group3.automaticallytesting.dto.UserCountDto;
 import ua.netcracker.group3.automaticallytesting.model.User;
-import ua.netcracker.group3.automaticallytesting.util.Pageable;
-
-import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public interface UserDAO {
@@ -30,9 +25,9 @@ public interface UserDAO {
 
     Long getUserIdByEmail(String email);
 
-    Integer countUsers(String role);
-
     Integer countUsersSearch(String enabledSql, String name, String surname, String email, String formFilter);
+
+    UserCountDto countOfUsersByRole();
 
     Boolean checkIfEmailExists(String email);
 }
