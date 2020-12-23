@@ -28,9 +28,13 @@ public class DataSetController {
         this.dataEntryService = dataEntryService;
     }
 
-    @GetMapping("/allDataSet")
+    /**
+     * @return
+     */
+    @GetMapping("/all-data-set")
     public List<DataSet> getAllDataSet() {
-        return dataSetService.gettAllDataSet();
+        log.info("get all data sets");
+        return dataSetService.getAllDataSet();
     }
 
     /**
